@@ -1,4 +1,9 @@
-# 2D Platformer
+# Puffball
+
+A game about a mushroom.
+
+
+# Default game readme:
 
 This demo is a pixel art 2D platformer with graphics and sound.
 
