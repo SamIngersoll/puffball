@@ -1,0 +1,9 @@
+[background arg="res://story/new_gradient_texture_2d.tres" fade="0.0"]
+if {has_met_player} == false:
+	join Legs 1
+	Legs (silverfish_portrait): Little warrior...
+	Legs (silverfish_portrait): What violent designs bring you to this part of the woods?
+	set {has_met_player} = true
+else:
+	join Legs 1
+	Legs: You again...
