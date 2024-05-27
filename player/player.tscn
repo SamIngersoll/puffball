@@ -1,10 +1,13 @@
-[gd_scene load_steps=20 format=3 uid="uid://vh7pmputa7r3"]
+[gd_scene load_steps=21 format=3 uid="uid://vh7pmputa7r3"]
 
 [ext_resource type="Texture2D" uid="uid://b125588ulu8vc" path="res://player/spritesheet.png" id="2_ay57m"]
 [ext_resource type="Script" path="res://player/player.gd" id="3"]
 [ext_resource type="AudioStream" uid="uid://sjod173axgwf" path="res://player/jump.wav" id="5"]
 [ext_resource type="AudioStream" uid="uid://b01brytl75mwa" path="res://player/shoot.wav" id="6"]
 [ext_resource type="Script" path="res://player/gun.gd" id="8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vce51"]
+size = Vector2(105.937, 100.625)
 
 [sub_resource type="Animation" id="1"]
 resource_name = "crouch"
@@ -219,6 +222,10 @@ script = ExtResource("3")
 wait_time = 0.2
 one_shot = true
 
+[node name="MeleeAnimation" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [node name="PlatformDetector" type="RayCast2D" parent="."]
 target_position = Vector2(0, 6)
 collision_mask = 8
@@ -242,6 +249,15 @@ stream = ExtResource("6")
 [node name="Cooldown" type="Timer" parent="Sprite2D/Gun"]
 wait_time = 0.3
 one_shot = true
+
+[node name="Hitbox" type="Area2D" parent="Sprite2D"]
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Hitbox"]
+position = Vector2(-106.406, 12.5)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_vce51")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -301,6 +317,8 @@ collision_mask = 32
 position = Vector2(0.625, -16.25)
 shape = SubResource("RectangleShape2D_1m6c6")
 
+[connection signal="timeout" from="MeleeAnimation" to="." method="_on_melee_animation_timeout"]
+[connection signal="body_entered" from="Sprite2D/Hitbox" to="." method="_on_hitbox_body_entered"]
 [connection signal="ready" from="CollisionShape2D" to="." method="_on_collision_shape_2d_ready"]
 [connection signal="area_entered" from="interact_bounds" to="." method="_on_interact_bounds_area_entered"]
 [connection signal="area_exited" from="interact_bounds" to="." method="_on_interact_bounds_area_exited"]

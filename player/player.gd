@@ -27,9 +27,12 @@ var gravity : int = ProjectSettings.get("physics/2d/default_gravity")
 @onready var jump_sound := $Jump as AudioStreamPlayer2D
 @onready var gun = sprite.get_node(^"Gun") as Gun
 @onready var camera := $Camera as Camera2D
+@onready var hitbox := $Sprite2D/Hitbox as Area2D
+@onready var melee_timer := $MeleeAnimation as Timer
 var _double_jump_charged := false
 var _dash_charged
 var _is_dashing
+var _is_meleeing := false
 
 
 func _ready():
@@ -81,6 +84,9 @@ func _physics_process(delta: float) -> void:
 			shoot_timer.start()
 		animation_player.play(animation)
 		
+	if Input.is_action_just_pressed("melee" + action_suffix):
+		_is_meleeing = melee()
+		
 func get_new_animation(is_shooting := false) -> String:
 	var animation_new: String
 	if is_on_floor():
@@ -118,6 +124,14 @@ func try_jump() -> void:
 		return
 	velocity.y = JUMP_VELOCITY
 	jump_sound.play()
+	
+func melee() -> bool:
+	if not melee_timer.is_stopped():
+		return false
+
+	melee_timer.start()
+	hitbox.monitoring = true
+	return true
 
 func _on_interact_bounds_area_entered(area):
 	var NPC = area.get_parent().name
@@ -127,3 +141,14 @@ func _on_interact_bounds_area_exited(area):
 	var NPC = area.get_parent().name
 	if NPC == Global.currently_interactable_NPC:
 		Global.currently_interactable_NPC = ""
+
+func _on_hitbox_body_entered(body):
+	if body is Enemy:
+		#(body as Enemy).destroy()
+		print("hit")
+		(body as Enemy).reduce_health(11)
+
+
+func _on_melee_animation_timeout():
+	hitbox.monitoring = false
+	_is_meleeing = false
