@@ -2,11 +2,9 @@
 
 [ext_resource type="Script" path="res://NPCs/NPC.gd" id="1_liv0f"]
 [ext_resource type="Texture2D" uid="uid://c5x8hhij465vd" path="res://NPCs/props/exclamation.png" id="2_08chr"]
+[ext_resource type="Texture2D" uid="uid://dafl1g8h3sr84" path="res://NPCs/silverfish/frames/Legs_idle_spritesheet.png" id="2_8hxt3"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mc8lc"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_34avi"]
-load_path = "res://.godot/imported/Legs_idle_spritesheet.png-1ec13f2f9e1979c543012fbcadb4466c.ctex"
 
 [sub_resource type="Animation" id="8"]
 length = 0.001
@@ -272,7 +270,7 @@ script = ExtResource("1_liv0f")
 material = SubResource("CanvasItemMaterial_mc8lc")
 position = Vector2(-56, -60)
 scale = Vector2(0.221225, 0.221225)
-texture = SubResource("CompressedTexture2D_34avi")
+texture = ExtResource("2_8hxt3")
 flip_h = true
 hframes = 3
 
