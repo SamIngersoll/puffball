@@ -1,5 +1,5 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1716231391
+::res://::1716843560
 default_bus_layout.tres::AudioBusLayout::6419567431398995635::1714666583::0::1::::<><>::
 game.gd::GDScript::-1::1715373578::0::1::::Game<>Node<>::
 game_singleplayer.tscn::PackedScene::2796527636363398270::1716160930::0::1::::<><>::res://game.gd<>uid://ctgumjaytuoch::::res://level/level.tscn<>res://level/level.gd<>uid://vh7pmputa7r3::::res://player/player.tscn<>uid://c7ai4bigaryci::::res://gui/pause_menu_singleplayer.tscn
@@ -9,7 +9,7 @@ Global.gd::GDScript::-1::1715373648::0::1::::<>Node<>::
 icon.webp::CompressedTexture2D::3010016603397901962::1714666583::1714666586::1::::<><>::
 music.ogg::AudioStreamOggVorbis::8264891743947441087::1714666583::1714666586::1::::<><>::
 music.tscn::PackedScene::8208426152851302441::1714666583::0::1::::<><>::uid://dp0tta14mu7ux::::res://music.ogg
-README.md::TextFile::-1::1714666583::0::1::::<><>::
+README.md::TextFile::-1::1716232207::0::1::::<><>::
 tile_map_1.tscn::PackedScene::7044697782864011372::1714737586::0::1::::<><>::uid://d0ops71sk562g::::res://level/tiles.webp
 ::res://addons/::1714955901
 ::res://addons/dialogic/::1714955901
@@ -592,7 +592,7 @@ enemy.tscn::PackedScene::1904667324348085::1716160930::0::1::::<><>::uid://coj0d
 enemy.webp::CompressedTexture2D::3038196834281767358::1714666583::1714666586::1::::<><>::
 explode.wav::AudioStreamWAV::8609241450071178287::1714666583::1714666586::1::::<><>::
 hit.wav::AudioStreamWAV::8068956215560184993::1714666583::1714666586::1::::<><>::
-::res://gui/::1716231363
+::res://gui/::1716231403
 coins_counter.gd::GDScript::-1::1714666583::0::1::::CoinsCounter<>Panel<>::
 coins_counter.tscn::PackedScene::3700348756682227328::1714666583::0::1::::<><>::uid://da4noqsij73it::::res://gui/theme.tres<>uid://cj2absxg54f75::::res://level/coin.webp<>res://gui/coins_counter.gd
 GUI.tscn::PackedScene::7919064492116730655::1716160930::0::1::::<><>::
@@ -602,7 +602,7 @@ pause_menu.gd::GDScript::-1::1714666583::0::1::::PauseMenu<>Control<>::
 pause_menu.tscn::PackedScene::7718235069747785895::1714666583::0::1::::<><>::uid://da4noqsij73it::::res://gui/theme.tres<>res://gui/pause_menu.gd<>uid://bsyqg6eh3wl5i::::res://gui/coins_counter.tscn
 pause_menu_singleplayer.tscn::PackedScene::7019421952923706100::1714666583::0::1::::<><>::uid://dh71g61cm8k44::::res://gui/pause_menu.tscn
 pause_menu_splitscreen.tscn::PackedScene::7592785982540389305::1714666583::0::1::::<><>::uid://dh71g61cm8k44::::res://gui/pause_menu.tscn
-theme.tres::Theme::7219944196524551843::1716231363::0::1::::<><>::uid://wqrno8lackrm::::res://gui/kenney_mini_square.ttf
+theme.tres::Theme::7219944196524551843::1716231403::0::1::::<><>::uid://wqrno8lackrm::::res://gui/kenney_mini_square.ttf
 touch_button_fire.webp::CompressedTexture2D::1347362171361262843::1714666583::1714666586::1::::<><>::
 touch_button_jump.webp::CompressedTexture2D::6985027075830143774::1714666583::1714666586::1::::<><>::
 touch_button_left.webp::CompressedTexture2D::2330250603665238312::1714666583::1714666586::1::::<><>::
@@ -631,7 +631,7 @@ interactable.tscn::PackedScene::3174390444918341987::1716160930::0::1::::<><>::r
 moving_platform.webp::CompressedTexture2D::4038666930121436347::1714666583::1714666586::1::::<><>::
 one_way_platform.webp::CompressedTexture2D::212755294916014983::1714666583::1714666586::1::::<><>::
 platform.tscn::PackedScene::5526165836132039511::1716160930::0::1::::<><>::uid://djwm5nol3d801::::res://level/props/wind_sway.tres<>uid://bxsmiv7k3fngt::::res://level/platforms/moving_platform.webp<>uid://bj6am5nfc0k73::::res://level/props/grass_1.webp<>uid://bju7r7jqn8bqy::::res://level/props/grass_2.webp<>uid://upfcr5xg5fvh::::res://level/props/grass_3.webp<>uid://cqydct6vajobg::::res://level/props/bush_1.webp<>uid://bu54lwrkcng25::::res://level/props/vine_2.webp<>uid://bvu4vgnc84r84::::res://level/props/vine_1.webp
-::res://level/props/::1716231363
+::res://level/props/::1716231403
 bush_1.webp::CompressedTexture2D::5945594701045367560::1714666583::1714666586::1::::<><>::
 fern_1.webp::CompressedTexture2D::6926924127593756318::1714666583::1714666586::1::::<><>::
 flower_1.webp::CompressedTexture2D::7395626615497965625::1714666583::1714666586::1::::<><>::
@@ -644,10 +644,10 @@ tree_1.webp::CompressedTexture2D::565827040325248988::1714666583::1714666586::1:
 tree_2.webp::CompressedTexture2D::7441597796757093123::1714666583::1714666586::1::::<><>::
 vine_1.webp::CompressedTexture2D::3903472584993895739::1714666583::1714666586::1::::<><>::
 vine_2.webp::CompressedTexture2D::3853910507831647316::1714666583::1714666586::1::::<><>::
-wind_sway.tres::ShaderMaterial::7837160837109431848::1716231363::0::1::::<><>::
-::res://NPCs/::1716231363
+wind_sway.tres::ShaderMaterial::7837160837109431848::1716231403::0::1::::<><>::
+::res://NPCs/::1716231403
 Legs.tscn::PackedScene::1329945922102528210::1716160930::0::1::::<><>::res://NPCs/NPC.gd<>uid://c5x8hhij465vd::::res://NPCs/props/exclamation.png
-NPC.gd::GDScript::-1::1716231363::0::1::::NPC<>CharacterBody2D<>::
+NPC.gd::GDScript::-1::1716231403::0::1::::NPC<>CharacterBody2D<>::
 ::res://NPCs/props/::1714940066
 exclamation.png::CompressedTexture2D::6928003906659988781::1714940065::1714940066::1::::<><>::
 ::res://NPCs/silverfish/::1716142240

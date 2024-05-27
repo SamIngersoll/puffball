@@ -29,8 +29,6 @@ _data = {
 
 [node name="interactable" type="Node2D"]
 script = ExtResource("1_lwfqj")
-trigger_timer_time = null
-reset_timer_time = null
 
 [node name="interaction_point" type="Sprite2D" parent="."]
 

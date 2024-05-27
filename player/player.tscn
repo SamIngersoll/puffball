@@ -224,12 +224,12 @@ target_position = Vector2(0, 6)
 collision_mask = 8
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(2.08165e-12, -30)
-scale = Vector2(0.1, 0.1)
+position = Vector2(2.08165e-12, -25)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("2_ay57m")
 hframes = 8
 vframes = 3
-frame = 7
+frame = 5
 
 [node name="Gun" type="Marker2D" parent="Sprite2D"]
 position = Vector2(14, 1)
@@ -299,7 +299,6 @@ collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="interact_bounds"]
 position = Vector2(0.625, -16.25)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_1m6c6")
 
 [connection signal="ready" from="CollisionShape2D" to="." method="_on_collision_shape_2d_ready"]

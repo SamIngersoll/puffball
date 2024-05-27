@@ -17,7 +17,7 @@ const TERMINAL_VELOCITY = 700
 @export var can_double_jump : bool = true
 @export var can_dash : bool = true
 
-var sprite_scale = 0.4
+#var sprite_scale = 
 var friction : float = 0.5
 var gravity : int = ProjectSettings.get("physics/2d/default_gravity")
 @onready var platform_detector := $PlatformDetector as RayCast2D
@@ -33,8 +33,7 @@ var _is_dashing
 
 
 func _ready():
-	sprite.scale.x = sprite_scale
-	sprite.scale.y = sprite_scale
+	pass
 	
 func _physics_process(delta: float) -> void:
 	# jumping logic
@@ -65,9 +64,9 @@ func _physics_process(delta: float) -> void:
 
 	if not is_zero_approx(velocity.x):
 		if velocity.x > 0.0:
-			sprite.scale.x = -sprite_scale
+			sprite.scale.x = -1*abs(sprite.scale.x)
 		else:
-			sprite.scale.x = sprite_scale
+			sprite.scale.x = abs(sprite.scale.x)
 
 	floor_stop_on_slope = not platform_detector.is_colliding()
 	move_and_slide()
@@ -102,7 +101,7 @@ func get_new_animation(is_shooting := false) -> String:
 
 func try_dash() -> void:
 	if can_dash:
-		velocity.x = -1200 * sprite.scale.x/sprite_scale
+		velocity.x = -1200 * sprite.scale.x
 		jump_sound.pitch_scale = 3
 		jump_sound.play()
 		velocity.y = -150
