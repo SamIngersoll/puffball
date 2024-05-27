@@ -4,6 +4,7 @@ class_name Player extends CharacterBody2D
 signal coin_collected()
 
 const WALK_SPEED = 300.0
+const DASH_SPEED = 3200.0
 const ACCELERATION_SPEED = WALK_SPEED * 6.0
 const JUMP_VELOCITY = -725.0
 ## Maximum speed at which the player can fall.
@@ -101,7 +102,7 @@ func get_new_animation(is_shooting := false) -> String:
 
 func try_dash() -> void:
 	if can_dash:
-		velocity.x = -1200 * sprite.scale.x
+		velocity.x = -DASH_SPEED * sprite.scale.x
 		jump_sound.pitch_scale = 3
 		jump_sound.play()
 		velocity.y = -150
