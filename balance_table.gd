@@ -3,7 +3,7 @@ extends Node
 # contains all the balancing values for damage, boons, health, etc
 
 var val = {
-	
+	"melee1_damage" : 10
 }
 
 # Called when the node enters the scene tree for the first time.

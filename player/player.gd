@@ -146,7 +146,7 @@ func _on_interact_bounds_area_exited(area):
 
 func _on_melee_attack_hit(body):
 	if body is Enemy:
-		(body as Enemy).reduce_health(11)
+		(body as Enemy).reduce_health(BalanceTable.val["melee1_damage"])
 
 
 
