@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://tvnq7ohgamn2"]
+
+[ext_resource type="Script" path="res://gui/dev_menu_entry.gd" id="1_6bii2"]
+
+[node name="DevMenuEntry" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6bii2")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 45.0
+offset_bottom = 31.0
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 0
+offset_left = 106.0
+offset_right = 189.063
+offset_bottom = 31.0

@@ -2,6 +2,7 @@ class_name Game extends Node
 
 
 @onready var _pause_menu := $InterfaceLayer/PauseMenu as PauseMenu
+@onready var _dev_menu := $InterfaceLayer/DevMenu as Control
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"toggle_fullscreen"):
@@ -20,6 +21,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			_pause_menu.open()
 		else:
 			_pause_menu.close()
+		get_tree().root.set_input_as_handled()
+		
+	elif event.is_action_pressed(&"toggle_dev_menu"):
+		var tree := get_tree()
+		tree.paused = not tree.paused
+		if tree.paused:
+			_dev_menu.open()
+		else:
+			_dev_menu.close()
 		get_tree().root.set_input_as_handled()
 
 # initialize dialogic
