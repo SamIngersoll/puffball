@@ -18,9 +18,11 @@ const TERMINAL_VELOCITY = 700
 @export var can_double_jump : bool = true
 @export var can_dash : bool = true
 
-#var sprite_scale = 
+#var sprite_scale =
 var friction : float = 0.5
 var gravity : int = ProjectSettings.get("physics/2d/default_gravity")
+
+#child nodes
 @onready var platform_detector := $PlatformDetector as RayCast2D
 @onready var animation_player := $AnimationPlayer as AnimationPlayer
 @onready var shoot_timer := $ShootAnimation as Timer
@@ -28,14 +30,20 @@ var gravity : int = ProjectSettings.get("physics/2d/default_gravity")
 @onready var jump_sound := $Jump as AudioStreamPlayer2D
 @onready var gun = sprite.get_node(^"Gun") as Gun
 @onready var camera := $Camera as Camera2D
+@onready var hitbox := $Sprite2D/Hitbox as Area2D
+@onready var melee_timer := $MeleeAnimation as Timer
+@onready var melee_attack := $Sprite2D/melee_attack as Node2D
+
+#state variables
 var _double_jump_charged := false
 var _dash_charged
 var _is_dashing
+var _meleeing := false
 
 
 func _ready():
 	pass
-	
+
 func _physics_process(delta: float) -> void:
 	# jumping logic
 	if is_on_floor():
@@ -52,7 +60,7 @@ func _physics_process(delta: float) -> void:
 		_is_dashing = true
 		_dash_charged = false
 		try_dash()
-		
+
 	# Fall.
 	velocity.y = minf(TERMINAL_VELOCITY, velocity.y + gravity * delta)
 
@@ -60,7 +68,7 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor() and direction == 0:
 		velocity.x = move_toward(velocity.x, direction, ACCELERATION_SPEED * delta) * (1-friction)
 	else:
-		velocity.x = move_toward(velocity.x, direction, ACCELERATION_SPEED * delta) 
+		velocity.x = move_toward(velocity.x, direction, ACCELERATION_SPEED * delta)
 
 
 	if not is_zero_approx(velocity.x):
@@ -81,7 +89,11 @@ func _physics_process(delta: float) -> void:
 		if is_shooting:
 			shoot_timer.start()
 		animation_player.play(animation)
-		
+
+	if Input.is_action_just_pressed("melee" + action_suffix):
+		if not _meleeing:
+			melee_attack.melee()
+
 func get_new_animation(is_shooting := false) -> String:
 	var animation_new: String
 	if is_on_floor():
@@ -120,6 +132,7 @@ func try_jump() -> void:
 	velocity.y = JUMP_VELOCITY
 	jump_sound.play()
 
+
 func _on_interact_bounds_area_entered(area):
 	var NPC = area.get_parent().name
 	Global.currently_interactable_NPC = NPC
@@ -128,3 +141,15 @@ func _on_interact_bounds_area_exited(area):
 	var NPC = area.get_parent().name
 	if NPC == Global.currently_interactable_NPC:
 		Global.currently_interactable_NPC = ""
+
+
+
+func _on_melee_attack_hit(body):
+	if body is Enemy:
+		(body as Enemy).reduce_health(11)
+
+
+
+func _on_melee_attack_meleeing(active):
+	#print("meleeing ", active)
+	_meleeing = active

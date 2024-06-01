@@ -1,10 +1,14 @@
-[gd_scene load_steps=20 format=3 uid="uid://vh7pmputa7r3"]
+[gd_scene load_steps=22 format=3 uid="uid://vh7pmputa7r3"]
 
 [ext_resource type="Texture2D" uid="uid://b125588ulu8vc" path="res://player/spritesheet.png" id="2_ay57m"]
 [ext_resource type="Script" path="res://player/player.gd" id="3"]
 [ext_resource type="AudioStream" uid="uid://sjod173axgwf" path="res://player/jump.wav" id="5"]
+[ext_resource type="PackedScene" uid="uid://xm4nyb85l3m1" path="res://player/melee_attack.tscn" id="5_itblh"]
 [ext_resource type="AudioStream" uid="uid://b01brytl75mwa" path="res://player/shoot.wav" id="6"]
 [ext_resource type="Script" path="res://player/gun.gd" id="8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vce51"]
+size = Vector2(105.937, 100.625)
 
 [sub_resource type="Animation" id="1"]
 resource_name = "crouch"
@@ -243,6 +247,30 @@ stream = ExtResource("6")
 wait_time = 0.3
 one_shot = true
 
+[node name="melee_attack" parent="Sprite2D" node_paths=PackedStringArray("hitbox", "melee_timer", "debug_poly") instance=ExtResource("5_itblh")]
+scale = Vector2(1, 1)
+hitbox = NodePath("Hitbox")
+melee_timer = NodePath("MeleeTimer")
+debug_poly = NodePath("Hitbox/DebugPoly")
+debug_draw = true
+
+[node name="MeleeTimer" type="Timer" parent="Sprite2D/melee_attack"]
+process_callback = 0
+wait_time = 0.5
+one_shot = true
+
+[node name="Hitbox" type="Area2D" parent="Sprite2D/melee_attack"]
+scale = Vector2(1, 1)
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/melee_attack/Hitbox"]
+position = Vector2(-106.406, 12.5)
+shape = SubResource("RectangleShape2D_vce51")
+
+[node name="DebugPoly" type="Polygon2D" parent="Sprite2D/melee_attack/Hitbox"]
+polygon = PackedVector2Array(-159.375, -37.5, -159.375, 62.5, -53.125, 62.5, -53.125, -37.5)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_jnr5f")
@@ -301,6 +329,9 @@ collision_mask = 32
 position = Vector2(0.625, -16.25)
 shape = SubResource("RectangleShape2D_1m6c6")
 
+[connection signal="hit" from="Sprite2D/melee_attack" to="." method="_on_melee_attack_hit"]
+[connection signal="meleeing" from="Sprite2D/melee_attack" to="." method="_on_melee_attack_meleeing"]
+[connection signal="body_entered" from="Sprite2D/melee_attack/Hitbox" to="Sprite2D/melee_attack" method="_on_hitbox_body_entered"]
 [connection signal="ready" from="CollisionShape2D" to="." method="_on_collision_shape_2d_ready"]
 [connection signal="area_entered" from="interact_bounds" to="." method="_on_interact_bounds_area_entered"]
 [connection signal="area_exited" from="interact_bounds" to="." method="_on_interact_bounds_area_exited"]
