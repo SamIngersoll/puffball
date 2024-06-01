@@ -28,6 +28,9 @@ config/icon="res://icon.webp"
 Global="*res://Global.gd"
 Music="*res://music.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
+EngineTweakable="*res://engine_tweakable.gd"
+MetaProg="*res://meta_prog.gd"
+BalanceTable="*res://balance_table.gd"
 
 [dialogic]
 
