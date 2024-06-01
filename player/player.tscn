@@ -247,15 +247,14 @@ stream = ExtResource("6")
 wait_time = 0.3
 one_shot = true
 
-[node name="melee_attack" parent="Sprite2D" node_paths=PackedStringArray("hitbox", "melee_timer") instance=ExtResource("5_itblh")]
+[node name="melee_attack" parent="Sprite2D" node_paths=PackedStringArray("hitbox", "melee_timer", "debug_poly") instance=ExtResource("5_itblh")]
 scale = Vector2(1, 1)
 hitbox = NodePath("Hitbox")
-melee_timer = NodePath("MeleeWindup")
-windup_val = 0.1
-active_val = 0.5
-follow_val = 0.1
+melee_timer = NodePath("MeleeTimer")
+debug_poly = NodePath("Hitbox/DebugPoly")
+debug_draw = true
 
-[node name="MeleeWindup" type="Timer" parent="Sprite2D/melee_attack"]
+[node name="MeleeTimer" type="Timer" parent="Sprite2D/melee_attack"]
 process_callback = 0
 wait_time = 0.5
 one_shot = true
@@ -268,6 +267,9 @@ monitoring = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/melee_attack/Hitbox"]
 position = Vector2(-106.406, 12.5)
 shape = SubResource("RectangleShape2D_vce51")
+
+[node name="DebugPoly" type="Polygon2D" parent="Sprite2D/melee_attack/Hitbox"]
+polygon = PackedVector2Array(-159.375, -37.5, -159.375, 62.5, -53.125, 62.5, -53.125, -37.5)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

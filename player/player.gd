@@ -150,5 +150,5 @@ func _on_melee_attack_hit(body):
 
 
 func _on_melee_attack_meleeing(active):
-	print("meleeing ", active)
+	#print("meleeing ", active)
 	_meleeing = active
