@@ -2,7 +2,7 @@ extends Node
 
 # contains all the metaprogression flags for the player
 
-var flags = {
+var val = {
 	
 }
 

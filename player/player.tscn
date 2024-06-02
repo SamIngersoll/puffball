@@ -248,7 +248,6 @@ wait_time = 0.3
 one_shot = true
 
 [node name="melee_attack" parent="Sprite2D" node_paths=PackedStringArray("hitbox", "melee_timer", "debug_poly") instance=ExtResource("5_itblh")]
-scale = Vector2(1, 1)
 hitbox = NodePath("Hitbox")
 melee_timer = NodePath("MeleeTimer")
 debug_poly = NodePath("Hitbox/DebugPoly")
@@ -260,7 +259,6 @@ wait_time = 0.5
 one_shot = true
 
 [node name="Hitbox" type="Area2D" parent="Sprite2D/melee_attack"]
-scale = Vector2(1, 1)
 collision_mask = 2
 monitoring = false
 
