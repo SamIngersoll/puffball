@@ -31,14 +31,13 @@ var gravity : int = ProjectSettings.get("physics/2d/default_gravity")
 @onready var gun = sprite.get_node(^"Gun") as Gun
 @onready var camera := $Camera as Camera2D
 @onready var hitbox := $Sprite2D/Hitbox as Area2D
-@onready var melee_timer := $MeleeAnimation as Timer
 @onready var melee_attack := $Sprite2D/melee_attack as Node2D
 
 #state variables
 var _double_jump_charged := false
 var _dash_charged
 var _is_dashing
-var _meleeing := false
+var _meleeing : bool = false
 
 
 func _ready():
@@ -146,7 +145,7 @@ func _on_interact_bounds_area_exited(area):
 
 func _on_melee_attack_hit(body):
 	if body is Enemy:
-		(body as Enemy).reduce_health(11)
+		(body as Enemy).reduce_health(BalanceTable.val["melee1_damage"])
 
 
 

@@ -9,9 +9,9 @@ extends Node2D
 
 var _meleeing : bool = false
 # initial data based on dark souls straight sword R1
-@export var windup_val : float = 0.43
-@export var active_val : float = 0.1
-@export var recovery_val : float = 0.46
+@export var windup_val : String = "melee1_windup"
+@export var active_val : String = "melee1_attack"
+@export var recovery_val : String = "melee1_recovery"
 
 signal hit(body)
 signal meleeing(active : bool)
@@ -32,7 +32,7 @@ func melee():
 		debug_poly.color = Color("e5f04a")
 		debug_poly.show()
 
-	melee_timer.start(windup_val)
+	melee_timer.start(EngineTweakable.val[windup_val])
 	await melee_timer.timeout
 
 	# Start the active time
@@ -40,7 +40,7 @@ func melee():
 		debug_poly.color = Color("e01451")
 
 	hitbox.monitoring = true
-	melee_timer.start(active_val)
+	melee_timer.start(EngineTweakable.val[active_val])
 	await melee_timer.timeout
 
 	# Enter follow through
@@ -48,7 +48,7 @@ func melee():
 		debug_poly.color = Color("58b0f6")
 
 	hitbox.monitoring = false
-	melee_timer.start(recovery_val)
+	melee_timer.start(EngineTweakable.val[recovery_val])
 	await melee_timer.timeout
 
 	# End meleeing
