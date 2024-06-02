@@ -259,6 +259,7 @@ wait_time = 0.5
 one_shot = true
 
 [node name="Hitbox" type="Area2D" parent="Sprite2D/melee_attack"]
+collision_layer = 0
 collision_mask = 2
 monitoring = false
 
