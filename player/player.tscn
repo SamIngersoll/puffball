@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://b125588ulu8vc" path="res://player/spritesheet.png" id="2_ay57m"]
 [ext_resource type="Script" path="res://player/player.gd" id="3"]
 [ext_resource type="AudioStream" uid="uid://sjod173axgwf" path="res://player/jump.wav" id="5"]
-[ext_resource type="PackedScene" uid="uid://xm4nyb85l3m1" path="res://player/melee_attack.tscn" id="5_itblh"]
+[ext_resource type="PackedScene" uid="uid://xm4nyb85l3m1" path="res://mechanics/melee_attack.tscn" id="5_itblh"]
 [ext_resource type="AudioStream" uid="uid://b01brytl75mwa" path="res://player/shoot.wav" id="6"]
 [ext_resource type="Script" path="res://player/gun.gd" id="8"]
 
@@ -262,7 +262,7 @@ one_shot = true
 [node name="ParriableTimer" type="Timer" parent="Sprite2D/melee_attack"]
 
 [node name="Hitbox" type="Area2D" parent="Sprite2D/melee_attack"]
-collision_layer = 0
+collision_layer = 64
 collision_mask = 2
 monitoring = false
 

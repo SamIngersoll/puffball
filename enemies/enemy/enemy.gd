@@ -9,7 +9,7 @@ enum State {
 }
 
 const wander_speed = 22.0 as float
-const chase_speed = 100.0 as float
+const chase_speed = 50.0 as float
 var speed = wander_speed
 
 @export var health := 20 as int
@@ -40,9 +40,9 @@ func _physics_process(delta: float) -> void:
 		if _state == State.WANDER:
 			if velocity.is_zero_approx():
 				speed = wander_speed
-			elif velocity.x == chase_speed:
+			elif velocity.x == EngineTweakable.val["enemy_chase_speed"]:
 				speed = wander_speed
-			elif velocity.x == -chase_speed:
+			elif velocity.x == -EngineTweakable.val["enemy_chase_speed"]:
 				speed = -wander_speed
 			if not floor_detector_left.is_colliding():
 				speed = wander_speed
@@ -50,9 +50,9 @@ func _physics_process(delta: float) -> void:
 				speed = -wander_speed
 		elif _state == State.CHASE:
 			if last_known_player_location.x > position.x:
-				speed = chase_speed
+				speed = EngineTweakable.val["enemy_chase_speed"]
 			elif last_known_player_location.x < position.x:
-				speed = -chase_speed
+				speed = -EngineTweakable.val["enemy_chase_speed"]
 		
 		velocity.x = speed
 		
