@@ -338,6 +338,44 @@ hframes = 8
 vframes = 4
 frame = 19
 
+[node name="Gun" type="Marker2D" parent="Sprite2D"]
+position = Vector2(14, 1)
+script = ExtResource("8")
+
+[node name="Shoot" type="AudioStreamPlayer2D" parent="Sprite2D/Gun"]
+position = Vector2(-30.6589, -6.13176)
+stream = ExtResource("6")
+
+[node name="Cooldown" type="Timer" parent="Sprite2D/Gun"]
+wait_time = 0.3
+one_shot = true
+
+[node name="melee_attack" parent="Sprite2D" node_paths=PackedStringArray("hitbox", "melee_timer", "parriable_timer", "debug_poly") instance=ExtResource("5_itblh")]
+hitbox = NodePath("Hitbox")
+melee_timer = NodePath("MeleeTimer")
+parriable_timer = NodePath("ParriableTimer")
+debug_poly = NodePath("Hitbox/DebugPoly")
+debug_draw = 1
+
+[node name="MeleeTimer" type="Timer" parent="Sprite2D/melee_attack"]
+process_callback = 0
+wait_time = 0.5
+one_shot = true
+
+[node name="ParriableTimer" type="Timer" parent="Sprite2D/melee_attack"]
+
+[node name="Hitbox" type="Area2D" parent="Sprite2D/melee_attack"]
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/melee_attack/Hitbox"]
+position = Vector2(-106.406, 12.5)
+shape = SubResource("RectangleShape2D_vce51")
+
+[node name="DebugPoly" type="Polygon2D" parent="Sprite2D/melee_attack/Hitbox"]
+polygon = PackedVector2Array(-159.375, -37.5, -159.375, 62.5, -53.125, 62.5, -53.125, -37.5)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_jnr5f")

@@ -39,7 +39,6 @@ var world_egg
 @onready var first_jump_sound := $first_jump as AudioStreamPlayer3D
 @onready var second_jump_sound := $second_jump as AudioStreamPlayer3D
 @onready var dash_sound := $dash as AudioStreamPlayer3D
-#@onready var gun = sprite.get_node(^"Gun") as Gun
 @onready var camera := $Camera as Camera3D
 @onready var hitbox := $Sprite2D/Hitbox as Area3D
 @onready var melee_attack := $Sprite2D/melee_attack as Node3D
@@ -55,6 +54,7 @@ var _melee_state : int = Melee_States.INACTIVE
   # it is assumed that windeup starts on first frame of animation.
 @export var melee_active_begin_frame : int = 2
 @export var melee_recovery_begin_frame : int = 3
+@onready var gun = sprite.get_node(^"Gun") as Gun
 
 #state variables
 var _double_jump_charged := false
@@ -136,7 +136,7 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("melee" + action_suffix):
 		if not _meleeing:
-			melee_attack.melee()
+			melee_attack.attack()
 	if Input.is_action_just_pressed("spike_egg" + action_suffix):
 		if (has_egg):
 			spike_egg()
