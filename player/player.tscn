@@ -247,16 +247,19 @@ stream = ExtResource("6")
 wait_time = 0.3
 one_shot = true
 
-[node name="melee_attack" parent="Sprite2D" node_paths=PackedStringArray("hitbox", "melee_timer", "debug_poly") instance=ExtResource("5_itblh")]
+[node name="melee_attack" parent="Sprite2D" node_paths=PackedStringArray("hitbox", "melee_timer", "parriable_timer", "debug_poly") instance=ExtResource("5_itblh")]
 hitbox = NodePath("Hitbox")
 melee_timer = NodePath("MeleeTimer")
+parriable_timer = NodePath("ParriableTimer")
 debug_poly = NodePath("Hitbox/DebugPoly")
-debug_draw = true
+debug_draw = 1
 
 [node name="MeleeTimer" type="Timer" parent="Sprite2D/melee_attack"]
 process_callback = 0
 wait_time = 0.5
 one_shot = true
+
+[node name="ParriableTimer" type="Timer" parent="Sprite2D/melee_attack"]
 
 [node name="Hitbox" type="Area2D" parent="Sprite2D/melee_attack"]
 collision_layer = 0

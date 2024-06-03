@@ -4,7 +4,9 @@ extends Node
 var val = {
 	"melee1_windup" : 0.43,
 	"melee1_attack" : 0.1,
-	"melee1_recovery" : 0.46
+	"melee1_recovery" : 0.46,
+	"parriable1_windup" : 0.3,
+	"parriable1_duration" : 0.2
 }
 
 # Called when the node enters the scene tree for the first time.

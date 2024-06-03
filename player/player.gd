@@ -30,8 +30,7 @@ var gravity : int = ProjectSettings.get("physics/2d/default_gravity")
 @onready var jump_sound := $Jump as AudioStreamPlayer2D
 @onready var gun = sprite.get_node(^"Gun") as Gun
 @onready var camera := $Camera as Camera2D
-@onready var hitbox := $Sprite2D/Hitbox as Area2D
-@onready var melee_attack := $Sprite2D/melee_attack as Node2D
+@onready var melee_attack : Node2D = $Sprite2D/melee_attack
 
 #state variables
 var _double_jump_charged := false
@@ -91,7 +90,7 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("melee" + action_suffix):
 		if not _meleeing:
-			melee_attack.melee()
+			melee_attack.attack()
 
 func get_new_animation(is_shooting := false) -> String:
 	var animation_new: String
