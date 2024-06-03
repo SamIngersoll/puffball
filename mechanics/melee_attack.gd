@@ -23,8 +23,8 @@ enum DebugDisplay {NONE, MELEE_FRAMES, PARRIABLE_FRAMES}
 
 ## indicates if THIS atttack/character is parriable
 @export var is_parriable : bool = false
-@export var parry_frames_start_val : String = "parriable1_windup"
-@export var parry_frames_duration_val : String = "parriable1_duration"
+@export var parriable_frames_start_val : String = "parriable1_windup"
+@export var parriable_frames_duration_val : String = "parriable1_duration"
 # From a design standpoint, probably want the parriable frames 
 # to start before the damage frames start
 
@@ -52,7 +52,7 @@ func set_parriable_frames():
 		debug_poly.color = Color("e5f04a")
 		debug_poly.show()
 		
-	parriable_timer.start(EngineTweakable.val[parry_frames_start_val])
+	parriable_timer.start(EngineTweakable.val[parriable_frames_start_val])
 	await parriable_timer.timeout
 	
 	# start parriable frames
@@ -62,7 +62,7 @@ func set_parriable_frames():
 	if debug_draw == DebugDisplay.PARRIABLE_FRAMES:
 		debug_poly.color = Color("e01451")
 	
-	parriable_timer.start(EngineTweakable.val[parry_frames_duration_val])
+	parriable_timer.start(EngineTweakable.val[parriable_frames_duration_val])
 	await parriable_timer.timeout
 	
 	# end parriable frames

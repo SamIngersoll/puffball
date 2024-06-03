@@ -6,7 +6,10 @@ var val = {
 	"melee1_attack" : 0.1,
 	"melee1_recovery" : 0.46,
 	"parriable1_windup" : 0.3,
-	"parriable1_duration" : 0.2
+	"parriable1_duration" : 0.2,
+	"parry_windup" : 0.2,
+	"parry_duration" : 0.4,
+	"enemy_chase_speed" : 75.0
 }
 
 # Called when the node enters the scene tree for the first time.
