@@ -1,0 +1,310 @@
+[gd_scene load_steps=16 format=3 uid="uid://6mtip3ruyn"]
+
+[ext_resource type="Script" path="res://enemies/enemy/enemy.gd" id="1_450mt"]
+[ext_resource type="Texture2D" uid="uid://2fffd0wt5q5x" path="res://enemies/enemy/knight_spritesheet.png" id="2_wpxep"]
+[ext_resource type="Texture2D" uid="uid://coj0d33vyyqx1" path="res://player/bullet.webp" id="3_dqs07"]
+[ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemies/enemy/hit.wav" id="4_tvspx"]
+[ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemies/enemy/explode.wav" id="5_wp03c"]
+
+[sub_resource type="CanvasItemMaterial" id="1"]
+
+[sub_resource type="Animation" id="8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion:scale_amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [4.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Explosion:scale_amount_max")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:collision_layer")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="Animation" id="2"]
+resource_name = "destroy"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [7]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Explosion:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hit:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.00999999),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Explode:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:collision_layer")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Explosion:scale_amount_min")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.6, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 4.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Explosion:scale_amount_max")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.6, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 4.0]
+}
+
+[sub_resource type="Animation" id="3"]
+length = 0.5
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.75, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 2]
+}
+
+[sub_resource type="Animation" id="4"]
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1, 6]
+}
+
+[sub_resource type="Animation" id="Animation_5rm84"]
+resource_name = "attack"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.4, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [2, 17, 17]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0kjfc"]
+_data = {
+"RESET": SubResource("8"),
+"attack": SubResource("Animation_5rm84"),
+"destroy": SubResource("2"),
+"idle": SubResource("3"),
+"walk": SubResource("4")
+}
+
+[sub_resource type="CapsuleShape2D" id="5"]
+radius = 22.0
+height = 92.0
+
+[sub_resource type="CanvasItemMaterial" id="6"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="7"]
+offsets = PackedFloat32Array(0.5, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 24
+script = ExtResource("1_450mt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("1")
+position = Vector2(5, -35)
+scale = Vector2(0.123295, 0.123295)
+texture = ExtResource("2_wpxep")
+flip_h = true
+hframes = 5
+vframes = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0kjfc")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -29)
+shape = SubResource("5")
+
+[node name="Explosion" type="CPUParticles2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.12)
+material = SubResource("6")
+emitting = false
+amount = 32
+lifetime = 0.5
+one_shot = true
+speed_scale = 1.2
+explosiveness = 0.7
+draw_order = 215832976
+texture = ExtResource("3_dqs07")
+emission_shape = 1
+emission_sphere_radius = 16.0
+spread = 180.0
+gravity = Vector2(0, -250)
+color_ramp = SubResource("7")
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_tvspx")
+
+[node name="Explode" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_wp03c")
+
+[node name="raycast_wall_detector" type="Node2D" parent="."]
+
+[node name="WallDetectionLeft" type="RayCast2D" parent="raycast_wall_detector"]
+target_position = Vector2(-42, 0)
+
+[node name="WallDetectionRight" type="RayCast2D" parent="raycast_wall_detector"]
+target_position = Vector2(44, 0)
+
+[node name="raycast_floor_detector" type="Node2D" parent="."]
+
+[node name="FloorDetectorLeft" type="RayCast2D" parent="raycast_floor_detector"]
+position = Vector2(-15, -4)
+target_position = Vector2(0, 35)
+collision_mask = 24
+
+[node name="FloorDetectorRight" type="RayCast2D" parent="raycast_floor_detector"]
+position = Vector2(15.5, -3)
+target_position = Vector2(0, 35)
+collision_mask = 24
+
+[node name="raycast_player_detector" type="Node2D" parent="."]
+
+[node name="PlayerDetectionRear" type="RayCast2D" parent="raycast_player_detector"]
+target_position = Vector2(-125, 2.08165e-12)
+
+[node name="PlayerDetectionFront" type="RayCast2D" parent="raycast_player_detector"]
+target_position = Vector2(260, 0)
+
+[node name="chase_timer" type="Timer" parent="."]
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=26 format=3 uid="uid://ctgumjaytuoch"]
 
-[ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemy/enemy.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemies/enemy/enemy.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://cky6e5nl0nyod" path="res://level/platforms/platform.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://c3dh7xb6ef76q" path="res://level/coin.tscn" id="4"]
 [ext_resource type="Texture2D" uid="uid://bxsmiv7k3fngt" path="res://level/platforms/moving_platform.webp" id="6"]
@@ -1725,4 +1725,3 @@ position = Vector2(1199, 519)
 [node name="interactable" parent="." instance=ExtResource("21_ew45e")]
 position = Vector2(-205, 643)
 trigger_timer_time = 4.0
-reset_timer_time = 2.0
