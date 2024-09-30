@@ -1,0 +1,84 @@
+[gd_scene load_steps=9 format=3 uid="uid://blhx0nl66wwch"]
+
+[ext_resource type="Script" path="res://levels/interactable/interactable.gd" id="1_ejkr5"]
+[ext_resource type="Texture2D" uid="uid://p387bpe5eo6h" path="res://levels/interactable/sprites/da4251db5d3f7923ece3297fc3b8179d.jpg" id="2_t64y8"]
+[ext_resource type="Texture2D" uid="uid://dtnxclm3kxu11" path="res://levels/interactable/sprites/open-door-cartoon-colorful-flat-vector-23527913.png" id="3_yijg7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cyh4h"]
+size = Vector2(143.5, 80)
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_cfgsn"]
+frames = 2
+pause = true
+frame_0/texture = ExtResource("2_t64y8")
+frame_1/texture = ExtResource("3_yijg7")
+frame_1/duration = 1.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d3fk4"]
+radius = 59.0
+height = 212.0
+
+[sub_resource type="Animation" id="Animation_2lsv1"]
+resource_name = "activate"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("interaction_result_body:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2.08165e-12, 2.08165e-12), Vector2(2.08165e-12, -100)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hjt3l"]
+_data = {
+"activate": SubResource("Animation_2lsv1")
+}
+
+[node name="interactable" type="Node2D"]
+script = ExtResource("1_ejkr5")
+
+[node name="interaction_point" type="Sprite2D" parent="."]
+position = Vector2(-124, -62)
+scale = Vector2(0.323056, 0.250306)
+
+[node name="interaction_area" type="Area2D" parent="interaction_point"]
+position = Vector2(383.834, 247.697)
+scale = Vector2(3.09544, 3.99511)
+collision_layer = 33
+collision_mask = 33
+
+[node name="interaction_CollisionShape2D" type="CollisionShape2D" parent="interaction_point/interaction_area"]
+position = Vector2(76.25, -42)
+shape = SubResource("RectangleShape2D_cyh4h")
+debug_color = Color(0.286307, 0.63006, 0.0428063, 0.42)
+
+[node name="interaction_result_body" type="AnimatableBody2D" parent="."]
+position = Vector2(2.08165e-12, 2.08165e-12)
+collision_layer = 16
+collision_mask = 16
+
+[node name="interaction_result" type="Sprite2D" parent="interaction_result_body"]
+position = Vector2(77, -105)
+scale = Vector2(0.311327, 0.264841)
+texture = SubResource("AnimatedTexture_cfgsn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="interaction_result_body"]
+position = Vector2(79, -105)
+shape = SubResource("CapsuleShape2D_d3fk4")
+debug_color = Color(0.878431, 0.521569, 0.00392157, 0.419608)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hjt3l")
+}
+
+[node name="timer" type="Timer" parent="."]
+
+[connection signal="area_entered" from="interaction_point/interaction_area" to="." method="_on_interaction_area_area_entered"]
+[connection signal="area_exited" from="interaction_point/interaction_area" to="." method="_on_interaction_area_area_exited"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

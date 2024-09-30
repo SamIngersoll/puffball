@@ -8,6 +8,7 @@ extends Node2D
 @export var debug_draw : bool = false
 
 var _meleeing : bool = false
+
 # initial data based on dark souls straight sword R1
 @export var windup_val : String = "melee1_windup"
 @export var active_val : String = "melee1_attack"
@@ -15,6 +16,7 @@ var _meleeing : bool = false
 
 signal hit(body)
 signal meleeing(active : bool)
+signal next_phase()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,7 +28,7 @@ func melee():
 	# Start meleeing
 	_meleeing = true
 	meleeing.emit(_meleeing)
-
+	
 	# Start the melee windup timer
 	if debug_draw:
 		debug_poly.color = Color("e5f04a")
@@ -35,9 +37,13 @@ func melee():
 	melee_timer.start(EngineTweakable.val[windup_val])
 	await melee_timer.timeout
 
+
 	# Start the active time
 	if debug_draw:
 		debug_poly.color = Color("e01451")
+
+	# tell the player to transistion to the attacking phase
+	next_phase.emit()
 
 	hitbox.monitoring = true
 	melee_timer.start(EngineTweakable.val[active_val])
@@ -46,6 +52,9 @@ func melee():
 	# Enter follow through
 	if debug_draw:
 		debug_poly.color = Color("58b0f6")
+
+	# tell the player to transistion to the following through phase
+	next_phase.emit()
 
 	hitbox.monitoring = false
 	melee_timer.start(EngineTweakable.val[recovery_val])

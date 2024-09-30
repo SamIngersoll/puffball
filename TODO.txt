@@ -1,0 +1,17 @@
+-- To implement --
+- Enemy attacks
+- Add behavior for when player is damaged but not killed
+	- pushback or something
+- Implement the global balance table, maybe as an autoload
+	this will contain things like health and damage totals for enemies
+	jump height, etc
+	https://stackoverflow.com/questions/65402275/using-variables-from-other-scenes-godot
+
+
+-- Bugs --
+- If you use the left of right arrow keys to leave a wall slide (for instance 
+  on a slanted wall), you only get one jump whereas if you jump off the wall 
+  you get two jumps. You should get two jumps either way.
+- Sometimes when you kill enemies they dont get destroyed, not sure why that is
+- when you do some combination of jumping and dashing it continues to play the 
+	dash sound effect even during jumps until you hit the ground, then normal.

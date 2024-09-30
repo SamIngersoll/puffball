@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgihj6ylfb3re"
-path="res://.godot/imported/spritesheet.png-61f313ffc4f035d13b97b18af9bb0cce.ctex"
+uid="uid://bu54lwrkcng25"
+path="res://.godot/imported/vine_2.webp-4dee5c2cc49739444a6382b7fd595e30.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/spritesheet.png"
-dest_files=["res://.godot/imported/spritesheet.png-61f313ffc4f035d13b97b18af9bb0cce.ctex"]
+source_file="res://levels/props/vine_2.webp"
+dest_files=["res://.godot/imported/vine_2.webp-4dee5c2cc49739444a6382b7fd595e30.ctex"]
 
 [params]
 

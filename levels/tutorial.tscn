@@ -1,0 +1,88 @@
+[gd_scene load_steps=8 format=3 uid="uid://b26jvohq0braq"]
+
+[ext_resource type="PackedScene" uid="uid://vh7pmputa7r3" path="res://player/player.tscn" id="1_tml1e"]
+[ext_resource type="Script" path="res://levels/level.gd" id="1_wrr2a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8vlqq"]
+size = Vector2(2073.5, 104)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_an54g"]
+size = Vector2(2036.75, 66)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2bor5"]
+size = Vector2(381.296, 77.7193)
+
+[sub_resource type="GDScript" id="GDScript_yvmof"]
+script/source = "extends Node2D
+
+# this variable holds the destination of the level exit. 
+# the destination is a string which is the name of the level scene file
+@export var destination : String = \"tutorial\"
+
+signal take_exit(destination)
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+func _on_area_2d_area_entered(area):
+	print(\"ENTERED\")
+	if area.get_parent().is_in_group(\"player\"):
+		print(\"ISPLAYER ENTERED\")
+		get_tree().current_scene.change_level(destination)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j2yor"]
+size = Vector2(160.25, 115)
+
+[node name="Tutorial" type="Node2D" groups=["levels"]]
+script = ExtResource("1_wrr2a")
+
+[node name="Player" parent="." instance=ExtResource("1_tml1e")]
+position = Vector2(-291, 610)
+
+[node name="collision_geo" type="Node2D" parent="."]
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="collision_geo"]
+collision_layer = 11
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collision_geo/StaticBody2D2"]
+position = Vector2(600.25, 704)
+shape = SubResource("RectangleShape2D_8vlqq")
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="collision_geo"]
+collision_layer = 11
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collision_geo/StaticBody2D7"]
+position = Vector2(-584, 236)
+shape = SubResource("RectangleShape2D_an54g")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="collision_geo"]
+collision_layer = 11
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collision_geo/StaticBody2D3"]
+position = Vector2(-396, 460.648)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_2bor5")
+
+[node name="level_exit" type="Node2D" parent="." groups=["level_exits"]]
+script = SubResource("GDScript_yvmof")
+destination = "level"
+
+[node name="Area2D" type="Area2D" parent="level_exit"]
+collision_layer = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="level_exit/Area2D"]
+position = Vector2(1555, 589)
+shape = SubResource("RectangleShape2D_j2yor")
+debug_color = Color(0, 1, 0, 0.419608)
+
+[connection signal="area_entered" from="level_exit/Area2D" to="level_exit" method="_on_area_2d_area_entered"]

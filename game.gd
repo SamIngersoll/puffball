@@ -43,6 +43,16 @@ func _input(event: InputEvent):
 		Dialogic.start(Global.currently_interactable_NPC)
 		get_viewport().set_input_as_handled()
 		
-		
-#func print_something():
-	#print("FOUND ME")
+# deletes the current level and loads in a specified new level
+# argument: string with level name
+func change_level(new_level_name):
+	var active_level = get_tree().get_first_node_in_group("levels")
+	var game = active_level.get_parent()
+	#get_tree().change_scene_to_file("res://levels/"+new_level_name+".tscn")
+	game.add_child(load("res://levels/"+new_level_name+".tscn").instantiate())
+	active_level.queue_free()
+	#active_level = get_tree().get_first_node_in_group("levels")
+	#active_level.reparent(game)
+	
+	
+	

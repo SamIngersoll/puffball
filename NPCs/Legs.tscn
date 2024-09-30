@@ -262,7 +262,7 @@ stereo = true
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jogce"]
 size = Vector2(423, 364.5)
 
-[node name="Legs" type="CharacterBody2D"]
+[node name="Legs" type="CharacterBody2D" groups=["npcs"]]
 collision_layer = 2
 script = ExtResource("1_liv0f")
 

@@ -242,6 +242,8 @@ toggle_dev_menu={
 2d_physics/layer_4="platforms"
 2d_physics/layer_5="ground"
 2d_physics/layer_6="NPCs"
+2d_physics/layer_7="traps"
+2d_physics/layer_8="level_exits"
 
 [physics]
 

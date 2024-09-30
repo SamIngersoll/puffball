@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgihj6ylfb3re"
-path="res://.godot/imported/spritesheet.png-61f313ffc4f035d13b97b18af9bb0cce.ctex"
+uid="uid://osu4k0jdk3wa"
+path="res://.godot/imported/sky.webp-45439a5c2ccd8c5f4c55b5bde5d76d26.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/spritesheet.png"
-dest_files=["res://.godot/imported/spritesheet.png-61f313ffc4f035d13b97b18af9bb0cce.ctex"]
+source_file="res://levels/background/sky.webp"
+dest_files=["res://.godot/imported/sky.webp-45439a5c2ccd8c5f4c55b5bde5d76d26.ctex"]
 
 [params]
 

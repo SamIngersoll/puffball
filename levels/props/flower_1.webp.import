@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgihj6ylfb3re"
-path="res://.godot/imported/spritesheet.png-61f313ffc4f035d13b97b18af9bb0cce.ctex"
+uid="uid://ddmq5iwm2qd1j"
+path="res://.godot/imported/flower_1.webp-4168387e40c753819325d4d323357fd3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/spritesheet.png"
-dest_files=["res://.godot/imported/spritesheet.png-61f313ffc4f035d13b97b18af9bb0cce.ctex"]
+source_file="res://levels/props/flower_1.webp"
+dest_files=["res://.godot/imported/flower_1.webp-4168387e40c753819325d4d323357fd3.ctex"]
 
 [params]
 
