@@ -32,7 +32,9 @@ var gravity : int = ProjectSettings.get("physics/2d/default_gravity")
 @onready var animation_player := $AnimationPlayer as AnimationPlayer
 @onready var shoot_timer := $ShootAnimation as Timer
 @onready var sprite := $Sprite2D as Sprite2D
-@onready var jump_sound := $Jump as AudioStreamPlayer2D
+@onready var first_jump_sound := $first_jump as AudioStreamPlayer2D
+@onready var second_jump_sound := $second_jump as AudioStreamPlayer2D
+@onready var dash_sound := $dash as AudioStreamPlayer2D
 @onready var gun = sprite.get_node(^"Gun") as Gun
 @onready var camera := $Camera as Camera2D
 @onready var hitbox := $Sprite2D/Hitbox as Area2D
@@ -137,25 +139,24 @@ func get_new_animation(is_shooting := false) -> String:
 func try_dash() -> void:
 	if can_dash:
 		velocity.x = -DASH_SPEED * sprite.scale.x
-		jump_sound.pitch_scale = 3
-		jump_sound.play()
+		dash_sound.play()
 		velocity.y = -150
 		_dash_charged = false
 
 func try_jump() -> void:
 	if is_on_floor():
-		jump_sound.pitch_scale = 1.0
+		first_jump_sound.play()
 	elif is_on_wall() and can_wall_jump:
 		velocity.y = JUMP_VELOCITY
 		velocity.x = sign(sprite.scale.x)*WALL_JUMP_HORIZONTAL_VELOCITY
+		first_jump_sound.play()
 	elif _double_jump_charged and can_double_jump:
 		_double_jump_charged = false
+		second_jump_sound.play()
 		#velocity.x *= 2.5
-		jump_sound.pitch_scale = 1.5
 	else:
 		return
 	velocity.y = JUMP_VELOCITY
-	jump_sound.play()
 
 
 func _on_interact_bounds_area_entered(area):

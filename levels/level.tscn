@@ -189,7 +189,7 @@ shape = SubResource("RectangleShape2D_gqg1f")
 collision_layer = 64
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="spikes/Area2D"]
-position = Vector2(535, -124)
+position = Vector2(531, -227)
 shape = SubResource("CapsuleShape2D_4poxw")
 debug_color = Color(1, 0, 0, 0.419608)
 
