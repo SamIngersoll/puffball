@@ -1,16 +1,25 @@
-[gd_scene load_steps=8 format=3 uid="uid://b26jvohq0braq"]
+[gd_scene load_steps=12 format=3 uid="uid://b26jvohq0braq"]
 
 [ext_resource type="PackedScene" uid="uid://vh7pmputa7r3" path="res://player/player.tscn" id="1_tml1e"]
 [ext_resource type="Script" path="res://levels/level.gd" id="1_wrr2a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8vlqq"]
-size = Vector2(2073.5, 104)
+size = Vector2(2190, 104)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_an54g"]
-size = Vector2(2036.75, 66)
+size = Vector2(2193.38, 66)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2bor5"]
 size = Vector2(381.296, 77.7193)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_axp7l"]
+size = Vector2(277.648, 77.7193)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ejxcn"]
+size = Vector2(277.648, 77.7193)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_md4gb"]
+size = Vector2(88.824, 77.7193)
 
 [sub_resource type="GDScript" id="GDScript_yvmof"]
 script/source = "extends Node2D
@@ -40,11 +49,15 @@ func _on_area_2d_area_entered(area):
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2yor"]
 size = Vector2(160.25, 115)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_26kbn"]
+radius = 38.0
+height = 88.0
+
 [node name="Tutorial" type="Node2D" groups=["levels"]]
 script = ExtResource("1_wrr2a")
 
 [node name="Player" parent="." instance=ExtResource("1_tml1e")]
-position = Vector2(-291, 610)
+position = Vector2(-371, 612)
 
 [node name="collision_geo" type="Node2D" parent="."]
 
@@ -53,7 +66,7 @@ collision_layer = 11
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="collision_geo/StaticBody2D2"]
-position = Vector2(600.25, 704)
+position = Vector2(542, 704)
 shape = SubResource("RectangleShape2D_8vlqq")
 
 [node name="StaticBody2D7" type="StaticBody2D" parent="collision_geo"]
@@ -61,7 +74,7 @@ collision_layer = 11
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="collision_geo/StaticBody2D7"]
-position = Vector2(-584, 236)
+position = Vector2(-505.688, 236)
 shape = SubResource("RectangleShape2D_an54g")
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="collision_geo"]
@@ -69,9 +82,36 @@ collision_layer = 11
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="collision_geo/StaticBody2D3"]
-position = Vector2(-396, 460.648)
+position = Vector2(-514, 461)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_2bor5")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="collision_geo"]
+collision_layer = 11
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collision_geo/StaticBody2D4"]
+position = Vector2(231, 512.176)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_axp7l")
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="collision_geo"]
+collision_layer = 11
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collision_geo/StaticBody2D5"]
+position = Vector2(1095, 336)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_ejxcn")
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="collision_geo"]
+collision_layer = 11
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collision_geo/StaticBody2D6"]
+position = Vector2(-296, 608)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_md4gb")
 
 [node name="level_exit" type="Node2D" parent="." groups=["level_exits"]]
 script = SubResource("GDScript_yvmof")
@@ -81,8 +121,58 @@ destination = "level"
 collision_layer = 128
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="level_exit/Area2D"]
-position = Vector2(1555, 589)
+position = Vector2(58, 146)
 shape = SubResource("RectangleShape2D_j2yor")
 debug_color = Color(0, 1, 0, 0.419608)
+
+[node name="spikes" type="Node2D" parent="." groups=["traps"]]
+
+[node name="Area2D" type="Area2D" parent="spikes"]
+collision_layer = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spikes/Area2D"]
+position = Vector2(478, 600)
+shape = SubResource("CapsuleShape2D_26kbn")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 175.0
+offset_top = 305.0
+offset_right = 315.0
+offset_bottom = 354.0
+text = "Wall Jump to get 
+tall over obstacles"
+
+[node name="Label4" type="Label" parent="."]
+offset_left = -367.0
+offset_top = 474.0
+offset_right = -180.0
+offset_bottom = 549.0
+text = "Press the Up Arrow 
+key to jump. Press twice 
+to double jump."
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 429.0
+offset_top = 486.0
+offset_right = 546.0
+offset_bottom = 535.0
+text = "Dont touch the 
+red object!"
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 710.0
+offset_top = 116.0
+offset_right = 939.0
+offset_bottom = 165.0
+text = "Jump and dash to get across large gaps!
+(Press Shift to dash)"
+
+[node name="Label5" type="Label" parent="."]
+offset_left = -116.0
+offset_top = 30.0
+offset_right = 222.0
+offset_bottom = 79.0
+text = "The green portal takes you to another level!"
 
 [connection signal="area_entered" from="level_exit/Area2D" to="level_exit" method="_on_area_2d_area_entered"]
