@@ -1,6 +1,5 @@
 class_name Player extends CharacterBody2D
 
-
 signal coin_collected()
 
 const WALK_SPEED = 300.0
@@ -201,5 +200,6 @@ func damage(damage):
 		kill()
 		
 func kill():
-	get_tree().reload_current_scene()
+	#get_tree().reload_current_scene()
+	game_script.reset_level()
 
