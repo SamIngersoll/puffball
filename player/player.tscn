@@ -362,7 +362,8 @@ hitbox = NodePath("Hitbox")
 melee_timer = NodePath("MeleeTimer")
 parriable_timer = NodePath("ParriableTimer")
 debug_poly = NodePath("Hitbox/DebugPoly")
-debug_draw = 1
+debug_draw = 2
+is_parriable = true
 
 [node name="MeleeTimer" type="Timer" parent="Sprite2D/melee_attack"]
 process_callback = 0
@@ -454,6 +455,11 @@ radial_accel_max = 1.0
 angle_min = -360.0
 angle_max = 360.0
 
+[node name="interact_bounds" type="Area2D" parent="."]
+visible = false
+collision_layer = 32
+collision_mask = 32
+
 [node name="step_particles" type="CPUParticles3D" parent="."]
 amount = 18
 lifetime = 0.5
@@ -503,5 +509,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0365601, 1.21376, -0.157471
 shape = SubResource("BoxShape3D_f3l4d")
 
 [connection signal="timeout" from="dash_timer" to="." method="_on_dash_timer_timeout"]
-[connection signal="area_entered" from="interaction_bounds" to="." method="_on_interaction_bounds_area_entered"]
-[connection signal="area_exited" from="interaction_bounds" to="." method="_on_interaction_bounds_area_exited"]
+[connection signal="hit" from="Sprite2D/melee_attack" to="." method="_on_melee_attack_hit"]
+[connection signal="meleeing" from="Sprite2D/melee_attack" to="." method="_on_melee_attack_meleeing"]
+[connection signal="timeout" from="Sprite2D/melee_attack/MeleeTimer" to="Sprite2D/melee_attack" method="_on_melee_timer_timeout"]
+[connection signal="timeout" from="Sprite2D/melee_attack/ParriableTimer" to="Sprite2D/melee_attack" method="_on_parriable_timer_timeout"]
+[connection signal="body_entered" from="Sprite2D/melee_attack/Hitbox" to="Sprite2D/melee_attack" method="_on_hitbox_body_entered"]
+[connection signal="ready" from="CollisionShape2D" to="." method="_on_collision_shape_2d_ready"]
+[connection signal="area_entered" from="interact_bounds" to="." method="_on_interact_bounds_area_entered"]
+[connection signal="area_exited" from="interact_bounds" to="." method="_on_interact_bounds_area_exited"]
