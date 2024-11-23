@@ -233,7 +233,7 @@ scale = Vector2(0.4, 0.4)
 texture = ExtResource("2_ay57m")
 hframes = 8
 vframes = 3
-frame = 5
+frame = 19
 
 [node name="Gun" type="Marker2D" parent="Sprite2D"]
 position = Vector2(14, 1)
@@ -252,7 +252,8 @@ hitbox = NodePath("Hitbox")
 melee_timer = NodePath("MeleeTimer")
 parriable_timer = NodePath("ParriableTimer")
 debug_poly = NodePath("Hitbox/DebugPoly")
-debug_draw = 1
+debug_draw = 2
+is_parriable = true
 
 [node name="MeleeTimer" type="Timer" parent="Sprite2D/melee_attack"]
 process_callback = 0
@@ -324,6 +325,7 @@ action = "shoot"
 visibility_mode = 1
 
 [node name="interact_bounds" type="Area2D" parent="."]
+visible = false
 collision_layer = 32
 collision_mask = 32
 
@@ -333,6 +335,8 @@ shape = SubResource("RectangleShape2D_1m6c6")
 
 [connection signal="hit" from="Sprite2D/melee_attack" to="." method="_on_melee_attack_hit"]
 [connection signal="meleeing" from="Sprite2D/melee_attack" to="." method="_on_melee_attack_meleeing"]
+[connection signal="timeout" from="Sprite2D/melee_attack/MeleeTimer" to="Sprite2D/melee_attack" method="_on_melee_timer_timeout"]
+[connection signal="timeout" from="Sprite2D/melee_attack/ParriableTimer" to="Sprite2D/melee_attack" method="_on_parriable_timer_timeout"]
 [connection signal="body_entered" from="Sprite2D/melee_attack/Hitbox" to="Sprite2D/melee_attack" method="_on_hitbox_body_entered"]
 [connection signal="ready" from="CollisionShape2D" to="." method="_on_collision_shape_2d_ready"]
 [connection signal="area_entered" from="interact_bounds" to="." method="_on_interact_bounds_area_entered"]
