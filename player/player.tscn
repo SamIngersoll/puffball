@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://ygv5urf87cdn"]
+[gd_scene load_steps=28 format=3 uid="uid://ygv5urf87cdn"]
 
 [ext_resource type="Texture2D" uid="uid://cgihj6ylfb3re" path="res://player/spritesheet.png" id="2_7cyvy"]
 [ext_resource type="Script" path="res://player/player.gd" id="3"]
@@ -278,6 +278,13 @@ material = SubResource("StandardMaterial3D_mte18")
 size = Vector2(0.1, 0.1)
 orientation = 2
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_yqgtu"]
+size = Vector2(0.2, 0.2)
+orientation = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qcp6t"]
+orientation = 2
+
 [node name="player" type="CharacterBody3D"]
 script = ExtResource("3")
 
@@ -322,7 +329,7 @@ collision_mask = 8
 wait_time = 0.1
 one_shot = true
 
-[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+[node name="fireflies" type="CPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69493, 0)
 preprocess = 1.0
 lifetime_randomness = 1.0
@@ -341,5 +348,43 @@ tangential_accel_min = 1.0
 tangential_accel_max = 1.0
 scale_amount_min = 0.0
 scale_amount_max = 0.2
+
+[node name="jump_cloud" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 100
+lifetime = 0.3
+one_shot = true
+explosiveness = 0.8
+randomness = 1.0
+mesh = SubResource("PlaneMesh_yqgtu")
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3(1, 2.08165e-12, 2.08165e-12)
+spread = 180.0
+flatness = 0.5
+gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+initial_velocity_max = 5.0
+angular_velocity_min = -1.0
+angular_velocity_max = 1.0
+radial_accel_max = 1.0
+angle_min = -360.0
+angle_max = 360.0
+
+[node name="step_particles" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 40
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+mesh = SubResource("PlaneMesh_qcp6t")
+emission_shape = 1
+emission_sphere_radius = 0.1
+direction = Vector3(2.08165e-12, 1, 2.08165e-12)
+spread = 30.0
+gravity = Vector3(2.08165e-12, -9, 2.08165e-12)
+initial_velocity_min = 1.0
+initial_velocity_max = 4.0
+scale_amount_min = 0.01
+scale_amount_max = 0.02
 
 [connection signal="timeout" from="dash_timer" to="." method="_on_dash_timer_timeout"]

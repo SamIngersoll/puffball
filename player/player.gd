@@ -40,7 +40,7 @@ var gravity : int = -5*ProjectSettings.get("physics/3d/default_gravity")
 @onready var camera := $Camera as Camera3D
 @onready var hitbox := $Sprite2D/Hitbox as Area3D
 @onready var melee_attack := $Sprite2D/melee_attack as Node3D
-
+@onready var jump_cloud := $jump_cloud as CPUParticles3D
 
 # melee attack animation state machine
 enum Melee_States {INACTIVE, WINDUP, ACTIVE, RECOVERY}
@@ -157,6 +157,7 @@ func try_jump() -> void:
 		first_jump_sound.play()
 		velocity.y = JUMP_VELOCITY
 		_wall_jumping = false
+		jump_cloud.emitting = true
 	elif is_on_wall() and can_wall_jump:
 		velocity.x = sign(sprite.scale.x)*WALL_JUMP_HORIZONTAL_VELOCITY
 		velocity.y = 100 # why isnt this working?
