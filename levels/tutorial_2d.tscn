@@ -1,0 +1,170 @@
+[gd_scene load_steps=10 format=3 uid="uid://b26jvohq0braq"]
+
+[ext_resource type="Script" path="res://levels/level.gd" id="1_6ucrl"]
+[ext_resource type="PackedScene" uid="uid://vh7pmputa7r3" path="res://player/player_old_2d.tscn" id="2_w1n1k"]
+[ext_resource type="PackedScene" uid="uid://ygv5urf87cdn" path="res://player/player.tscn" id="3_lepnc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_opak6"]
+size = Vector3(2.54346, 1, 1)
+
+[sub_resource type="GDScript" id="GDScript_yvmof"]
+script/source = "extends Node2D
+
+# this variable holds the destination of the level exit. 
+# the destination is a string which is the name of the level scene file
+@export var destination : String = \"tutorial\"
+
+signal take_exit(destination)
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+func _on_area_2d_area_entered(area):
+	print(\"ENTERED\")
+	if area.get_parent().is_in_group(\"player\"):
+		print(\"ISPLAYER ENTERED\")
+		get_tree().current_scene.change_level(destination)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j2yor"]
+size = Vector2(160.25, 115)
+
+[sub_resource type="GDScript" id="GDScript_jpdfs"]
+script/source = "extends Node2D
+
+# this variable holds the destination of the level exit. 
+# the destination is a string which is the name of the level scene file
+@export var destination : String = \"tutorial\"
+
+signal take_exit(destination)
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+func _on_area_2d_area_entered(area):
+	print(\"ENTERED\")
+	if area.get_parent().is_in_group(\"player\"):
+		print(\"ISPLAYER ENTERED\")
+		get_tree().current_scene.change_level(destination)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ffo"]
+size = Vector2(94.125, 76.5)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_26kbn"]
+radius = 38.0
+height = 88.0
+
+[node name="Tutorial" type="Node3D" groups=["levels"]]
+script = ExtResource("1_6ucrl")
+
+[node name="Player" parent="." instance=ExtResource("2_w1n1k")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0, -371, 612, 0)
+visible = false
+
+[node name="collision_geo" type="Node3D" parent="."]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="collision_geo"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="collision_geo/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.771729, 0, 0)
+shape = SubResource("BoxShape3D_opak6")
+
+[node name="level_exit_1" type="Node2D" parent="." groups=["level_exits"]]
+script = SubResource("GDScript_yvmof")
+destination = "level"
+
+[node name="Area2D" type="Area2D" parent="level_exit_1"]
+collision_layer = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="level_exit_1/Area2D"]
+position = Vector2(58, 146)
+shape = SubResource("RectangleShape2D_j2yor")
+debug_color = Color(0, 1, 0, 0.419608)
+
+[node name="level_exit_2" type="Node2D" parent="." groups=["level_exits"]]
+script = SubResource("GDScript_jpdfs")
+destination = "secret_vibes_level"
+
+[node name="Area2D" type="Area2D" parent="level_exit_2"]
+collision_layer = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="level_exit_2/Area2D"]
+position = Vector2(-430.062, 307.75)
+shape = SubResource("RectangleShape2D_f1ffo")
+debug_color = Color(0, 1, 0, 0.419608)
+
+[node name="spikes" type="Node2D" parent="." groups=["traps"]]
+
+[node name="Area2D" type="Area2D" parent="spikes"]
+collision_layer = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spikes/Area2D"]
+position = Vector2(478, 600)
+shape = SubResource("CapsuleShape2D_26kbn")
+debug_color = Color(1, 0, 0, 0.419608)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 156.0
+offset_top = 307.0
+offset_right = 296.0
+offset_bottom = 356.0
+text = "Wall Jump to get 
+tall over obstacles"
+
+[node name="Label6" type="Label" parent="."]
+offset_left = -79.0
+offset_top = 491.0
+offset_right = 89.0
+offset_bottom = 540.0
+text = "Touching the wall 
+recharges your jumps"
+
+[node name="Label4" type="Label" parent="."]
+offset_left = -367.0
+offset_top = 474.0
+offset_right = -180.0
+offset_bottom = 549.0
+text = "Press the Up Arrow 
+key to jump. Press twice 
+to double jump."
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 429.0
+offset_top = 486.0
+offset_right = 546.0
+offset_bottom = 535.0
+text = "Dont touch the 
+red object!"
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 710.0
+offset_top = 116.0
+offset_right = 939.0
+offset_bottom = 165.0
+text = "Jump and dash to get across large gaps!
+(Press Shift to dash)"
+
+[node name="Label5" type="Label" parent="."]
+offset_left = -116.0
+offset_top = 30.0
+offset_right = 222.0
+offset_bottom = 79.0
+text = "The green portal takes you to another level!"
+
+[node name="player" parent="." instance=ExtResource("3_lepnc")]
+
+[connection signal="area_entered" from="level_exit_1/Area2D" to="level_exit_1" method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="level_exit_2/Area2D" to="level_exit_2" method="_on_area_2d_area_entered"]

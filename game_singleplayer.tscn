@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bf3wnwihk7ymg"]
+[gd_scene load_steps=6 format=3 uid="uid://bf3wnwihk7ymg"]
 
 [ext_resource type="Script" path="res://game.gd" id="2"]
-[ext_resource type="PackedScene" uid="uid://b26jvohq0braq" path="res://levels/tutorial.tscn" id="3_1r3d3"]
+[ext_resource type="Script" path="res://levels/level.gd" id="3_maf8k"]
+[ext_resource type="PackedScene" uid="uid://chej87u0vpcvi" path="res://levels/3_dtut.tscn" id="3_xwg6a"]
 [ext_resource type="PackedScene" uid="uid://c7ai4bigaryci" path="res://gui/pause_menu_singleplayer.tscn" id="4_x6l06"]
 [ext_resource type="PackedScene" uid="uid://d0fnls35iqg4u" path="res://gui/dev_menu.tscn" id="6_mhu1o"]
 
@@ -9,8 +10,8 @@
 process_mode = 3
 script = ExtResource("2")
 
-[node name="Tutorial" parent="." instance=ExtResource("3_1r3d3")]
-position = Vector2(899.585, 331.247)
+[node name="3dtut" parent="." groups=["levels"] instance=ExtResource("3_xwg6a")]
+script = ExtResource("3_maf8k")
 
 [node name="InterfaceLayer" type="CanvasLayer" parent="."]
 layer = 100

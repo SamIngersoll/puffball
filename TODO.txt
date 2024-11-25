@@ -1,12 +1,24 @@
 -- To implement --
-- Enemy attacks
+- Enemy attacks - priority!
+- Player attacks
+	- maybe a sliding attack makes sense?
 - Add behavior for when player is damaged but not killed
 	- pushback or something
 - Implement the global balance table, maybe as an autoload
 	this will contain things like health and damage totals for enemies
 	jump height, etc
 	https://stackoverflow.com/questions/65402275/using-variables-from-other-scenes-godot
+- implement coyote time and input buffering (things to make game less frustrating)
+	add controls for amount of coyote time to the global balance table.
+	(especially because of the circular character collider, coyote time is extra important)
+- more platforming levels to test the platforming controls
+- fix self shadowing issue according to this post https://www.imaginaryrobots.net/posts/2022-02-03-understanding-light2d-masks-godot/
+	- or just move the whole project to 3d and use the 3d lighting and shadow (which might be easier)
 
+-- Animations --
+- Enemy attack animation
+- Wall slide animation
+- Idle animation
 
 -- Bugs --
 - If you use the left of right arrow keys to leave a wall slide (for instance 

@@ -30,8 +30,8 @@ Music="*res://music.tscn"
 EngineTweakable="*res://engine_tweakable.gd"
 MetaProg="*res://meta_prog.gd"
 BalanceTable="*res://balance_table.gd"
-Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 game_script="*res://game.gd"
+Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 
 [dialogic]
 

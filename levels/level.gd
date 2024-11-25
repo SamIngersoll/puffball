@@ -1,4 +1,4 @@
-extends Node2D
+extends Node3D
 
 
 #const LIMIT_LEFT = -315
