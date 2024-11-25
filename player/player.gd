@@ -6,11 +6,11 @@ const WALK_SPEED = 10.0
 const DASH_SPEED = 40.0
 const ACCELERATION_SPEED = WALK_SPEED * 6.0
 const JUMP_VELOCITY = 20.0
-const WALL_JUMP_VERTICAL_VELOCITY = 50.0
+const WALL_JUMP_VERTICAL_VELOCITY = 30.0
 const WALL_JUMP_HORIZONTAL_VELOCITY = 20.0
 ## Maximum speed at which the player can fall.
-const TERMINAL_VELOCITY = 10
-const WALL_TERMINAL_VELOCITY = -1
+const TERMINAL_VELOCITY = 20
+const WALL_TERMINAL_VELOCITY = 5
 
 ## The player listens for input actions appended with this suffix.[br]
 ## Used to separate controls for multiple players in splitscreen.
@@ -25,7 +25,7 @@ const WALL_TERMINAL_VELOCITY = -1
 
 #var sprite_scale =
 var friction : float = 0.5
-var gravity : int = -2*ProjectSettings.get("physics/3d/default_gravity")
+var gravity : int = -5*ProjectSettings.get("physics/3d/default_gravity")
 
 #child nodes
 @onready var platform_detector := $PlatformDetector as RayCast3D
@@ -85,11 +85,11 @@ func _physics_process(delta: float) -> void:
 		try_dash()
 	
 	# Fall.
-	if is_on_wall():
+	if is_on_wall_only():
 		if _wall_jumping:
-			velocity.y = velocity.y + gravity * delta
+			velocity.y = minf(TERMINAL_VELOCITY, velocity.y + gravity * delta)
 		else:
-			velocity.y = maxf(WALL_TERMINAL_VELOCITY, velocity.y + gravity * delta)
+			velocity.y = -WALL_TERMINAL_VELOCITY
 	else:
 		if (_is_dashing):
 			velocity.y = 0
