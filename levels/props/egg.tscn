@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://dajkv6cgraxid"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7wrfj"]
+radius = 0.9
+height = 3.10235
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jcswt"]
+diffuse_mode = 3
+specular_mode = 1
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7xjby"]
+material = SubResource("StandardMaterial3D_jcswt")
+radius = 1.727
+height = 3.76
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_22ky7"]
+size = Vector3(3.14285, 3.19965, 6.55609)
+
+[node name="Egg" type="RigidBody3D" groups=["egg"]]
+collision_layer = 2
+collision_mask = 2
+mass = 10.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(2.08167e-16, 0.8, 2.08167e-16)
+linear_damp = 0.4
+angular_damp = 0.4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.469, 2.08165e-12)
+shape = SubResource("CapsuleShape3D_7wrfj")
+
+[node name="egg" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.7, -2.92981e-16, 1.74393e-16, 2.44151e-16, 0.84, -1.74393e-16, -2.44151e-16, 2.92981e-16, 0.5, 2.08165e-12, 1.50371, 2.08165e-12)
+mesh = SubResource("CapsuleMesh_7xjby")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0510836, 1.62751, -1.22916)
+shape = SubResource("BoxShape3D_22ky7")

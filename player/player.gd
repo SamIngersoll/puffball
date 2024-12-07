@@ -22,10 +22,13 @@ const WALL_TERMINAL_VELOCITY = 5
 @export var can_double_jump : bool = true
 @export var can_wall_jump : bool = true
 @export var can_dash : bool = true
+@export var has_egg : bool = false
 
 #var sprite_scale =
 var friction : float = 0.5
 var gravity : int = -5*ProjectSettings.get("physics/3d/default_gravity")
+var near_egg = false
+var world_egg
 
 #child nodes
 @onready var platform_detector := $PlatformDetector as RayCast3D
@@ -41,6 +44,8 @@ var gravity : int = -5*ProjectSettings.get("physics/3d/default_gravity")
 @onready var hitbox := $Sprite2D/Hitbox as Area3D
 @onready var melee_attack := $Sprite2D/melee_attack as Node3D
 @onready var jump_cloud := $jump_cloud as CPUParticles3D
+@onready var step_particles := $step_particles as CPUParticles3D
+@onready var player_egg := $player_egg as MeshInstance3D
 
 # melee attack animation state machine
 enum Melee_States {INACTIVE, WINDUP, ACTIVE, RECOVERY}
@@ -107,8 +112,12 @@ func _physics_process(delta: float) -> void:
 	if not is_zero_approx(velocity.x):
 		if velocity.x > 0.0:
 			sprite.scale.x = -1*abs(sprite.scale.x)
+			player_egg.position.x = -1*abs(player_egg.position.x)
+			player_egg.rotation.z = 9.7
 		else:
 			sprite.scale.x = abs(sprite.scale.x)
+			player_egg.position.x = abs(player_egg.position.x)
+			player_egg.rotation.z = -9.7
 
 	#floor_stop_on_slope = not platform_detector.is_colliding()
 	move_and_slide()
@@ -129,11 +138,14 @@ func _physics_process(delta: float) -> void:
 
 func get_new_animation(is_shooting := false) -> String:
 	var animation_new: String
+	step_particles.emitting = false
 	if is_on_floor():
 		if absf(velocity.x) > 0:
 			animation_new = "run"
+			step_particles.emitting = true
 		else:
 			animation_new = "idle"
+			
 	elif _is_dashing:
 		animation_new = "dash"
 	else:
@@ -151,6 +163,7 @@ func try_dash() -> void:
 		dash_sound.play()
 		_dash_charged = false
 		dash_timer.start()
+		jump_cloud.emitting = true
 
 func try_jump() -> void:
 	if is_on_floor():
@@ -163,6 +176,7 @@ func try_jump() -> void:
 		velocity.y = 100 # why isnt this working?
 		_wall_jumping = true
 		first_jump_sound.play()
+		jump_cloud.emitting = true
 	elif _double_jump_charged and can_double_jump:
 		velocity.y = JUMP_VELOCITY
 		_double_jump_charged = false
@@ -170,26 +184,10 @@ func try_jump() -> void:
 		if (_is_dashing):
 			_is_dashing = false
 		_wall_jumping = false
+		jump_cloud.emitting = true
 		#velocity.x *= 2.5
 	else:
 		return
-	
-	
-
-
-func _on_interact_bounds_area_entered(area):
-	if area.get_parent().is_in_group("npcs"):
-		var NPC = area.get_parent().name
-		Global.currently_interactable_NPC = NPC
-	elif area.get_parent().is_in_group("traps"):
-		damage(100)
-
-
-func _on_interact_bounds_area_exited(area):
-	var NPC = area.get_parent().name
-	if NPC == Global.currently_interactable_NPC:
-		Global.currently_interactable_NPC = ""
-
 
 func _on_melee_attack_hit(body):
 	if body is Enemy:
@@ -222,7 +220,55 @@ func kill():
 	#get_tree().reload_current_scene()
 	game_script.reset_level()
 
+func take_egg():
+	player_egg.visible = true
+	world_egg.visible = false
+	world_egg.freeze = true
+	has_egg = true
+	
 
+func drop_egg():
+	# I think we have to set position this way because egg is a rigidbody
+	world_egg.position.x = position.x
+	world_egg.position.y = position.y
+	world_egg.linear_velocity.x = velocity.x
+	world_egg.linear_velocity.y = velocity.y
+	world_egg.rotation.z = 0
+	world_egg.visible = true
+	world_egg.freeze = false
+	player_egg.visible = false
+	has_egg = false
 
 func _on_dash_timer_timeout():
 	_is_dashing = false
+	
+func _input(event: InputEvent):
+	if event is InputEventKey and event.keycode == KEY_ENTER and event.pressed:
+		print("ENTER PRESSED")
+		if near_egg and not has_egg:
+			print("TAKING EGG")
+			take_egg()
+		elif has_egg:
+			print("Dropping egg")
+			drop_egg()
+
+
+func _on_interaction_bounds_area_entered(area):
+	if area.get_parent().is_in_group("npcs"):
+		var NPC = area.get_parent().name
+		Global.currently_interactable_NPC = NPC
+	elif area.get_parent().is_in_group("traps"):
+		damage(100)
+	elif area.get_parent().is_in_group("egg"):
+		print("NEAR EGG")
+		near_egg = true
+		world_egg = area.get_parent()
+
+
+func _on_interaction_bounds_area_exited(area):
+	if area.get_parent().is_in_group("npcs"):
+		var NPC = area.get_parent().name
+		if NPC == Global.currently_interactable_NPC:
+			Global.currently_interactable_NPC = ""
+	elif area.get_parent().is_in_group("egg"):
+		near_egg = false
