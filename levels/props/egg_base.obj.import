@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://um1jyfgiyn54"
+path="res://.godot/imported/egg_base.obj-ba9bd0bf9e85cc4657bd5fc086505d68.mesh"
+
+[deps]
+
+files=["res://.godot/imported/egg_base.obj-ba9bd0bf9e85cc4657bd5fc086505d68.mesh"]
+
+source_file="res://levels/props/egg_base.obj"
+dest_files=["res://.godot/imported/egg_base.obj-ba9bd0bf9e85cc4657bd5fc086505d68.mesh", "res://.godot/imported/egg_base.obj-ba9bd0bf9e85cc4657bd5fc086505d68.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

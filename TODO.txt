@@ -27,3 +27,12 @@
 - Sometimes when you kill enemies they dont get destroyed, not sure why that is
 - when you do some combination of jumping and dashing it continues to play the 
 	dash sound effect even during jumps until you hit the ground, then normal.
+	
+	
+-- Gameplay --
+ perhaps dropping or sliding the egg into enemies to kill them
+		maybe theres a "spike the egg" move where you can send it down very fast on top of an enemy
+		maybe you can also kick it towards an enemy, if it hits them it bounces back towards you
+Spiking the egg also causing the player to jump could also generate puzzle platforming elements
+	like you can get to a platform only if you drop the egg but then you have to find your way back to get it.
+Maybe when you have the egg you cannot wall jump anymore. Instead you have a slow wall climb with limited stamina.

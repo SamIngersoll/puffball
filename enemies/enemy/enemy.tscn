@@ -284,7 +284,7 @@ hit_from_inside = true
 [node name="FloorDetectorLeft" type="RayCast3D" parent="raycast_floor_detector"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.61056, -4, 0)
 target_position = Vector3(0, 35, 0)
-collision_mask = 25
+collision_mask = 17
 
 [node name="FloorDetectorRight" type="RayCast3D" parent="raycast_floor_detector"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86649, -3, 0)

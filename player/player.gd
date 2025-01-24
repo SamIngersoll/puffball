@@ -135,6 +135,9 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("melee" + action_suffix):
 		if not _meleeing:
 			melee_attack.melee()
+	if Input.is_action_just_pressed("spike_egg" + action_suffix):
+		if (has_egg):
+			spike_egg()
 
 func get_new_animation(is_shooting := false) -> String:
 	var animation_new: String
@@ -177,7 +180,7 @@ func try_jump() -> void:
 		_wall_jumping = true
 		first_jump_sound.play()
 		jump_cloud.emitting = true
-	elif _double_jump_charged and can_double_jump:
+	elif _double_jump_charged and can_double_jump and not has_egg:
 		velocity.y = JUMP_VELOCITY
 		_double_jump_charged = false
 		second_jump_sound.play()
@@ -228,7 +231,7 @@ func take_egg():
 	
 
 func drop_egg():
-	# I think we have to set position this way because egg is a rigidbody
+	# player drops egg
 	world_egg.position.x = position.x
 	world_egg.position.y = position.y
 	world_egg.linear_velocity.x = velocity.x
@@ -238,6 +241,20 @@ func drop_egg():
 	world_egg.freeze = false
 	player_egg.visible = false
 	has_egg = false
+	
+func spike_egg():
+	# spikes the egg vertically downwards as an attack
+	world_egg.position.x = position.x
+	world_egg.position.y = position.y
+	world_egg.linear_velocity.x = 0
+	world_egg.linear_velocity.y = -30
+	world_egg.rotation.z = 0
+	world_egg.visible = true
+	world_egg.freeze = false
+	player_egg.visible = false
+	has_egg = false
+	first_jump_sound.play()
+	velocity.y = JUMP_VELOCITY
 
 func _on_dash_timer_timeout():
 	_is_dashing = false

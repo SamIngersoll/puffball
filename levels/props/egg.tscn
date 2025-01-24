@@ -1,20 +1,45 @@
-[gd_scene load_steps=5 format=3 uid="uid://dajkv6cgraxid"]
+[gd_scene load_steps=9 format=3 uid="uid://dajkv6cgraxid"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7wrfj"]
 radius = 0.9
 height = 3.10235
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jcswt"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w3ued"]
 diffuse_mode = 3
 specular_mode = 1
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_7xjby"]
-material = SubResource("StandardMaterial3D_jcswt")
+material = SubResource("StandardMaterial3D_w3ued")
 radius = 1.727
 height = 3.76
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_22ky7"]
 size = Vector3(3.14285, 3.19965, 6.55609)
+
+[sub_resource type="Gradient" id="Gradient_480sn"]
+offsets = PackedFloat32Array(0, 0.587002)
+colors = PackedColorArray(1, 1, 0.411765, 1, 1, 1, 0.592157, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tgqva"]
+gradient = SubResource("Gradient_480sn")
+fill = 1
+fill_from = Vector2(0.538462, 0.41453)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pniaa"]
+transparency = 4
+albedo_texture = SubResource("GradientTexture2D_tgqva")
+emission_enabled = true
+emission = Color(1, 0.960784, 0.462745, 1)
+emission_energy_multiplier = 100.0
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_sr05u"]
+material = SubResource("StandardMaterial3D_pniaa")
+size = Vector2(0.1, 0.1)
+orientation = 2
 
 [node name="Egg" type="RigidBody3D" groups=["egg"]]
 collision_layer = 2
@@ -40,3 +65,24 @@ collision_mask = 3
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0510836, 1.62751, -1.22916)
 shape = SubResource("BoxShape3D_22ky7")
+
+[node name="fireflies" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0758977, 2.00701, 0)
+amount = 20
+lifetime = 6.0
+preprocess = 1.0
+lifetime_randomness = 1.0
+mesh = SubResource("PlaneMesh_sr05u")
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 2.0
+emission_ring_radius = 2.0
+emission_ring_inner_radius = 0.3
+spread = 180.0
+gravity = Vector3(2.08165e-12, 0.7, 2.08165e-12)
+initial_velocity_max = 0.4
+linear_accel_max = 0.5
+radial_accel_max = 0.5
+tangential_accel_max = 0.5
+scale_amount_min = 0.0
+scale_amount_max = 0.2

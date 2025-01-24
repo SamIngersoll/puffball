@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://c8jsui7sbrmyo"
+path="res://.godot/imported/gold_test_object.obj-112ccaf57e7b8abc8cbe78dfdf194169.mesh"
+
+[deps]
+
+files=["res://.godot/imported/gold_test_object.obj-112ccaf57e7b8abc8cbe78dfdf194169.mesh"]
+
+source_file="res://levels/props/gold_test_object.obj"
+dest_files=["res://.godot/imported/gold_test_object.obj-112ccaf57e7b8abc8cbe78dfdf194169.mesh", "res://.godot/imported/gold_test_object.obj-112ccaf57e7b8abc8cbe78dfdf194169.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

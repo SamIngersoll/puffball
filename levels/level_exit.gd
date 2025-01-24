@@ -1,4 +1,4 @@
-extends Node2D
+extends Node3D
 
 ## this variable holds the destination of the level exit. The destination is a string which is the name of the level scene file
 @export var destination : String = "tutorial"
@@ -14,8 +14,9 @@ func _ready():
 func _process(delta):
 	pass
 
-func _on_area_2d_area_entered(area):
+func _on_area_3d_area_entered(area):
 	print("ENTERED")
+	print(area.get_parent())
 	if area.get_parent().is_in_group("player"):
 		print("ISPLAYER ENTERED")
 		get_tree().current_scene.change_level(destination)

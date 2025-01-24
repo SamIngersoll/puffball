@@ -1,0 +1,26 @@
+-- To make --
+- Start - cave
+Cliffs (platforming heavy)
+Forest (combat heavy)
+
+- Gate 1 - boss?
+or
+- Waterfall - platforming "boss"
+
+Fields  -> Town
+Battlefield (combat heavy) -> ruins 
+
+- Gate 2 - boss?
+or
+- Clouds - platforming "boss"
+
+Castle wall (platforming heavy) -> Battlements
+Castle square (combat heavy) -> Keep quarters
+
+- Egg room - boss?
+
+
+--- Boons
+Maybe some of the good egg movement boons can be had early in the game 
+which makes the second half of the game earlier at the expense of extra 
+difficulty during the first half. That seems like a good balance decision.
