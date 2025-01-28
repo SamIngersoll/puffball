@@ -1,0 +1,148 @@
+[gd_scene load_steps=15 format=3 uid="uid://ct6cirbq6m152"]
+
+[ext_resource type="PackedScene" uid="uid://ygv5urf87cdn" path="res://player/player.tscn" id="1_en8ls"]
+[ext_resource type="PackedScene" uid="uid://bb7ykdfpjs5jf" path="res://levels/platforms/long_vert_mush_platform_dynamic.tscn" id="3_2qdo1"]
+[ext_resource type="Material" uid="uid://ct6i6375wg8xb" path="res://levels/background/background_materials/basic_shadow_caster.tres" id="3_6yuap"]
+
+[sub_resource type="Environment" id="Environment_fh036"]
+background_energy_multiplier = 0.0
+ambient_light_source = 1
+tonemap_mode = 2
+glow_enabled = true
+glow_bloom = 0.7
+volumetric_fog_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_4oafp"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.417191)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0yrwj"]
+gradient = SubResource("Gradient_4oafp")
+fill = 1
+fill_from = Vector2(0.512821, 0.457265)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hkoxh"]
+transparency = 1
+depth_draw_mode = 2
+shading_mode = 2
+albedo_texture = SubResource("GradientTexture2D_0yrwj")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vdqwb"]
+material = SubResource("StandardMaterial3D_hkoxh")
+size = Vector2(0.2, 0.2)
+orientation = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_p6pol"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qqn4s"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vhbl1"]
+size = Vector3(50, 1, 10.2627)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_uh0li"]
+material = ExtResource("3_6yuap")
+size = Vector2(10, 20)
+orientation = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8qojk"]
+material = ExtResource("3_6yuap")
+size = Vector2(10, 20)
+orientation = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dbshn"]
+material = ExtResource("3_6yuap")
+size = Vector2(10, 20)
+orientation = 2
+
+[node name="cave" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fh036")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24.1283, 2.73284)
+amount = 3000
+lifetime = 90.0
+preprocess = 90.0
+mesh = SubResource("PlaneMesh_vdqwb")
+emission_shape = 3
+emission_box_extents = Vector3(30, 50, 20)
+gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+initial_velocity_min = 0.2
+initial_velocity_max = 1.2
+angle_min = -360.0
+angle_max = 360.0
+scale_amount_min = 0.2
+
+[node name="bounds" type="MeshInstance3D" parent="CPUParticles3D"]
+transform = Transform3D(30, 0, 0, 0, 50, 0, 0, 0, 20, 0, 0, 0)
+visible = false
+mesh = SubResource("BoxMesh_p6pol")
+
+[node name="player" parent="." instance=ExtResource("1_en8ls")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.29206, 0.0262241, 2.08165e-12)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.989155, 0.131778, -0.0648681, 0.0252702, 0.587746, 0.808651, 0.144688, 0.798241, -0.584702, 3.89622, 3.35136, 5.24375)
+light_color = Color(1, 0.71774, 0.646717, 1)
+light_energy = 0.1
+shadow_enabled = true
+
+[node name="platforms" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.204, 0.0663013, 2.08165e-12)
+
+[node name="long_mushroom_vertical" parent="platforms" instance=ExtResource("3_2qdo1")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -82.3739, -0.751965, 3.11438)
+stiffness = 30.0
+
+[node name="long_mushroom_vertical2" parent="platforms" instance=ExtResource("3_2qdo1")]
+transform = Transform3D(-0.029928, 0, 0.999552, 0, 1, 0, -0.999552, 0, -0.029928, -93.1396, -2.06698, -4.87265)
+stiffness = 40.0
+
+[node name="long_mushroom_vertical3" parent="platforms" instance=ExtResource("3_2qdo1")]
+transform = Transform3D(0.0384297, 0, -1.99963, 0, 2, 0, 1.99963, 0, 0.0384297, -109.146, -1.00818, 8.11883)
+stiffness = 40.0
+
+[node name="deep_floor2" type="StaticBody3D" parent="platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102.14, -0.426512, -0.0251083)
+collision_layer = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="platforms/deep_floor2"]
+transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 2.08165e-12, 2.08165e-12, 22)
+mesh = SubResource("BoxMesh_qqn4s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="platforms/deep_floor2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.58545)
+shape = SubResource("BoxShape3D_vhbl1")
+
+[node name="background" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.083046, -0.0739155, -0.000907898)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="background"]
+transform = Transform3D(3.40213, 0, 0, 0, 4.82839, 0, 0, 0, 1.11684, -32.3825, 31.2773, -11.8124)
+mesh = SubResource("PlaneMesh_uh0li")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="background"]
+transform = Transform3D(3.50486, 0, 0, 0, 4.83685, 0, 0, 0, 1.1188, 37.2744, 31.1138, -11.7878)
+mesh = SubResource("PlaneMesh_8qojk")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="background"]
+transform = Transform3D(3.31278, 0, 0, 0, 10.4166, 0, 0, 0, 1.11684, -28.607, 13.4187, -30.4116)
+mesh = SubResource("PlaneMesh_uh0li")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="background"]
+transform = Transform3D(3.31278, 0, 0, 0, 10.4166, 0, 0, 0, 1.11684, 29.0087, 13.4187, -30.4116)
+mesh = SubResource("PlaneMesh_8qojk")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="background"]
+transform = Transform3D(2.93053, -1.03774, 0, 1.54483, 1.96858, 0, 0, 0, 1.11684, 29.1727, 40.2695, -36.4571)
+mesh = SubResource("PlaneMesh_dbshn")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="background"]
+transform = Transform3D(3.25549, 0.412068, 0, -0.613424, 2.18688, 0, 0, 0, 1.11684, -25.9988, 23.7915, -36.4571)
+mesh = SubResource("PlaneMesh_dbshn")

@@ -1,0 +1,97 @@
+[gd_scene load_steps=11 format=3 uid="uid://c5issdqljb5as"]
+
+[ext_resource type="Script" path="res://levels/long_mush.gd" id="1_idy24"]
+[ext_resource type="Texture2D" uid="uid://ln2g54mjcr42" path="res://levels/platforms/platform_materials/long_mushroom_texture.jpg" id="2_8su4o"]
+[ext_resource type="ArrayMesh" uid="uid://hawkd2ofg12c" path="res://levels/props/long_mushroom_big_cap.obj" id="2_qxopb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_62xkf"]
+albedo_texture = ExtResource("2_8su4o")
+metallic_specular = 0.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_3ubro"]
+height = 0.281243
+radius = 1.55253
+
+[sub_resource type="Gradient" id="Gradient_1p5un"]
+offsets = PackedFloat32Array(0.0838574, 0.238994)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xauu8"]
+gradient = SubResource("Gradient_1p5un")
+fill = 1
+fill_from = Vector2(0.510684, 0.529915)
+fill_to = Vector2(0.899573, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vvik1"]
+transparency = 1
+albedo_texture = SubResource("GradientTexture2D_xauu8")
+emission_enabled = true
+emission = Color(1, 0.537255, 0.207843, 1)
+emission_operator = 1
+billboard_mode = 1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6qep2"]
+material = SubResource("StandardMaterial3D_vvik1")
+size = Vector2(0.4, 0.4)
+orientation = 2
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_rmsde"]
+height = 0.440647
+radius = 1.55253
+
+[node name="LongMushroomPlatform" type="Node3D"]
+
+[node name="long_mush_down_stalk_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, -1.41879)
+script = ExtResource("1_idy24")
+
+[node name="LongMushroomBigCap" type="MeshInstance3D" parent="long_mush_down_stalk_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000892639, 0.00540447, -0.0102129)
+material_override = SubResource("StandardMaterial3D_62xkf")
+mesh = ExtResource("2_qxopb")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="long_mush_down_stalk_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.36779, 3.08433, 1.24951)
+shape = SubResource("CylinderShape3D_3ubro")
+
+[node name="jump_cloud" type="CPUParticles3D" parent="long_mush_down_stalk_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.26987, 2.8582, 1.50671)
+emitting = false
+amount = 120
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.8
+randomness = 1.0
+lifetime_randomness = 1.0
+mesh = SubResource("PlaneMesh_6qep2")
+emission_shape = 6
+emission_ring_axis = Vector3(2.08165e-12, 1, 2.08165e-12)
+emission_ring_height = 0.5
+emission_ring_radius = 1.5
+emission_ring_inner_radius = 0.0
+direction = Vector3(2.08165e-12, -1, 2.08165e-12)
+spread = 90.0
+flatness = 0.5
+gravity = Vector3(2.08165e-12, -4, 2.08165e-12)
+initial_velocity_min = 3.0
+initial_velocity_max = 5.0
+angular_velocity_min = -1.0
+angular_velocity_max = 1.0
+radial_accel_max = 1.0
+angle_min = -360.0
+angle_max = 360.0
+scale_amount_min = 4.0
+scale_amount_max = 4.0
+color = Color(1, 0.639216, 0, 1)
+hue_variation_max = 1.0
+
+[node name="Area3D" type="Area3D" parent="long_mush_down_stalk_1"]
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="long_mush_down_stalk_1/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.36779, 3.07213, 1.24951)
+shape = SubResource("CylinderShape3D_rmsde")
+
+[connection signal="body_entered" from="long_mush_down_stalk_1/Area3D" to="long_mush_down_stalk_1" method="_on_area_3d_body_entered"]

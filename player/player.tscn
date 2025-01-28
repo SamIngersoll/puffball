@@ -327,6 +327,7 @@ script = ExtResource("3")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.921419, 0)
+cast_shadow = 2
 offset = Vector2(2.08165e-12, 2.08165e-12)
 shaded = true
 double_sided = false
@@ -452,7 +453,7 @@ scale_amount_max = 0.2
 collision_layer = 2
 collision_mask = 3
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="interaction_bounds"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="interaction_bounds" groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0365601, 1.21376, -0.157471)
 shape = SubResource("BoxShape3D_f3l4d")
 

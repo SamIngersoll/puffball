@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://chej87u0vpcvi"]
+[gd_scene load_steps=42 format=3 uid="uid://chej87u0vpcvi"]
 
 [ext_resource type="PackedScene" uid="uid://ygv5urf87cdn" path="res://player/player.tscn" id="1_4awvq"]
 [ext_resource type="Texture2D" uid="uid://dkmvkuta2bubt" path="res://718214_frame_512x512-2352815191.png" id="2_rkmyk"]
@@ -9,6 +9,10 @@
 [ext_resource type="Script" path="res://levels/level_exit.gd" id="6_yq2wy"]
 [ext_resource type="ArrayMesh" uid="uid://c8jsui7sbrmyo" path="res://levels/props/gold_test_object.obj" id="7_5rqal"]
 [ext_resource type="FontFile" uid="uid://cffxvhumpk05y" path="res://levels/props/FePIit2.ttf" id="8_6x40l"]
+[ext_resource type="ArrayMesh" uid="uid://b4oakoyr8e1i6" path="res://levels/props/florian_first_storey.obj" id="10_y803p"]
+[ext_resource type="ArrayMesh" uid="uid://dv25m40d4pbof" path="res://levels/props/florian_second_storey.obj" id="11_2w1x5"]
+[ext_resource type="ArrayMesh" uid="uid://b0i518j2ywj07" path="res://levels/props/florian_third_storey.obj" id="12_icgpc"]
+[ext_resource type="ArrayMesh" uid="uid://4f68yxfau3n1" path="res://levels/props/florian_full.obj" id="13_bghh5"]
 
 [sub_resource type="Environment" id="Environment_1tdob"]
 background_energy_multiplier = 0.0
@@ -21,24 +25,24 @@ glow_strength = 2.0
 glow_bloom = 0.1
 volumetric_fog_enabled = true
 
-[sub_resource type="Gradient" id="Gradient_4oafp"]
+[sub_resource type="Gradient" id="Gradient_cs06k"]
 interpolation_mode = 2
 offsets = PackedFloat32Array(0, 0.417191)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_qcono"]
-gradient = SubResource("Gradient_4oafp")
+gradient = SubResource("Gradient_cs06k")
 fill = 1
 fill_from = Vector2(0.512821, 0.457265)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hkoxh"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2uul"]
 transparency = 1
 depth_draw_mode = 2
 shading_mode = 2
 albedo_texture = SubResource("GradientTexture2D_qcono")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ye1tt"]
-material = SubResource("StandardMaterial3D_hkoxh")
+material = SubResource("StandardMaterial3D_u2uul")
 size = Vector2(0.2, 0.2)
 orientation = 2
 
@@ -100,8 +104,20 @@ size = Vector3(1, 1, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_qgmo5"]
 size = Vector3(4, 4, 4)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6fo1m"]
+transparency = 1
+albedo_color = Color(0, 1, 0, 0.447059)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jqeh5"]
+material = SubResource("StandardMaterial3D_6fo1m")
+size = Vector3(4, 4, 4)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_cy8cb"]
 size = Vector3(6.70082, 4.12305, 4.15283)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6bf3x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o2j2e"]
 
 [node name="3dtut" type="Node3D"]
 
@@ -280,12 +296,12 @@ mesh = SubResource("PlaneMesh_r4k1k")
 skeleton = NodePath("../..")
 
 [node name="MeshInstance3D23" type="MeshInstance3D" parent="background"]
-transform = Transform3D(200, -1.66606e-29, 7.28257e-37, 0, -1.09278e-06, -25, 1.33285e-28, 25, -1.09278e-06, -218.373, 69.2931, -20.0125)
+transform = Transform3D(200, -1.66606e-29, 7.28257e-37, 0, -1.09278e-06, -25, 1.33285e-28, 25, -1.09278e-06, -218.373, 69.2931, -19.4089)
 mesh = SubResource("PlaneMesh_r4k1k")
 skeleton = NodePath("../..")
 
 [node name="MeshInstance3D27" type="MeshInstance3D" parent="background"]
-transform = Transform3D(18.7879, 7.20924e-07, 16.4928, 16.4928, -8.21247e-07, -18.7879, -2.9137e-14, 25, -1.09278e-06, -26.2804, 105.33, -20.0125)
+transform = Transform3D(18.7879, 7.20924e-07, 16.4928, 16.4928, -8.21247e-07, -18.7879, -2.9137e-14, 25, -1.09278e-06, -26.2804, 105.07, -20.0125)
 mesh = SubResource("PlaneMesh_r4k1k")
 skeleton = NodePath("../..")
 
@@ -359,11 +375,13 @@ shape = SubResource("BoxShape3D_okv67")
 
 [node name="MeshInstance3D17" type="MeshInstance3D" parent="platforms"]
 transform = Transform3D(1, 0, 0, 0, 40, 0, 0, 0, 1, 2.25103, 7.63203, 4.10101)
+visible = false
 mesh = SubResource("BoxMesh_fv2h7")
 skeleton = NodePath("../vertical_wall")
 
 [node name="MeshInstance3D18" type="MeshInstance3D" parent="platforms"]
 transform = Transform3D(1, 0, 0, 0, 40, 0, 0, 0, 1, -12.7159, 7.63203, 4.10101)
+visible = false
 mesh = SubResource("BoxMesh_nexwy")
 skeleton = NodePath("../vertical_wall")
 
@@ -432,9 +450,8 @@ shape = SubResource("BoxShape3D_r0k1m")
 
 [node name="level_exit" type="Node3D" parent="." groups=["level_exits"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -112.157, 3.71277, 0)
-visible = false
 script = ExtResource("6_yq2wy")
-destination = "forest_intro"
+destination = "cave"
 
 [node name="Area2D" type="Area3D" parent="level_exit"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
@@ -444,6 +461,10 @@ collision_mask = 3
 [node name="CollisionShape2D" type="CollisionShape3D" parent="level_exit/Area2D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.01955, 2.08165e-12)
 shape = SubResource("BoxShape3D_qgmo5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="level_exit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.00773, 0)
+mesh = SubResource("BoxMesh_jqeh5")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.637679, 0.770302, 0, -0.770302, -0.637679, 0, 90.0839, -49.7368)
@@ -503,10 +524,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2317, 0)
 visible = false
 pixel_size = 0.02
 modulate = Color(1, 1, 0.819608, 1)
-outline_modulate = Color(1, 0.996078, 0.619608, 1)
+outline_modulate = Color(0.990253, 0.966016, 2.61948e-07, 1)
 text = "Hello"
 font = ExtResource("8_6x40l")
-outline_size = 2
+outline_size = 3
 
 [node name="egg_prompt" type="Node3D" parent="tooltips" node_paths=PackedStringArray("label", "area")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.6084, 48.7277, -1.46659)
@@ -528,14 +549,64 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2317, 0)
 visible = false
 pixel_size = 0.02
 modulate = Color(1, 1, 0.819608, 1)
-outline_modulate = Color(0.999998, 0.995141, 0.617775, 1)
+outline_modulate = Color(0.992157, 0.964706, 0, 1)
 text = "Hello"
 font = ExtResource("8_6x40l")
-outline_size = 2
+outline_size = 3
 
 [node name="GoldTestObject" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.908298, 0, 0.784216, 0, 1, 0, -0.784216, 0, 0.908298, -6.00104, 47.2627, -2.3923)
 material_override = ExtResource("5_t54mg")
 mesh = ExtResource("7_5rqal")
+
+[node name="FlorianFirstStorey" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 2, 0, 0, 0, 1.5, -12.7157, -0.835276, 4.45689)
+mesh = ExtResource("10_y803p")
+
+[node name="FlorianSecondStorey" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -12.7023, 1.63977, 4.57732)
+mesh = ExtResource("11_2w1x5")
+
+[node name="FlorianThirdStorey" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -12.6469, 1.57216, 4.56993)
+material_override = SubResource("StandardMaterial3D_6bf3x")
+mesh = ExtResource("12_icgpc")
+
+[node name="FlorianFirstStorey2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 2, 0, 0, 0, 1.5, 2.03404, -0.835276, 4.45689)
+mesh = ExtResource("10_y803p")
+
+[node name="FlorianSecondStorey2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 2.04739, 1.63977, 4.57732)
+mesh = ExtResource("11_2w1x5")
+
+[node name="FlorianThirdStorey2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 2.10287, 1.57216, 4.56993)
+material_override = SubResource("StandardMaterial3D_o2j2e")
+mesh = ExtResource("12_icgpc")
+
+[node name="FlorianFull" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.8882, 46.9481, -2.98572)
+mesh = ExtResource("13_bghh5")
+
+[node name="FlorianFull2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.8882, 46.9481, -8.98602)
+mesh = ExtResource("13_bghh5")
+
+[node name="FlorianFull3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.8882, 46.9481, -15.3527)
+mesh = ExtResource("13_bghh5")
+
+[node name="FlorianFull4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.66538, 46.9481, -2.98572)
+mesh = ExtResource("13_bghh5")
+
+[node name="FlorianFull5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.66538, 46.9481, -8.98602)
+mesh = ExtResource("13_bghh5")
+
+[node name="FlorianFull6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.66538, 46.9481, -15.3527)
+mesh = ExtResource("13_bghh5")
 
 [connection signal="area_entered" from="level_exit/Area2D" to="level_exit" method="_on_area_3d_area_entered"]

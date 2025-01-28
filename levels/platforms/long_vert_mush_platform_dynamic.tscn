@@ -1,0 +1,120 @@
+[gd_scene load_steps=12 format=3 uid="uid://bb7ykdfpjs5jf"]
+
+[ext_resource type="PackedScene" uid="uid://emvadbaxxopx" path="res://blender/long_mushroom_vertical.blend" id="1_tv3bi"]
+[ext_resource type="Texture2D" uid="uid://ln2g54mjcr42" path="res://levels/platforms/platform_materials/long_mushroom_texture.jpg" id="2_b17i0"]
+[ext_resource type="Script" path="res://mushroom_ik.gd" id="2_u8k3x"]
+[ext_resource type="Script" path="res://levels/platforms/mushroom_ik_controller.gd" id="4_f7ry2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t543l"]
+albedo_texture = ExtResource("2_b17i0")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_n627d"]
+height = 0.471163
+radius = 1.78032
+
+[sub_resource type="Gradient" id="Gradient_obqot"]
+offsets = PackedFloat32Array(0.0838574, 0.238994)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jyyvj"]
+gradient = SubResource("Gradient_obqot")
+fill = 1
+fill_from = Vector2(0.510684, 0.529915)
+fill_to = Vector2(0.899573, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hdlxf"]
+transparency = 1
+albedo_texture = SubResource("GradientTexture2D_jyyvj")
+emission_enabled = true
+emission = Color(1, 0.537255, 0.207843, 1)
+emission_operator = 1
+billboard_mode = 1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ibj4d"]
+material = SubResource("StandardMaterial3D_hdlxf")
+size = Vector2(0.6, 0.6)
+orientation = 2
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wcnuo"]
+height = 0.786482
+radius = 1.8033
+
+[node name="long_mushroom_vertical" instance=ExtResource("1_tv3bi")]
+script = ExtResource("4_f7ry2")
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/rotation = Quaternion(-0.196951, -0.0528856, 0.20323, 0.957659)
+bones/1/rotation = Quaternion(0.110223, -0.00659656, 0.0564442, 0.992281)
+bones/2/scale = Vector3(1, 1, 1)
+bones/3/rotation = Quaternion(-0.0344366, 0.0319905, -0.0930527, 0.994551)
+bones/3/scale = Vector3(1, 1, 1)
+bones/4/rotation = Quaternion(0.103515, 0.0315816, -0.187882, 0.976211)
+bones/4/scale = Vector3(1, 1, 1)
+
+[node name="mushroom" parent="Armature/Skeleton3D" index="0"]
+material_override = SubResource("StandardMaterial3D_t543l")
+
+[node name="SkeletonIK3D" type="SkeletonIK3D" parent="Armature/Skeleton3D" index="1"]
+process_priority = 1
+root_bone = &"Bone"
+tip_bone = &"Bone.005"
+use_magnet = true
+magnet = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+target_node = NodePath("../../../Marker3D")
+min_distance = 0.005
+max_iterations = 20
+script = ExtResource("2_u8k3x")
+
+[node name="Marker3D" type="Marker3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.96297, 8.85843, -3.03189)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Marker3D" index="0"]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Marker3D/StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0137401, 0.118316, 0.00947213)
+shape = SubResource("CylinderShape3D_n627d")
+
+[node name="jump_cloud" type="CPUParticles3D" parent="Marker3D" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00206327, -0.15344, 0.058063)
+emitting = false
+amount = 150
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.8
+randomness = 1.0
+lifetime_randomness = 1.0
+mesh = SubResource("PlaneMesh_ibj4d")
+emission_shape = 6
+emission_ring_axis = Vector3(2.08165e-12, 1, 2.08165e-12)
+emission_ring_height = 0.5
+emission_ring_radius = 1.5
+emission_ring_inner_radius = 0.0
+direction = Vector3(2.08165e-12, -1, 2.08165e-12)
+spread = 30.0
+flatness = 0.5
+gravity = Vector3(2.08165e-12, -4, 2.08165e-12)
+initial_velocity_min = 3.0
+initial_velocity_max = 5.0
+angular_velocity_min = -1.0
+angular_velocity_max = 1.0
+radial_accel_max = 1.0
+angle_min = -360.0
+angle_max = 360.0
+scale_amount_min = 4.0
+scale_amount_max = 4.0
+color = Color(1, 0.639216, 0, 1)
+hue_variation_max = 1.0
+
+[node name="Area3D" type="Area3D" parent="Marker3D" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Marker3D/Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0011363, 0.069581, 0.0269661)
+shape = SubResource("CylinderShape3D_wcnuo")
+
+[connection signal="body_entered" from="Marker3D/Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Marker3D/Area3D" to="." method="_on_area_3d_body_exited"]

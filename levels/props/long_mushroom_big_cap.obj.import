@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://hawkd2ofg12c"
+path="res://.godot/imported/long_mushroom_big_cap.obj-d4da21814c9e917ae223c9b8d08beb06.mesh"
+
+[deps]
+
+files=["res://.godot/imported/long_mushroom_big_cap.obj-d4da21814c9e917ae223c9b8d08beb06.mesh"]
+
+source_file="res://levels/props/long_mushroom_big_cap.obj"
+dest_files=["res://.godot/imported/long_mushroom_big_cap.obj-d4da21814c9e917ae223c9b8d08beb06.mesh", "res://.godot/imported/long_mushroom_big_cap.obj-d4da21814c9e917ae223c9b8d08beb06.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
