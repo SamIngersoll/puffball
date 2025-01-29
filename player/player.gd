@@ -71,6 +71,7 @@ func _physics_process(delta: float) -> void:
 	# jumping logic
 	_wall_jumping = false
 	velocity.z = 0
+	position.z = 0
 	if is_on_floor():
 		_double_jump_charged = true
 		_dash_charged = true

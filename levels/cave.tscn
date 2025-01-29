@@ -1,8 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://ct6cirbq6m152"]
+[gd_scene load_steps=18 format=3 uid="uid://ct6cirbq6m152"]
 
 [ext_resource type="PackedScene" uid="uid://ygv5urf87cdn" path="res://player/player.tscn" id="1_en8ls"]
 [ext_resource type="PackedScene" uid="uid://bb7ykdfpjs5jf" path="res://levels/platforms/long_vert_mush_platform_dynamic.tscn" id="3_2qdo1"]
 [ext_resource type="Material" uid="uid://ct6i6375wg8xb" path="res://levels/background/background_materials/basic_shadow_caster.tres" id="3_6yuap"]
+[ext_resource type="PackedScene" uid="uid://d08t1js2j2y8s" path="res://levels/platforms/puffball_pear_shaped_dynamic.tscn" id="4_87fia"]
+[ext_resource type="PackedScene" uid="uid://orv61imeua2d" path="res://levels/platforms/puffball_pear_shaped_static.tscn" id="5_1ek8x"]
 
 [sub_resource type="Environment" id="Environment_fh036"]
 background_energy_multiplier = 0.0
@@ -11,6 +13,12 @@ tonemap_mode = 2
 glow_enabled = true
 glow_bloom = 0.7
 volumetric_fog_enabled = true
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_vc36m"]
+dof_blur_near_enabled = true
+dof_blur_near_distance = 11.0
+dof_blur_near_transition = 2.0
+dof_blur_amount = 0.5
 
 [sub_resource type="Gradient" id="Gradient_4oafp"]
 interpolation_mode = 2
@@ -63,6 +71,7 @@ orientation = 2
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_fh036")
+camera_attributes = SubResource("CameraAttributesPractical_vc36m")
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24.1283, 2.73284)
@@ -85,7 +94,7 @@ visible = false
 mesh = SubResource("BoxMesh_p6pol")
 
 [node name="player" parent="." instance=ExtResource("1_en8ls")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.29206, 0.0262241, 2.08165e-12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.21937, 0.0262241, 2.08165e-12)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.989155, 0.131778, -0.0648681, 0.0252702, 0.587746, 0.808651, 0.144688, 0.798241, -0.584702, 3.89622, 3.35136, 5.24375)
@@ -97,15 +106,19 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.204, 0.0663013, 2.08165e-12)
 
 [node name="long_mushroom_vertical" parent="platforms" instance=ExtResource("3_2qdo1")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -82.3739, -0.751965, 3.11438)
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -82.3739, 1.4789, 3.11438)
 stiffness = 30.0
 
 [node name="long_mushroom_vertical2" parent="platforms" instance=ExtResource("3_2qdo1")]
-transform = Transform3D(-0.029928, 0, 0.999552, 0, 1, 0, -0.999552, 0, -0.029928, -93.1396, -2.06698, -4.87265)
+transform = Transform3D(-0.029928, 0, 0.999552, 0, 1, 0, -0.999552, 0, -0.029928, -91.5663, 0.156585, -4.87265)
 stiffness = 40.0
 
 [node name="long_mushroom_vertical3" parent="platforms" instance=ExtResource("3_2qdo1")]
-transform = Transform3D(0.0384297, 0, -1.99963, 0, 2, 0, 1.99963, 0, 0.0384297, -109.146, -1.00818, 8.11883)
+transform = Transform3D(0.0384297, 0, -1.99963, 0, 2, 0, 1.99963, 0, 0.0384297, -110.153, 1.90456, 8.11883)
+stiffness = 40.0
+
+[node name="long_mushroom_vertical4" parent="platforms" instance=ExtResource("3_2qdo1")]
+transform = Transform3D(1.72242, 0, 1.01649, 0, 2, 0, -1.01649, 0, 1.72242, -76.5675, 14.7923, -2.38709)
 stiffness = 40.0
 
 [node name="deep_floor2" type="StaticBody3D" parent="platforms"]
@@ -132,7 +145,7 @@ transform = Transform3D(3.50486, 0, 0, 0, 4.83685, 0, 0, 0, 1.1188, 37.2744, 31.
 mesh = SubResource("PlaneMesh_8qojk")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="background"]
-transform = Transform3D(3.31278, 0, 0, 0, 10.4166, 0, 0, 0, 1.11684, -28.607, 13.4187, -30.4116)
+transform = Transform3D(3.31278, 0, 0, 0, 10.4166, 0, 0, 0, 1.11684, -30.2511, 13.4187, -30.4116)
 mesh = SubResource("PlaneMesh_uh0li")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="background"]
@@ -146,3 +159,55 @@ mesh = SubResource("PlaneMesh_dbshn")
 [node name="MeshInstance3D6" type="MeshInstance3D" parent="background"]
 transform = Transform3D(3.25549, 0.412068, 0, -0.613424, 2.18688, 0, 0, 0, 1.11684, -25.9988, 23.7915, -36.4571)
 mesh = SubResource("PlaneMesh_dbshn")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="background"]
+transform = Transform3D(1.20537, -0.232032, 3.3892e-05, 0.18341, 1.52492, -7.91075e-05, -2.35769e-05, 0.000115039, 1.117, 18.5507, 5.55608, -36.4571)
+mesh = SubResource("PlaneMesh_dbshn")
+
+[node name="puffball_pear_shaped" parent="." instance=ExtResource("4_87fia")]
+transform = Transform3D(-0.86392, 0, -1.22623, 0, 1.5, 0, 1.22623, 0, -0.86392, -4.3744, -0.143709, 0.904832)
+stiffness = 150.0
+
+[node name="puffball_pear_shaped2" parent="." instance=ExtResource("4_87fia")]
+transform = Transform3D(-0.352212, 0, 2.47506, 0, 2.5, 0, -2.47506, 0, -0.352212, -0.481258, -0.59996, 0.904832)
+stiffness = 300.0
+
+[node name="puffball_pear_shaped7" parent="." instance=ExtResource("4_87fia")]
+transform = Transform3D(2.14632, 0, 0.483026, 0, 2.2, 0, -0.483026, 0, 2.14632, 10.8169, -0.59996, 0.904832)
+stiffness = 300.0
+
+[node name="puffball_pear_shaped3" parent="." instance=ExtResource("5_1ek8x")]
+transform = Transform3D(-5.32942, 0, 4.53842, 0, 7, 0, -4.53842, 0, -5.32942, -18.0983, -0.609207, 7.15009)
+
+[node name="puffball_pear_shaped13" parent="." instance=ExtResource("5_1ek8x")]
+transform = Transform3D(-5.27704, 0.979051, 4.49381, 0.745396, 6.93119, -0.634763, -4.53842, 1.04676e-15, -5.32942, -14.1929, 21.5261, -1.27837)
+
+[node name="puffball_pear_shaped15" parent="." instance=ExtResource("5_1ek8x")]
+transform = Transform3D(-7.53862, 1.39864, 6.41973, 1.06485, 9.90171, -0.906805, -6.48346, 1.99257e-07, -7.61346, -25.5938, 9.80669, -5.56625)
+
+[node name="puffball_pear_shaped4" parent="." instance=ExtResource("5_1ek8x")]
+transform = Transform3D(2.33031, 0, 6.60073, 0, 7, 0, -6.60073, 0, 2.33031, 24.747, -3.58274, 8.28056)
+
+[node name="puffball_pear_shaped14" parent="." instance=ExtResource("5_1ek8x")]
+transform = Transform3D(2.33031, 0, 6.60073, 0, 7, 0, -6.60073, 0, 2.33031, 28.7691, 3.67507, -0.997247)
+
+[node name="puffball_pear_shaped5" parent="." instance=ExtResource("5_1ek8x")]
+transform = Transform3D(2.33031, 0, 6.60073, 0, 7, 0, -6.60073, 0, 2.33031, 22.2935, -5.49855, -7.2393)
+
+[node name="puffball_pear_shaped8" parent="." instance=ExtResource("5_1ek8x")]
+transform = Transform3D(4.91743, 0, 0.904914, 0, 5, 0, -0.904914, 0, 4.91743, 1.87172, -5.64363, -8.01712)
+
+[node name="puffball_pear_shaped10" parent="." instance=ExtResource("5_1ek8x")]
+transform = Transform3D(-5.60306, 0, -2.1461, 0, 6, 0, 2.1461, 0, -5.60306, -8.88998, -6.96029, -11.6302)
+
+[node name="puffball_pear_shaped11" parent="." instance=ExtResource("5_1ek8x")]
+transform = Transform3D(-0.766238, 0, 1.8474, 0, 2, 0, -1.8474, 0, -0.766238, -8.06119, -0.226309, -3.48082)
+
+[node name="puffball_pear_shaped12" parent="." instance=ExtResource("5_1ek8x")]
+transform = Transform3D(0.332902, 0, 0.942962, 0, 1, 0, -0.942962, 0, 0.332902, 6.2699, -0.269536, -3.03448)
+
+[node name="puffball_pear_shaped9" parent="." instance=ExtResource("5_1ek8x")]
+transform = Transform3D(1.99741, 0, 5.65777, 0, 6, 0, -5.65777, 0, 1.99741, 13.0755, -6.26137, -6.43463)
+
+[node name="puffball_pear_shaped6" parent="." instance=ExtResource("5_1ek8x")]
+transform = Transform3D(2.33031, 0, 6.60073, 0, 7, 0, -6.60073, 0, 2.33031, -17.3278, -5.49855, -3.45973)

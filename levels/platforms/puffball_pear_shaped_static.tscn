@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://orv61imeua2d"]
+
+[ext_resource type="PackedScene" uid="uid://bskk132v3txv5" path="res://blender/puffball_pear_shaped.blend" id="1_4wgsy"]
+[ext_resource type="Texture2D" uid="uid://coahiddohjaag" path="res://blender/textures/YAMAGATA017-W16-1all.jpg" id="3_yvgeg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a3qja"]
+albedo_texture = ExtResource("3_yvgeg")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_wr7qa"]
+radius = 1.09345
+
+[node name="puffball_pear_shaped" instance=ExtResource("1_4wgsy")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/rotation = Quaternion(0.0387984, -0.0182762, -0.56458, 0.824264)
+bones/1/rotation = Quaternion(-0.0444066, 0.000216705, 0.937661, 0.344703)
+bones/1/scale = Vector3(1, 1, 1)
+bones/2/rotation = Quaternion(0.0865141, 1.11205e-08, -0.53957, 0.837484)
+bones/2/scale = Vector3(1, 1, 1)
+
+[node name="YAMAGATA017-W16-1all" parent="Armature/Skeleton3D" index="0"]
+material_override = SubResource("StandardMaterial3D_a3qja")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0016432, 0.0013901, -0.000256598)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01296, 0)
+shape = SubResource("SphereShape3D_wr7qa")

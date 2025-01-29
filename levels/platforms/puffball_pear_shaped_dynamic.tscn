@@ -1,0 +1,128 @@
+[gd_scene load_steps=12 format=3 uid="uid://d08t1js2j2y8s"]
+
+[ext_resource type="PackedScene" uid="uid://bskk132v3txv5" path="res://blender/puffball_pear_shaped.blend" id="1_ua6hh"]
+[ext_resource type="Script" path="res://levels/platforms/mushroom_ik_controller.gd" id="2_fbxam"]
+[ext_resource type="Texture2D" uid="uid://coahiddohjaag" path="res://blender/textures/YAMAGATA017-W16-1all.jpg" id="2_ns47s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a3qja"]
+albedo_texture = ExtResource("2_ns47s")
+
+[sub_resource type="GDScript" id="GDScript_0scyo"]
+script/source = "extends SkeletonIK3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	start()
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_wr7qa"]
+radius = 1.09345
+
+[sub_resource type="Gradient" id="Gradient_obqot"]
+offsets = PackedFloat32Array(0.0838574, 0.238994)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wwih8"]
+gradient = SubResource("Gradient_obqot")
+fill = 1
+fill_from = Vector2(0.510684, 0.529915)
+fill_to = Vector2(0.899573, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hdlxf"]
+transparency = 1
+albedo_texture = SubResource("GradientTexture2D_wwih8")
+emission_enabled = true
+emission = Color(1, 0.537255, 0.207843, 1)
+emission_operator = 1
+billboard_mode = 1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rajoq"]
+material = SubResource("StandardMaterial3D_hdlxf")
+size = Vector2(0.6, 0.6)
+orientation = 2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_aixfq"]
+radius = 1.14744
+
+[node name="puffball_pear_shaped" instance=ExtResource("1_ua6hh")]
+script = ExtResource("2_fbxam")
+stiffness = 200.0
+mass = 8.0
+enable_upward_motion = 0
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/rotation = Quaternion(0.0387984, -0.0182762, -0.56458, 0.824264)
+bones/1/rotation = Quaternion(-0.0444066, 0.000216705, 0.937661, 0.344703)
+bones/1/scale = Vector3(1, 1, 1)
+bones/2/rotation = Quaternion(0.0865141, 1.11205e-08, -0.53957, 0.837484)
+bones/2/scale = Vector3(1, 1, 1)
+
+[node name="YAMAGATA017-W16-1all" parent="Armature/Skeleton3D" index="0"]
+material_override = SubResource("StandardMaterial3D_a3qja")
+
+[node name="SkeletonIK3D" type="SkeletonIK3D" parent="Armature/Skeleton3D" index="1"]
+process_priority = 1
+root_bone = &"Bone"
+tip_bone = &"Bone.002"
+target_node = NodePath("../../../Marker3D")
+script = SubResource("GDScript_0scyo")
+
+[node name="Marker3D" type="Marker3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0388489, 1.86275, 0.036217)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Marker3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0372057, -1.86136, -0.0364736)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Marker3D/StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.783954, 0)
+shape = SubResource("SphereShape3D_wr7qa")
+
+[node name="jump_cloud" type="CPUParticles3D" parent="Marker3D" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00206327, -0.0252327, 0.058063)
+visible = false
+emitting = false
+amount = 150
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.8
+randomness = 1.0
+lifetime_randomness = 1.0
+mesh = SubResource("PlaneMesh_rajoq")
+emission_shape = 6
+emission_ring_axis = Vector3(2.08165e-12, 1, 2.08165e-12)
+emission_ring_height = 0.5
+emission_ring_radius = 1.5
+emission_ring_inner_radius = 0.0
+direction = Vector3(2.08165e-12, -1, 2.08165e-12)
+spread = 30.0
+flatness = 0.5
+gravity = Vector3(2.08165e-12, -4, 2.08165e-12)
+initial_velocity_min = 3.0
+initial_velocity_max = 5.0
+angular_velocity_min = -1.0
+angular_velocity_max = 1.0
+radial_accel_max = 1.0
+angle_min = -360.0
+angle_max = 360.0
+scale_amount_min = 4.0
+scale_amount_max = 4.0
+color = Color(1, 0.639216, 0, 1)
+hue_variation_max = 1.0
+
+[node name="Area3D" type="Area3D" parent="Marker3D" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.279495, -0.936746, 0)
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Marker3D/Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.251446, 0.26477, 0.0269661)
+shape = SubResource("SphereShape3D_aixfq")
+
+[connection signal="body_entered" from="Marker3D/Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Marker3D/Area3D" to="." method="_on_area_3d_body_exited"]

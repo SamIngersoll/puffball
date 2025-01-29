@@ -12,17 +12,17 @@ albedo_texture = ExtResource("2_b17i0")
 height = 0.471163
 radius = 1.78032
 
-[sub_resource type="Gradient" id="Gradient_obqot"]
+[sub_resource type="Gradient" id="Gradient_t72ow"]
 offsets = PackedFloat32Array(0.0838574, 0.238994)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_jyyvj"]
-gradient = SubResource("Gradient_obqot")
+gradient = SubResource("Gradient_t72ow")
 fill = 1
 fill_from = Vector2(0.510684, 0.529915)
 fill_to = Vector2(0.899573, 0)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hdlxf"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_abd7c"]
 transparency = 1
 albedo_texture = SubResource("GradientTexture2D_jyyvj")
 emission_enabled = true
@@ -31,7 +31,7 @@ emission_operator = 1
 billboard_mode = 1
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ibj4d"]
-material = SubResource("StandardMaterial3D_hdlxf")
+material = SubResource("StandardMaterial3D_abd7c")
 size = Vector2(0.6, 0.6)
 orientation = 2
 
