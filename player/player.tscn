@@ -1,10 +1,18 @@
-[gd_scene load_steps=35 format=3 uid="uid://ygv5urf87cdn"]
+[gd_scene load_steps=40 format=3 uid="uid://ygv5urf87cdn"]
 
 [ext_resource type="Texture2D" uid="uid://cgihj6ylfb3re" path="res://player/spritesheet.png" id="2_7cyvy"]
 [ext_resource type="Script" path="res://player/player.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://xm4nyb85l3m1" path="res://mechanics/melee_attack.tscn" id="5_itblh"]
+[ext_resource type="AudioStream" uid="uid://b01brytl75mwa" path="res://player/shoot.wav" id="6"]
 [ext_resource type="AudioStream" uid="uid://bi8atqm71nrqf" path="res://audio/sfx/first_jump.wav" id="6_h24a7"]
 [ext_resource type="AudioStream" uid="uid://crdj4ovmpqs6s" path="res://audio/sfx/second_jump.wav" id="7_3cb35"]
+[ext_resource type="Script" path="res://player/gun.gd" id="8"]
 [ext_resource type="AudioStream" uid="uid://c1wavdsmyxpqx" path="res://audio/sfx/dash.wav" id="8_sio8g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d8k41"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_chq2p"]
+material = SubResource("StandardMaterial3D_d8k41")
 
 [sub_resource type="Animation" id="1"]
 resource_name = "crouch"
@@ -338,6 +346,45 @@ hframes = 8
 vframes = 4
 frame = 19
 
+[node name="melee_attack" parent="Sprite3D" node_paths=PackedStringArray("melee_timer", "parriable_timer", "debug_poly") instance=ExtResource("5_itblh")]
+melee_timer = NodePath("MeleeTimer")
+parriable_timer = NodePath("ParriableTimer")
+debug_poly = NodePath("Hitbox/DebugPoly")
+debug_draw = 1
+is_parriable = true
+
+[node name="Hitbox" type="Area3D" parent="Sprite3D/melee_attack"]
+collision_layer = 64
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape3D" parent="Sprite3D/melee_attack/Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -106.406, 12.5, 0)
+
+[node name="DebugPoly" type="MeshInstance3D" parent="Sprite3D/melee_attack/Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+mesh = SubResource("QuadMesh_chq2p")
+
+[node name="MeleeTimer" type="Timer" parent="Sprite3D/melee_attack"]
+process_callback = 0
+wait_time = 0.5
+one_shot = true
+
+[node name="ParriableTimer" type="Timer" parent="Sprite3D/melee_attack"]
+one_shot = true
+
+[node name="Sprite2D#Gun" type="Marker2D" parent="."]
+position = Vector2(14, 1)
+script = ExtResource("8")
+
+[node name="Sprite2D_Gun#Shoot" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-30.6589, -6.13176)
+stream = ExtResource("6")
+
+[node name="Sprite2D_Gun#Cooldown" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_jnr5f")
@@ -409,6 +456,11 @@ radial_accel_max = 1.0
 angle_min = -360.0
 angle_max = 360.0
 
+[node name="interact_bounds" type="Area2D" parent="."]
+visible = false
+collision_layer = 32
+collision_mask = 32
+
 [node name="step_particles" type="CPUParticles3D" parent="."]
 amount = 18
 lifetime = 0.5
@@ -457,6 +509,8 @@ collision_mask = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0365601, 1.21376, -0.157471)
 shape = SubResource("BoxShape3D_f3l4d")
 
+[connection signal="timeout" from="Sprite3D/melee_attack/MeleeTimer" to="Sprite3D/melee_attack" method="_on_melee_timer_timeout"]
+[connection signal="timeout" from="Sprite3D/melee_attack/ParriableTimer" to="Sprite3D/melee_attack" method="_on_parriable_timer_timeout"]
 [connection signal="timeout" from="dash_timer" to="." method="_on_dash_timer_timeout"]
-[connection signal="area_entered" from="interaction_bounds" to="." method="_on_interaction_bounds_area_entered"]
-[connection signal="area_exited" from="interaction_bounds" to="." method="_on_interaction_bounds_area_exited"]
+[connection signal="area_entered" from="interact_bounds" to="." method="_on_interact_bounds_area_entered"]
+[connection signal="area_exited" from="interact_bounds" to="." method="_on_interact_bounds_area_exited"]
