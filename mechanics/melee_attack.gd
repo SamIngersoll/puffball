@@ -1,4 +1,4 @@
-extends Node2D
+extends Node3D
 
 enum DebugDisplay {NONE, MELEE_FRAMES, PARRIABLE_FRAMES}
 # idea: can also make a debug timer and set the timer length
@@ -18,7 +18,7 @@ enum Msg {NONE, START, CANCEL}
 @export var parriable_timer : Timer
 
 @export_group("Debugging")
-@export var debug_poly : Polygon2D
+@export var debug_poly : MeshInstance3D
 ## Choose what to represent with the debug polygon
 @export var debug_draw : DebugDisplay = DebugDisplay.NONE
 
@@ -111,7 +111,7 @@ func start_melee_windup_frames():
 	
 	# Start the melee windup timer
 	if debug_draw == DebugDisplay.MELEE_FRAMES:
-		debug_poly.color = Color("e5f04a")
+		debug_poly.mesh.material.albedo_color = Color("e5f04a")
 		debug_poly.show()
 
 	melee_timer.start(EngineTweakable.val[windup_val])
@@ -120,18 +120,18 @@ func start_melee_windup_frames():
 func start_melee_active_frames():
 	# Start the active time
 	if debug_draw == DebugDisplay.MELEE_FRAMES:
-		debug_poly.color = Color("e01451")
+		debug_poly.mesh.material.albedo_color = Color("e01451")
 
-	hitbox.set_deferred("monitoring", true)
+	#hitbox.set_deferred("monitoring", true)
 	melee_timer.start(EngineTweakable.val[active_val])
 	_melee_state = MeleeState.ACTIVE
 
 func start_melee_recovery_frames():
 	# Enter follow through
 	if debug_draw == DebugDisplay.MELEE_FRAMES:
-		debug_poly.color = Color("58b0f6")
+		debug_poly.mesh.material.albedo_color = Color("58b0f6")
 
-	hitbox.set_deferred("monitoring", false)
+	#hitbox.set_deferred("monitoring", false)
 	melee_timer.start(EngineTweakable.val[recovery_val])
 	_melee_state = MeleeState.RECOVERY
 

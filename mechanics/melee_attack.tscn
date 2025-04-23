@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://mechanics/melee_attack.gd" id="1_3a3qb"]
 
-[node name="melee_attack" type="Node2D"]
+[node name="melee_attack" type="Node3D"]
 script = ExtResource("1_3a3qb")
