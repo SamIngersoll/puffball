@@ -41,7 +41,7 @@ var world_egg
 @onready var dash_sound := $dash as AudioStreamPlayer3D
 @onready var camera := $Camera as Camera3D
 @onready var hitbox := $Sprite2D/Hitbox as Area3D
-@onready var melee_attack := $Sprite2D/melee_attack as Node3D
+@onready var melee_attack := $Sprite3D/melee_attack as Node2D
 @onready var jump_cloud := $jump_cloud as CPUParticles3D
 @onready var step_particles := $step_particles as CPUParticles3D
 @onready var player_egg := $player_egg as MeshInstance3D
