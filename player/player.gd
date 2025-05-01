@@ -195,9 +195,10 @@ func try_jump() -> void:
 		return
 
 func _on_melee_attack_hit(body):
-	if body is Enemy:
-		(body as Enemy).reduce_health(BalanceTable.val["melee1_damage"])
-
+	if self.is_in_group("player") and body.is_in_group("enemies"):
+		body.reduce_health(BalanceTable.val["melee1_damage"])
+	if self.is_in_group("enemies") and body.is_in_group("player"):
+		body.reduce_health(BalanceTable.val["melee1_damage"])
 
 func _on_melee_attack_meleeing(active):
 	#print("meleeing ", active)

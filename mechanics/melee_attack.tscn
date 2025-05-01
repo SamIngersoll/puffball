@@ -1,6 +1,75 @@
-[gd_scene load_steps=2 format=3 uid="uid://xm4nyb85l3m1"]
+[gd_scene load_steps=7 format=3 uid="uid://xm4nyb85l3m1"]
 
 [ext_resource type="Script" path="res://mechanics/melee_attack.gd" id="1_3a3qb"]
 
-[node name="melee_attack" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_6vov0"]
+size = Vector3(1.92599, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nyv4l"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_bpu0i"]
+material = SubResource("StandardMaterial3D_nyv4l")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3yxk"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_m4dwi"]
+material = SubResource("StandardMaterial3D_f3yxk")
+size = Vector2(0.2, 0.2)
+orientation = 2
+
+[node name="melee_attack" type="Node3D" node_paths=PackedStringArray("hitbox", "melee_timer", "parriable_timer", "debug_poly", "_hit_particles")]
 script = ExtResource("1_3a3qb")
+hitbox = NodePath("Hitbox")
+melee_timer = NodePath("MeleeTimer")
+parriable_timer = NodePath("ParriableTimer")
+debug_poly = NodePath("Hitbox/DebugPoly")
+_hit_particles = NodePath("blood_cloud")
+
+[node name="Hitbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+collision_layer = 64
+collision_mask = 10
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0139923, 2.08165e-12, 2.08165e-12)
+shape = SubResource("BoxShape3D_6vov0")
+
+[node name="DebugPoly" type="MeshInstance3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 1.462)
+visible = false
+mesh = SubResource("QuadMesh_bpu0i")
+
+[node name="MeleeTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.5
+one_shot = true
+
+[node name="ParriableTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="blood_cloud" type="CPUParticles3D" parent="."]
+emitting = false
+amount = 100
+one_shot = true
+speed_scale = 2.0
+explosiveness = 0.8
+randomness = 1.0
+mesh = SubResource("PlaneMesh_m4dwi")
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3(1, 2.08165e-12, 2.08165e-12)
+spread = 68.3
+flatness = 0.5
+gravity = Vector3(2.08165e-12, -1, 2.08165e-12)
+initial_velocity_max = 5.0
+angular_velocity_min = -1.0
+angular_velocity_max = 1.0
+radial_accel_max = 1.0
+angle_min = -360.0
+angle_max = 360.0
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="timeout" from="MeleeTimer" to="." method="_on_melee_timer_timeout"]
+[connection signal="timeout" from="ParriableTimer" to="." method="_on_parriable_timer_timeout"]

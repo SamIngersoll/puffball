@@ -13,9 +13,11 @@ enum Msg {NONE, START, CANCEL}
 # Melee timer will be used to handle windup, cooldown, etc
 
 @export_group("Required Child Nodes")
-@export var hitbox : Area2D
+@export var hitbox : Area3D
 @export var melee_timer : Timer
 @export var parriable_timer : Timer
+## Animation Player which has the attack animations in it
+@export var animation_player : AnimationPlayer
 
 @export_group("Debugging")
 @export var debug_poly : MeshInstance3D
@@ -23,10 +25,14 @@ enum Msg {NONE, START, CANCEL}
 @export var debug_draw : DebugDisplay = DebugDisplay.NONE
 
 # initial data based on dark souls straight sword R1
-@export_group("Melee Attack Properties")
-@export var windup_val : String = "melee1_windup"
-@export var active_val : String = "melee1_attack"
-@export var recovery_val : String = "melee1_recovery"
+## These need to be the exact names of the attack animations in the animation player
+@export_group("Melee Attack Animations")
+## Exact name of the windup animation in the Animation Player
+@export var windup_anim : String = "melee_windup"
+## Exact name of the attack animation in the Animation Player
+@export var active_anim : String = "melee_attack"
+## Exact name of the recovery animation in the Animation Player
+@export var recovery_anim : String = "melee_recovery"
 
 ## indicates if THIS atttack/character is parriable
 @export var is_parriable : bool = false
@@ -35,11 +41,16 @@ enum Msg {NONE, START, CANCEL}
 # From a design standpoint, probably want the parriable frames
 # to start before the damage frames start
 
+@export_group("Optional Child Nodes")
+@export var _hit_particles : CPUParticles3D
+
 var _meleeing : bool = false
 var _parriable : bool = false
 var _melee_state : MeleeState = MeleeState.IDLE
 var _parriable_state : ParriableState = ParriableState.IDLE
 var _message : Msg = Msg.NONE
+
+
 
 signal hit(body)
 signal meleeing(active : bool)
@@ -51,6 +62,7 @@ func _ready():
 
 # TODO See if you need self.set_deferred("_message", Msg.START)
 func attack():
+	#print("[melee attack] attack")
 	_message = Msg.START
 
 func parried():
@@ -59,8 +71,9 @@ func parried():
 func cancel_melee():
 	melee_timer.stop()
 	_meleeing = false
-	if hitbox.monitoring:
-		hitbox.set_deferred("monitoring", false)
+	hitbox.monitoring = false
+	#if hitbox.monitoring:
+		#hitbox.set_deferred("monitoring", false)
 
 	if is_parriable:
 		parriable_timer.stop()
@@ -81,10 +94,12 @@ func start_parriable_windup_frames():
 
 	parriable_timer.start(EngineTweakable.val[parriable_frames_start_val])
 	_parriable_state = ParriableState.WINDUP
+	
 
 func start_parriable_active_frames():
 	# start parriable frames
 	_parriable = true
+	
 	parriable.emit(_parriable)
 
 	if debug_draw == DebugDisplay.PARRIABLE_FRAMES:
@@ -108,33 +123,43 @@ func start_melee_windup_frames():
 	# Start meleeing
 	_meleeing = true
 	meleeing.emit(_meleeing)
+	hitbox.monitoring = false
 	
 	# Start the melee windup timer
 	if debug_draw == DebugDisplay.MELEE_FRAMES:
 		debug_poly.mesh.material.albedo_color = Color("e5f04a")
 		debug_poly.show()
 
-	melee_timer.start(EngineTweakable.val[windup_val])
+	melee_timer.start(EngineTweakable.val[windup_anim])
 	_melee_state = MeleeState.WINDUP
+	
+	animation_player.play(windup_anim)
 
 func start_melee_active_frames():
+	hitbox.monitoring = true
 	# Start the active time
 	if debug_draw == DebugDisplay.MELEE_FRAMES:
 		debug_poly.mesh.material.albedo_color = Color("e01451")
 
 	#hitbox.set_deferred("monitoring", true)
-	melee_timer.start(EngineTweakable.val[active_val])
+	melee_timer.start(EngineTweakable.val[active_anim])
 	_melee_state = MeleeState.ACTIVE
+	
+	animation_player.play(active_anim)
 
 func start_melee_recovery_frames():
 	# Enter follow through
+	hitbox.monitoring = false
+	
 	if debug_draw == DebugDisplay.MELEE_FRAMES:
 		debug_poly.mesh.material.albedo_color = Color("58b0f6")
 
 	#hitbox.set_deferred("monitoring", false)
-	melee_timer.start(EngineTweakable.val[recovery_val])
+	melee_timer.start(EngineTweakable.val[recovery_anim])
 	_melee_state = MeleeState.RECOVERY
 
+	animation_player.play(recovery_anim)
+	
 func finish_melee_frames():
 	# End meleeing
 	if debug_draw == DebugDisplay.MELEE_FRAMES:
@@ -166,9 +191,9 @@ func _physics_process(delta):
 	_message = Msg.NONE
 
 func _on_hitbox_body_entered(body):
-	# print("hit: ", body)
+	print("hit: ", body)
 	hit.emit(body)
-	pass # Replace with function body.
+	_hit_particles.emitting = true
 
 func _on_parriable_timer_timeout():
 	match _parriable_state:
@@ -178,8 +203,6 @@ func _on_parriable_timer_timeout():
 			finish_parriable_frames()
 		_:
 			pass
-
-
 
 func _on_melee_timer_timeout():
 	match _melee_state:

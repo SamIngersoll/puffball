@@ -2,112 +2,114 @@ class_name Enemy extends CharacterBody3D
 
 
 enum State {
+	IDLE,
 	WANDER,
 	CHASE,
+	ATTACK,
 	DYING,
 	DEAD
 }
 
-const wander_speed = 22.0 as float
-const chase_speed = 50.0 as float
-var speed = wander_speed
 
 @export var health := 20 as int
-var _state := State.WANDER
-var player_found : bool = false
+@export var default_state := State.WANDER
+@export var chase_time = 3.0 as float
+@export var attack_range = 2.0 as float
+@export var wander_speed = 2.0 as float
+@export var chase_speed = 8.0 as float
+
+var speed = wander_speed
+var _state : State
 var last_known_player_location : Vector3
 
 @onready var gravity: int = ProjectSettings.get("physics/3d/default_gravity")
 
-@onready var floor_detector_left := $raycast_floor_detector/FloorDetectorLeft as RayCast3D
-@onready var floor_detector_right := $raycast_floor_detector/FloorDetectorRight as RayCast3D
-@onready var wall_detection_left := $raycast_wall_detector/WallDetectionLeft as RayCast3D
-@onready var wall_detection_right := $raycast_wall_detector/WallDetectionRight as RayCast3D
-@onready var player_detection_front := $raycast_player_detector/PlayerDetectionFront as RayCast3D
-@onready var player_detection_rear := $raycast_player_detector/PlayerDetectionRear as RayCast3D
+@onready var floor_detector_front := $raycast_floor_detector/FloorDetectorFront as RayCast3D
+@onready var wall_detector_front := $raycast_wall_detector/WallDetectorFront as RayCast3D
+@onready var player_detector_front := $raycast_player_detector/PlayerDetectorFront as RayCast3D
+@onready var player_detector_rear := $raycast_player_detector/PlayerDetectorRear as RayCast3D
 
 @onready var sprite := $Sprite3D as Sprite3D
 @onready var animation_player := $AnimationPlayer as AnimationPlayer
 @onready var chase_timer := $chase_timer as Timer
 
+@onready var melee_attack := $Sprite3D/melee_attack
+
 func _ready():
-	velocity.x = wander_speed
+	velocity.x = wander_speed * sign(sprite.scale.x)
+	_state = default_state
 
 func _physics_process(delta: float) -> void:
 	if _state != State.DEAD and _state != State.DYING:
-		if _state == State.WANDER:
-			if velocity.is_zero_approx():
-				speed = wander_speed
-			elif velocity.x == EngineTweakable.val["enemy_chase_speed"]:
-				speed = wander_speed
-			elif velocity.x == -EngineTweakable.val["enemy_chase_speed"]:
-				speed = -wander_speed
-			if not floor_detector_left.is_colliding():
-				speed = wander_speed
-			elif not floor_detector_right.is_colliding():
-				speed = -wander_speed
+		if _state == State.IDLE:
+			speed = 0
+		elif _state == State.WANDER:
+			speed = wander_speed
 		elif _state == State.CHASE:
-			if last_known_player_location.x > position.x:
-				speed = EngineTweakable.val["enemy_chase_speed"]
-			elif last_known_player_location.x < position.x:
-				speed = -EngineTweakable.val["enemy_chase_speed"]
+			if not floor_detector_front.is_colliding():
+				speed = 0
+			else:
+				speed = chase_speed
+		# any stage of attacking
+		elif (_state == State.ATTACK):
+			speed = 0
+			
 		
-		velocity.x = speed
+		velocity.x = speed * sign(sprite.scale.x)
 
 		handle_vision()
-		#if velocity.x > 0.0:
-			#sprite.scale.x = abs(sprite.scale.x)
-			#player_detection_front.scale.x = player_detection_front.scale.x
-			#player_detection_rear.scale.x = player_detection_rear.scale.x
-		#elif velocity.x < 0.0:
-			#
 
 		var animation := get_new_animation()
 		if animation != animation_player.current_animation:
 			animation_player.play(animation)
 			
 		velocity.y -= gravity * delta
+		position.z = 0
 		move_and_slide()
 
 func handle_vision():
 	var need_to_turn = false
-	if wall_detection_left.is_colliding() and velocity.x < 0:
-		print("COLLIDING LEFT")
+	if wall_detector_front.is_colliding() and _state != State.CHASE:
+		#print("COLLIDING FRONT")
 		need_to_turn = true
-	elif wall_detection_right.is_colliding() and velocity.x > 0:
-		print("COLLIDING RIGHT")
+	if not floor_detector_front.is_colliding() and _state != State.CHASE:
+		#print("FLOOR NOT COLLIDING FRONT")
 		need_to_turn = true
-	if not floor_detector_left.is_colliding() and velocity.x < 0:
-		print("FLOOR NOT COLLIDING LEFT")
-		need_to_turn = true
-	elif not floor_detector_right.is_colliding() and velocity.x > 0:
-		print("FLOOR NOT COLLIDING RIGHT")
-		need_to_turn = true
-	if player_detection_front.is_colliding():
-		print("player detection FRONT")
-		player_found = true
+	if player_detector_front.is_colliding():
+		#print("player detected FRONT")
+		chase_timer.start(chase_time)
+		# this block describes which states CANNOT transition to chasing
+		# all other blocks will transition to chasing
+		if (_state != State.ATTACK):
+			_state = State.CHASE
+		var player_position = player_detector_front.get_collision_point()
+		last_known_player_location = player_position
+		# if the player is in attack range and we are currently chasing 
+		# (e.g. not already attacking), then transition to attacking
+		if (abs(player_position.x - position.x) < attack_range 
+			and _state==State.CHASE):
+			melee_attack.attack()
+			_state = State.ATTACK
 		need_to_turn = false
+	elif player_detector_rear.is_colliding():
+		#print("player detection REAR")
 		_state = State.CHASE
-		chase_timer.start(1)
-		last_known_player_location = player_detection_front.get_collision_point()
-	elif player_detection_rear.is_colliding():
-		print("player detection REAR")
-		player_found = true
-		_state = State.CHASE
-		chase_timer.start(1)
-		last_known_player_location = player_detection_rear.get_collision_point()
+		chase_timer.start(chase_time)
+		last_known_player_location = player_detector_rear.get_collision_point()
 		need_to_turn = true
-	else:
-		player_found = false 
 	if need_to_turn:
-		turn_around()
+		# cannot turn while attacking (before this it was turning mid attack if you jumped)
+		if (_state != State.ATTACK):
+			turn_around()
 
-		
 func turn_around() -> void:
+	# I think flipping the root node is buggy so instead we flip all the children individually
 	sprite.scale.x = -1*(sprite.scale.x)
 	velocity.x = -1*(velocity.x)
-	player_detection_front.scale.x = -player_detection_front.scale.x
-	player_detection_rear.scale.x = -player_detection_rear.scale.x
+	wall_detector_front.target_position.x = -1*wall_detector_front.target_position.x
+	floor_detector_front.position.x = -1*floor_detector_front.position.x
+	player_detector_front.scale.x = -player_detector_front.scale.x
+	player_detector_rear.scale.x = -player_detector_rear.scale.x
 
 func reduce_health(damage) -> void:
 	health -= damage
@@ -121,13 +123,18 @@ func update_health() -> void:
 
 func get_new_animation() -> StringName:
 	var animation_new: StringName
-	if _state == State.WANDER:
-		if velocity.x == 0:
+	if _state == State.IDLE:
+		animation_new = &"idle"
+	elif _state == State.WANDER:
+		animation_new = &"walk"
+	elif _state == State.CHASE:
+		if velocity.is_zero_approx():
 			animation_new = &"idle"
 		else:
 			animation_new = &"walk"
-	elif _state == State.CHASE:
-		animation_new = &"walk"
+	elif _state == State.ATTACK:
+		# melee_attack.gd script takes care of attack animations
+		pass
 	elif _state == State.DYING:
 		pass
 	else:
@@ -135,9 +142,14 @@ func get_new_animation() -> StringName:
 	return animation_new
 
 func _on_animation_player_animation_finished(anim_name):
-	if anim_name == "destroy()":
+	if anim_name == "destroy":
 		_state = State.DEAD
 
 func _on_chase_timer_timeout():
 	print("TIMEOUT")
 	_state = State.WANDER 
+
+
+func _on_melee_attack_meleeing(active):
+	if not active and _state == State.ATTACK:
+		_state = State.CHASE

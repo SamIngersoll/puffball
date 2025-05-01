@@ -242,10 +242,12 @@ spike_egg={
 
 [layer_names]
 
+3d_render/layer_1="ground"
 2d_physics/layer_1="player"
 2d_physics/layer_2="enemies"
 2d_physics/layer_3="coins"
 2d_physics/layer_4="platforms"
+3d_physics/layer_4="player"
 2d_physics/layer_5="ground"
 2d_physics/layer_6="NPCs"
 2d_physics/layer_7="attacks"

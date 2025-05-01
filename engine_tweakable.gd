@@ -2,9 +2,9 @@ extends Node
 # Contains all behind-the-scenes variables for the game engine
 
 var val = {
-	"melee1_windup" : 0.43,
-	"melee1_attack" : 0.1,
-	"melee1_recovery" : 0.46,
+	"melee_windup" : 0.43,
+	"melee_attack" : 0.1,
+	"melee_recovery" : 0.46,
 	"parriable1_windup" : 0.3,
 	"parriable1_duration" : 0.2,
 	"parry_windup" : 0.2,
