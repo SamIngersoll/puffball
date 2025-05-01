@@ -13,6 +13,8 @@ enum Msg {NONE, START, CANCEL}
 @export_group("Attack info")
 ## Damage done by this attack
 @export var damage := 10 as float
+## Whether the attack will be interrupted/canceled by an incoming attack
+@export var interruptable := true as bool
 ## Speed multiplier for windeup action (multiplies the base length of the animation)
 @export var windup_speed := 1 as float
 ## Speed multiplier for attack swing action (multiplies the base length of the animation)
@@ -24,7 +26,6 @@ enum Msg {NONE, START, CANCEL}
 
 @export_group("Required Child Nodes")
 @export var hitbox : Area3D
-@export var melee_timer : Timer
 @export var parriable_timer : Timer
 ## Animation Player which has the attack animations in it
 @export var animation_player : AnimationPlayer
@@ -70,14 +71,25 @@ func _ready():
 	debug_poly.hide()
 	
 	# attach the "hit" signal to the player's damage function
-	var Player = get_tree().get_nodes_in_group("player")[0]
-	if (Player != null):
-		self.hit.connect(Player.damage)
-	
+	if self.owner.is_in_group("enemies"):
+		var player = get_tree().get_nodes_in_group("player")[0]
+		if (player != null):
+			self.hit.connect(player.damage)
+	elif self.owner.is_in_group("player"):
+		var enemies = get_tree().get_nodes_in_group("enemies")
+		for enemy in enemies:
+			if (enemy != null):
+				self.hit.connect(enemy.damage)
+
 	if (animation_player != null):
 		default_speed_scale = animation_player.speed_scale
 		default_speed_scale = animation_player.speed_scale
-		#self._on_animation_player_finished_animation().connect(Player.damage)
+		animation_player.animation_finished.connect(_animation_switch)
+		
+	# if the owner node has a signal for receiving damage, connect that to
+	# our cancel melee function to see if it needs to interrupt the melee
+	self.owner.cancel_melee.connect(self._on_cancel_melee)
+	
 # TODO See if you need self.set_deferred("_message", Msg.START)
 func attack():
 	_message = Msg.START
@@ -86,8 +98,9 @@ func parried():
 	_message = Msg.CANCEL
 
 func cancel_melee():
-	melee_timer.stop()
+	_melee_state = MeleeState.IDLE
 	_meleeing = false
+	meleeing.emit(_meleeing)
 	hitbox.monitoring = false
 	#if hitbox.monitoring:
 		#hitbox.set_deferred("monitoring", false)
@@ -150,14 +163,13 @@ func start_melee_windup_frames():
 		debug_poly.mesh.material.albedo_color = Color("e5f04a")
 		debug_poly.show()
 
-	melee_timer.start(EngineTweakable.val[windup_anim])
 	_melee_state = MeleeState.WINDUP
 	
 	# set speed scale for this animation and then start animation
 	animation_player.speed_scale = default_speed_scale*windup_speed
 	animation_player.play(windup_anim)
-	await animation_player.animation_finished
-	start_melee_active_frames()
+	#await animation_player.animation_finished
+	#start_melee_active_frames()
 
 func start_melee_active_frames():
 	hitbox.monitoring = true
@@ -166,14 +178,13 @@ func start_melee_active_frames():
 		debug_poly.mesh.material.albedo_color = Color("e01451")
 
 	#hitbox.set_deferred("monitoring", true)
-	melee_timer.start(EngineTweakable.val[active_anim])
 	_melee_state = MeleeState.ACTIVE
 	
 	# set speed scale for this animation and then start animation
 	animation_player.speed_scale = default_speed_scale*attack_speed
 	animation_player.play(active_anim)
-	await animation_player.animation_finished
-	start_melee_recovery_frames()
+	#await animation_player.animation_finished
+	#start_melee_recovery_frames()
 	
 
 func start_melee_recovery_frames():
@@ -184,14 +195,13 @@ func start_melee_recovery_frames():
 		debug_poly.mesh.material.albedo_color = Color("58b0f6")
 
 	#hitbox.set_deferred("monitoring", false)
-	melee_timer.start(EngineTweakable.val[recovery_anim])
 	_melee_state = MeleeState.RECOVERY
 
 	# set speed scale for this animation and then start animation
 	animation_player.speed_scale = default_speed_scale*recover_speed
 	animation_player.play(recovery_anim)
-	await animation_player.animation_finished
-	finish_melee_frames()
+	#await animation_player.animation_finished
+	#finish_melee_frames()
 	
 func finish_melee_frames():
 	# End meleeing
@@ -228,8 +238,14 @@ func _physics_process(delta):
 	_message = Msg.NONE
 
 func _on_hitbox_body_entered(body):
-	hit.emit(damage)
-	_hit_particles.emitting = true
+	#print(body.name, body.get_groups())
+	#print(self.owner.name, self.owner.get_groups())
+	if (self.owner.is_in_group("enemies") and body.is_in_group("player")):
+		hit.emit(damage)
+		_hit_particles.emitting = true
+	elif (self.owner.is_in_group("player") and body.is_in_group("enemies")):
+		hit.emit(damage)
+		_hit_particles.emitting = true
 	
 
 func _on_parriable_timer_timeout():
@@ -241,14 +257,23 @@ func _on_parriable_timer_timeout():
 		_:
 			pass
 
-func _on_melee_timer_timeout():
-	#match _melee_state:
-		#MeleeState.WINDUP:
-			#start_melee_active_frames()
-		#MeleeState.ACTIVE:
-			#start_melee_recovery_frames()
-		#MeleeState.RECOVERY:
-			#finish_melee_frames()
-		#_:
+func _animation_switch(anim_name):
+	match _melee_state:
+		MeleeState.WINDUP:
+			start_melee_active_frames()
+		MeleeState.ACTIVE:
+			start_melee_recovery_frames()
+		MeleeState.RECOVERY:
+			finish_melee_frames()
+		_:
 			pass
+			
+func _on_cancel_melee(mandatory):
+	# recieved a signal to cancel the melee attack
+	# (from an preemptive attack), evaluate whether we should actually cancel
+	print("canceling melee")
+	if mandatory:
+		cancel_melee()
+	elif interruptable:
+		cancel_melee()
 

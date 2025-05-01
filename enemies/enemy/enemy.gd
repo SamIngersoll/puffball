@@ -35,6 +35,8 @@ var last_known_player_location : Vector3
 
 @onready var melee_attack := $Sprite3D/melee_attack
 
+signal cancel_melee(mandatory : bool)
+
 func _ready():
 	velocity.x = wander_speed * sign(sprite.scale.x)
 	_state = default_state
@@ -114,15 +116,18 @@ func turn_around() -> void:
 	player_detector_front.scale.x = -player_detector_front.scale.x
 	player_detector_rear.scale.x = -player_detector_rear.scale.x
 
-func reduce_health(damage) -> void:
+func damage(damage) -> void:
 	health -= damage
 	update_health()
 
 func update_health() -> void:
 	if health <= 0:
+		cancel_melee.emit(true)
 		_state = State.DYING
 		velocity = Vector3.ZERO
 		animation_player.play(&"destroy")
+	else:
+		cancel_melee.emit(false)
 
 func get_new_animation() -> StringName:
 	var animation_new: StringName

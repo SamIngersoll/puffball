@@ -143,6 +143,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_lk7lc"]
 resource_name = "melee_active"
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -150,7 +151,7 @@ tracks/0/path = NodePath("Sprite3D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.9),
+"times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [25, 25]
@@ -158,6 +159,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_ctn7v"]
 resource_name = "melee_recovery"
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -165,7 +167,7 @@ tracks/0/path = NodePath("Sprite3D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.9),
+"times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [26, 26]
@@ -173,6 +175,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_hi5c0"]
 resource_name = "melee_windup"
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -180,7 +183,7 @@ tracks/0/path = NodePath("Sprite3D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.9),
+"times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [24, 24]
@@ -328,6 +331,7 @@ size = Vector3(1.96277, 2.08447, 2.47607)
 [node name="player" type="CharacterBody3D" groups=["player"]]
 collision_layer = 11
 script = ExtResource("3")
+health = 80.0
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.921419, 0)
@@ -340,9 +344,13 @@ alpha_scissor_threshold = 0.9
 texture = ExtResource("2_7cyvy")
 hframes = 8
 vframes = 4
-frame = 4
+frame = 24
 
-[node name="melee_attack" parent="Sprite3D" instance=ExtResource("5_itblh")]
+[node name="melee_attack" parent="Sprite3D" node_paths=PackedStringArray("animation_player") instance=ExtResource("5_itblh")]
+attack_speed = 3.0
+recover_speed = 3.0
+animation_player = NodePath("../../AnimationPlayer")
+active_anim = "melee_active"
 
 [node name="Sprite2D#Gun" type="Marker2D" parent="."]
 position = Vector2(14, 1)
@@ -483,6 +491,7 @@ collision_mask = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0365601, 1.21376, -0.157471)
 shape = SubResource("BoxShape3D_f3l4d")
 
+[connection signal="meleeing" from="Sprite3D/melee_attack" to="." method="_on_melee_attack_meleeing"]
 [connection signal="timeout" from="dash_timer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="post_death_timer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="post_death_timer" to="." method="_on_post_death_timer_timeout"]

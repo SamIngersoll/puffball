@@ -1,6 +1,7 @@
 class_name Player extends CharacterBody3D
 
 signal coin_collected()
+signal cancel_melee(mandatory : bool)
 
 const WALK_SPEED = 10.0
 const DASH_SPEED = 40.0
@@ -47,14 +48,6 @@ var world_egg
 @onready var step_particles := $step_particles as CPUParticles3D
 @onready var player_egg := $player_egg as MeshInstance3D
 
-# melee attack animation state machine
-enum Melee_States {INACTIVE, WINDUP, ACTIVE, RECOVERY}
-var _melee_state : int = Melee_States.INACTIVE
-
-# melee attack event times (in animation frames)
-  # it is assumed that windeup starts on first frame of animation.
-@export var melee_active_begin_frame : int = 2
-@export var melee_recovery_begin_frame : int = 3
 @onready var gun = sprite.get_node(^"Gun") as Gun
 
 #state variables
@@ -73,24 +66,25 @@ func _physics_process(delta: float) -> void:
 	_wall_jumping = false
 	velocity.z = 0
 	position.z = 0
-	if is_on_floor():
-		_double_jump_charged = true
-		_dash_charged = true
-		_is_dashing = false
-	if is_on_wall():
-		_double_jump_charged = true
-		_dash_charged = true
-		_is_dashing = false
-	if Input.is_action_just_pressed("jump" + action_suffix):
-		try_jump()
-	elif Input.is_action_just_released("jump" + action_suffix) and velocity.y < 0.0:
-		# The player let go of jump early, reduce vertical momentum.
-		velocity.y *= 0.6
+	if not _meleeing:
+		if is_on_floor():
+			_double_jump_charged = true
+			_dash_charged = true
+			_is_dashing = false
+		if is_on_wall():
+			_double_jump_charged = true
+			_dash_charged = true
+			_is_dashing = false
+		if Input.is_action_just_pressed("jump" + action_suffix):
+			try_jump()
+		elif Input.is_action_just_released("jump" + action_suffix) and velocity.y < 0.0:
+			# The player let go of jump early, reduce vertical momentum.
+			velocity.y *= 0.6
 	# dashing logic
-	if Input.is_action_just_pressed("dash" + action_suffix) and _dash_charged:
-		_is_dashing = true
-		_dash_charged = false
-		try_dash()
+		if Input.is_action_just_pressed("dash" + action_suffix) and _dash_charged:
+			_is_dashing = true
+			_dash_charged = false
+			try_dash()
 	
 	# Fall.
 	if is_on_wall_only():
@@ -137,6 +131,7 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("melee" + action_suffix):
 		if not _meleeing:
+			_meleeing = true
 			melee_attack.attack()
 	if Input.is_action_just_pressed("spike_egg" + action_suffix):
 		if (has_egg):
@@ -199,12 +194,15 @@ func try_jump() -> void:
 
 func damage(damage_amount):
 	health -= damage_amount
+	cancel_melee.emit(false)
 	if health <= 0:
 		kill()
+		
 
 func kill():
 	# player dies	
 	# start the timer until the level is reloaded
+	cancel_melee.emit(true)
 	post_death_timer.start()
 
 func take_egg():
@@ -278,3 +276,10 @@ func _on_interaction_bounds_area_exited(area):
 func _on_post_death_timer_timeout():
 	# player has dies, post death timer has elapsed, reset the level
 	game_script.reset_level()
+
+
+func _on_melee_attack_meleeing(active):
+	if active:
+		_meleeing = true
+	else:
+		_meleeing = false

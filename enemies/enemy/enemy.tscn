@@ -266,6 +266,7 @@ height = 2.61954
 collision_layer = 2
 collision_mask = 25
 script = ExtResource("1_450mt")
+health = 30
 default_state = 0
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
