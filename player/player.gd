@@ -35,6 +35,7 @@ var world_egg
 @onready var animation_player := $AnimationPlayer as AnimationPlayer
 @onready var shoot_timer := $ShootAnimation as Timer
 @onready var dash_timer := $dash_timer as Timer
+@onready var post_death_timer := $post_death_timer as Timer
 @onready var sprite := $Sprite3D as Sprite3D
 @onready var first_jump_sound := $first_jump as AudioStreamPlayer3D
 @onready var second_jump_sound := $second_jump as AudioStreamPlayer3D
@@ -144,7 +145,9 @@ func _physics_process(delta: float) -> void:
 func get_new_animation(is_shooting := false) -> String:
 	var animation_new: String
 	step_particles.emitting = false
-	if is_on_floor():
+	if health <= 0:
+		animation_new = "falling"
+	elif is_on_floor():
 		if absf(velocity.x) > 0:
 			animation_new = "run"
 			step_particles.emitting = true
@@ -194,37 +197,15 @@ func try_jump() -> void:
 	else:
 		return
 
-func _on_melee_attack_hit(body):
-	if self.is_in_group("player") and body.is_in_group("enemies"):
-		body.reduce_health(BalanceTable.val["melee1_damage"])
-	if self.is_in_group("enemies") and body.is_in_group("player"):
-		body.reduce_health(BalanceTable.val["melee1_damage"])
-
-func _on_melee_attack_meleeing(active):
-	#print("meleeing ", active)
-	_meleeing = active
-	if active:
-		_melee_state = Melee_States.WINDUP
-		animation_player.play("melee_windup")
-	else:
-		_melee_state = Melee_States.INACTIVE
-
-func _on_melee_attack_next_phase():
-	if _melee_state == Melee_States.WINDUP:
-		_melee_state = Melee_States.ACTIVE
-		animation_player.play("melee_active")
-	elif _melee_state == Melee_States.ACTIVE:
-		_melee_state = Melee_States.RECOVERY
-		animation_player.play("melee_recovery")
-
-func damage(damage):
-	health -= damage
+func damage(damage_amount):
+	health -= damage_amount
 	if health <= 0:
 		kill()
-		
+
 func kill():
-	#get_tree().reload_current_scene()
-	game_script.reset_level()
+	# player dies	
+	# start the timer until the level is reloaded
+	post_death_timer.start()
 
 func take_egg():
 	player_egg.visible = true
@@ -292,3 +273,8 @@ func _on_interaction_bounds_area_exited(area):
 			Global.currently_interactable_NPC = ""
 	elif area.get_parent().is_in_group("egg"):
 		near_egg = false
+
+
+func _on_post_death_timer_timeout():
+	# player has dies, post death timer has elapsed, reset the level
+	game_script.reset_level()

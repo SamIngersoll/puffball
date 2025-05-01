@@ -55,15 +55,16 @@ func change_level(new_level_name):
 	#active_level.reparent(game)
 	
 func reset_level():
-	var active_level = get_tree().get_first_node_in_group("levels")
-	var game_obj = active_level.get_parent()
-	var new_level_name = active_level.get_name()
-	
-	active_level.set_name("removed")
-	
-	#get_tree().change_scene_to_file("res://levels/"+new_level_name+".tscn")
-	game_obj.add_child(load("res://levels/"+new_level_name+".tscn").instantiate())
-	active_level.queue_free()
+	get_tree().reload_current_scene()
+	#var active_level = get_tree().get_first_node_in_group("levels")
+	#var game_obj = active_level.get_parent()
+	#var new_level_name = active_level.get_name()
+	#
+	#active_level.set_name("removed")
+	#print(new_level_name)
+	##get_tree().change_scene_to_file("res://levels/"+new_level_name+".tscn")
+	#game_obj.add_child(load("res://levels/"+new_level_name+".tscn").instantiate())
+	#active_level.queue_free()
 	
 	
 	

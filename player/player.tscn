@@ -340,7 +340,7 @@ alpha_scissor_threshold = 0.9
 texture = ExtResource("2_7cyvy")
 hframes = 8
 vframes = 4
-frame = 19
+frame = 4
 
 [node name="melee_attack" parent="Sprite3D" instance=ExtResource("5_itblh")]
 
@@ -384,6 +384,9 @@ collision_mask = 8
 
 [node name="dash_timer" type="Timer" parent="."]
 wait_time = 0.1
+one_shot = true
+
+[node name="post_death_timer" type="Timer" parent="."]
 one_shot = true
 
 [node name="fireflies" type="CPUParticles3D" parent="."]
@@ -481,5 +484,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0365601, 1.21376, -0.157471
 shape = SubResource("BoxShape3D_f3l4d")
 
 [connection signal="timeout" from="dash_timer" to="." method="_on_dash_timer_timeout"]
+[connection signal="timeout" from="post_death_timer" to="." method="_on_dash_timer_timeout"]
+[connection signal="timeout" from="post_death_timer" to="." method="_on_post_death_timer_timeout"]
 [connection signal="area_entered" from="interact_bounds" to="." method="_on_interact_bounds_area_entered"]
 [connection signal="area_exited" from="interact_bounds" to="." method="_on_interact_bounds_area_exited"]

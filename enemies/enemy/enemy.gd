@@ -16,7 +16,7 @@ enum State {
 @export var chase_time = 3.0 as float
 @export var attack_range = 2.0 as float
 @export var wander_speed = 2.0 as float
-@export var chase_speed = 8.0 as float
+@export var chase_speed = 6.0 as float
 
 var speed = wander_speed
 var _state : State
@@ -91,7 +91,8 @@ func handle_vision():
 			melee_attack.attack()
 			_state = State.ATTACK
 		need_to_turn = false
-	elif player_detector_rear.is_colliding():
+	# if the player is behind us and we arent attacking (cant turn while attacking)
+	elif player_detector_rear.is_colliding() and _state != State.ATTACK:
 		#print("player detection REAR")
 		_state = State.CHASE
 		chase_timer.start(chase_time)
@@ -100,6 +101,8 @@ func handle_vision():
 	if need_to_turn:
 		# cannot turn while attacking (before this it was turning mid attack if you jumped)
 		if (_state != State.ATTACK):
+			print("turning")
+			print(_state)
 			turn_around()
 
 func turn_around() -> void:
@@ -149,7 +152,8 @@ func _on_chase_timer_timeout():
 	print("TIMEOUT")
 	_state = State.WANDER 
 
-
 func _on_melee_attack_meleeing(active):
-	if not active and _state == State.ATTACK:
+	if active:
+		_state = State.ATTACK
+	else:
 		_state = State.CHASE

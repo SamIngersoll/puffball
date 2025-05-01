@@ -9,6 +9,16 @@ enum MeleeState {IDLE, WINDUP, ACTIVE, RECOVERY}
 enum ParriableState {IDLE, WINDUP, ACTIVE}
 enum Msg {NONE, START, CANCEL}
 
+
+@export_group("Attack info")
+## Damage done by this attack
+@export var damage := 10 as float
+## Speed multiplier for windeup action (multiplies the base length of the animation)
+@export var windup_speed := 1 as float
+## Speed multiplier for attack swing action (multiplies the base length of the animation)
+@export var attack_speed := 1 as float
+## Speed multiplier for recover/follow through action (multiplies the base length of the animation)
+@export var recover_speed := 1 as float
 # Must assign these
 # Melee timer will be used to handle windup, cooldown, etc
 
@@ -18,6 +28,7 @@ enum Msg {NONE, START, CANCEL}
 @export var parriable_timer : Timer
 ## Animation Player which has the attack animations in it
 @export var animation_player : AnimationPlayer
+var default_speed_scale : float
 
 @export_group("Debugging")
 @export var debug_poly : MeshInstance3D
@@ -50,19 +61,25 @@ var _melee_state : MeleeState = MeleeState.IDLE
 var _parriable_state : ParriableState = ParriableState.IDLE
 var _message : Msg = Msg.NONE
 
-
-
-signal hit(body)
+signal hit(damage_amount : float)
 signal meleeing(active : bool)
 signal parriable(active : bool)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	debug_poly.hide()
-
+	
+	# attach the "hit" signal to the player's damage function
+	var Player = get_tree().get_nodes_in_group("player")[0]
+	if (Player != null):
+		self.hit.connect(Player.damage)
+	
+	if (animation_player != null):
+		default_speed_scale = animation_player.speed_scale
+		default_speed_scale = animation_player.speed_scale
+		#self._on_animation_player_finished_animation().connect(Player.damage)
 # TODO See if you need self.set_deferred("_message", Msg.START)
 func attack():
-	#print("[melee attack] attack")
 	_message = Msg.START
 
 func parried():
@@ -81,7 +98,10 @@ func cancel_melee():
 
 	if debug_draw != DebugDisplay.NONE:
 		debug_poly.hide()
-
+		
+	animation_player.speed_scale = default_speed_scale
+	animation_player.stop()
+	
 #region Parriable functions
 func start_parriable_windup_frames():
 	if not is_parriable:
@@ -133,7 +153,11 @@ func start_melee_windup_frames():
 	melee_timer.start(EngineTweakable.val[windup_anim])
 	_melee_state = MeleeState.WINDUP
 	
+	# set speed scale for this animation and then start animation
+	animation_player.speed_scale = default_speed_scale*windup_speed
 	animation_player.play(windup_anim)
+	await animation_player.animation_finished
+	start_melee_active_frames()
 
 func start_melee_active_frames():
 	hitbox.monitoring = true
@@ -145,7 +169,12 @@ func start_melee_active_frames():
 	melee_timer.start(EngineTweakable.val[active_anim])
 	_melee_state = MeleeState.ACTIVE
 	
+	# set speed scale for this animation and then start animation
+	animation_player.speed_scale = default_speed_scale*attack_speed
 	animation_player.play(active_anim)
+	await animation_player.animation_finished
+	start_melee_recovery_frames()
+	
 
 func start_melee_recovery_frames():
 	# Enter follow through
@@ -158,16 +187,24 @@ func start_melee_recovery_frames():
 	melee_timer.start(EngineTweakable.val[recovery_anim])
 	_melee_state = MeleeState.RECOVERY
 
+	# set speed scale for this animation and then start animation
+	animation_player.speed_scale = default_speed_scale*recover_speed
 	animation_player.play(recovery_anim)
+	await animation_player.animation_finished
+	finish_melee_frames()
 	
 func finish_melee_frames():
 	# End meleeing
+	hitbox.monitoring = false
 	if debug_draw == DebugDisplay.MELEE_FRAMES:
 		debug_poly.hide()
 
 	_meleeing = false
 	meleeing.emit(_meleeing)
 	_melee_state = MeleeState.IDLE
+	
+	animation_player.speed_scale = default_speed_scale
+	animation_player.stop()
 #endregion
 
 # Called /every frame. 'delta' is the elapsed time since the previous frame.
@@ -191,9 +228,9 @@ func _physics_process(delta):
 	_message = Msg.NONE
 
 func _on_hitbox_body_entered(body):
-	print("hit: ", body)
-	hit.emit(body)
+	hit.emit(damage)
 	_hit_particles.emitting = true
+	
 
 func _on_parriable_timer_timeout():
 	match _parriable_state:
@@ -205,12 +242,13 @@ func _on_parriable_timer_timeout():
 			pass
 
 func _on_melee_timer_timeout():
-	match _melee_state:
-		MeleeState.WINDUP:
-			start_melee_active_frames()
-		MeleeState.ACTIVE:
-			start_melee_recovery_frames()
-		MeleeState.RECOVERY:
-			finish_melee_frames()
-		_:
+	#match _melee_state:
+		#MeleeState.WINDUP:
+			#start_melee_active_frames()
+		#MeleeState.ACTIVE:
+			#start_melee_recovery_frames()
+		#MeleeState.RECOVERY:
+			#finish_melee_frames()
+		#_:
 			pass
+
