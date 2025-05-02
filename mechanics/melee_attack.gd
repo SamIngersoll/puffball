@@ -53,8 +53,8 @@ var default_speed_scale : float
 # From a design standpoint, probably want the parriable frames
 # to start before the damage frames start
 
-@export_group("Optional Child Nodes")
-@export var _hit_particles : CPUParticles3D
+#@export_group("Optional Child Nodes")
+@onready var _spark_particles : CPUParticles3D = $sparks
 
 var _meleeing : bool = false
 var _parriable : bool = false
@@ -244,10 +244,10 @@ func _on_hitbox_body_entered(body):
 	#print("body position", body.position)
 	if (self.owner.is_in_group("enemies") and body.is_in_group("player")):
 		hit.emit(damage)
-		#_hit_particles.emitting = true
+		_spark_particles.emitting = true
 	elif (self.owner.is_in_group("player") and body.is_in_group("enemies")):
 		hit.emit(damage)
-		#_hit_particles.emitting = true
+		_spark_particles.emitting = true
 	
 
 func _on_parriable_timer_timeout():
