@@ -1,12 +1,12 @@
 [gd_scene load_steps=40 format=3 uid="uid://ygv5urf87cdn"]
 
 [ext_resource type="Texture2D" uid="uid://cgihj6ylfb3re" path="res://player/spritesheet.png" id="2_7cyvy"]
-[ext_resource type="Script" uid="uid://eo15ja8h31rd" path="res://player/player.gd" id="3"]
+[ext_resource type="Script" uid="uid://ukly307cyqnp" path="res://player/player.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://xm4nyb85l3m1" path="res://mechanics/melee_attack.tscn" id="5_itblh"]
 [ext_resource type="AudioStream" uid="uid://b01brytl75mwa" path="res://player/shoot.wav" id="6"]
 [ext_resource type="AudioStream" uid="uid://bi8atqm71nrqf" path="res://audio/sfx/first_jump.wav" id="6_h24a7"]
 [ext_resource type="AudioStream" uid="uid://crdj4ovmpqs6s" path="res://audio/sfx/second_jump.wav" id="7_3cb35"]
-[ext_resource type="Script" uid="uid://cvy0q6nq8fpo" path="res://player/gun.gd" id="8"]
+[ext_resource type="Script" uid="uid://b4av8f7y1har4" path="res://player/gun.gd" id="8"]
 [ext_resource type="AudioStream" uid="uid://c1wavdsmyxpqx" path="res://audio/sfx/dash.wav" id="8_sio8g"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3yxk"]
@@ -516,16 +516,18 @@ scale_amount_min = 0.0
 scale_amount_max = 0.2
 
 [node name="interaction_bounds" type="Area3D" parent="."]
+visible = false
 collision_layer = 2
 collision_mask = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="interaction_bounds" groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0365601, 1.21376, -0.157471)
+visible = false
 shape = SubResource("BoxShape3D_f3l4d")
 
 [connection signal="meleeing" from="Sprite3D/melee_attack" to="." method="_on_melee_attack_meleeing"]
 [connection signal="timeout" from="dash_timer" to="." method="_on_dash_timer_timeout"]
-[connection signal="timeout" from="post_death_timer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="post_death_timer" to="." method="_on_post_death_timer_timeout"]
+[connection signal="timeout" from="post_death_timer" to="." method="_on_dash_timer_timeout"]
 [connection signal="area_entered" from="interact_bounds" to="." method="_on_interact_bounds_area_entered"]
 [connection signal="area_exited" from="interact_bounds" to="." method="_on_interact_bounds_area_exited"]

@@ -67,6 +67,7 @@ func _physics_process(delta: float) -> void:
 			animation_player.play(animation)
 			
 		velocity.y -= gravity * delta
+		velocity.z = 0
 		position.z = 0
 		move_and_slide()
 
@@ -104,8 +105,6 @@ func handle_vision():
 	if need_to_turn:
 		# cannot turn while attacking (before this it was turning mid attack if you jumped)
 		if (_state != State.ATTACK):
-			print("turning")
-			print(_state)
 			turn_around()
 
 func turn_around() -> void:
@@ -117,12 +116,13 @@ func turn_around() -> void:
 	player_detector_front.scale.x = -player_detector_front.scale.x
 	player_detector_rear.scale.x = -player_detector_rear.scale.x
 
-func damage(damage) -> void:
-	health -= damage
+func damage(damage_amount):
+	health -= damage_amount
+	print("ENEMY IS DAMAGED")
 	update_health()
 	hit_particles.emitting = true;
 
-func update_health() -> void:
+func update_health():
 	if health <= 0:
 		cancel_melee.emit(true)
 		_state = State.DYING

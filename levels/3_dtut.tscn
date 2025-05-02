@@ -4,9 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://dkmvkuta2bubt" path="res://718214_frame_512x512-2352815191.png" id="2_rkmyk"]
 [ext_resource type="PackedScene" uid="uid://dajkv6cgraxid" path="res://levels/props/egg.tscn" id="3_0tkc0"]
 [ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemies/enemy/enemy.tscn" id="4_fu4o8"]
-[ext_resource type="Script" uid="uid://bsa1lclhryje4" path="res://levels/tooltip.gd" id="5_gkg4y"]
+[ext_resource type="Script" uid="uid://dqnweo40xga35" path="res://levels/tooltip.gd" id="5_gkg4y"]
 [ext_resource type="Material" uid="uid://8ynorua5a0e7" path="res://levels/props/prop_materials/gold_shiny.tres" id="5_t54mg"]
-[ext_resource type="Script" uid="uid://bsuxkklkkjqyg" path="res://levels/level_exit.gd" id="6_yq2wy"]
+[ext_resource type="Script" uid="uid://bfkgo6ditfi65" path="res://levels/level_exit.gd" id="6_yq2wy"]
 [ext_resource type="ArrayMesh" uid="uid://c8jsui7sbrmyo" path="res://levels/props/gold_test_object.obj" id="7_5rqal"]
 [ext_resource type="FontFile" uid="uid://cffxvhumpk05y" path="res://levels/props/FePIit2.ttf" id="8_6x40l"]
 [ext_resource type="ArrayMesh" uid="uid://b4oakoyr8e1i6" path="res://levels/props/florian_first_storey.obj" id="10_y803p"]
@@ -611,6 +611,10 @@ mesh = ExtResource("13_bghh5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.66538, 46.9481, -15.3527)
 mesh = ExtResource("13_bghh5")
 
+[node name="Spike" parent="." instance=ExtResource("14_mwevi")]
+transform = Transform3D(400, 0, 0, 0, 1, 0, 0, 0, 1, -112.014, -3.24, 2.08165e-12)
+damage_dealt = 100.0
+
 [node name="deep_floor2" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -125.304, -0.5, 2.08165e-12)
 collision_layer = 3
@@ -622,12 +626,5 @@ mesh = SubResource("BoxMesh_spyj8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="deep_floor2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.034729, 0, -1.58545)
 shape = SubResource("BoxShape3D_mritk")
-
-[node name="Spike2" parent="." instance=ExtResource("14_mwevi")]
-transform = Transform3D(300, 0, 0, 0, 1, 0, 0, 0, 1, -28.7218, -2.79434, 0.914964)
-damage_dealt = 80.0
-
-[node name="Spike" parent="." instance=ExtResource("14_mwevi")]
-transform = Transform3D(0.996511, -0.0818116, 0.0164894, 0.082201, 0.996314, -0.0245083, -0.0144236, 0.0257782, 0.999564, -98.0195, 5.79402, 0)
 
 [connection signal="area_entered" from="level_exit/Area2D" to="level_exit" method="_on_area_3d_area_entered"]

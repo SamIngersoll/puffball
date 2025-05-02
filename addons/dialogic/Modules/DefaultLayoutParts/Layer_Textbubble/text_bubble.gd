@@ -134,4 +134,3 @@ func _resize_bubble() -> void:
 		bubble_ratio.x = bubble_rect.size.x / bubble_rect.size.y
 
 	bubble.material.set(&"shader_parameter/ratio", bubble_ratio)
-

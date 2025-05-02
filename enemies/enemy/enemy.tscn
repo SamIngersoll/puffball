@@ -1,10 +1,14 @@
 [gd_scene load_steps=19 format=3 uid="uid://6mtip3ruyn"]
 
-[ext_resource type="Script" uid="uid://bfumeqy60t6mx" path="res://enemies/enemy/enemy.gd" id="1_450mt"]
+[ext_resource type="Script" uid="uid://bgxypfkcoqugn" path="res://enemies/enemy/enemy.gd" id="1_450mt"]
 [ext_resource type="Texture2D" uid="uid://2fffd0wt5q5x" path="res://enemies/enemy/knight_spritesheet.png" id="2_wpxep"]
 [ext_resource type="PackedScene" uid="uid://xm4nyb85l3m1" path="res://mechanics/melee_attack.tscn" id="3_58132"]
 [ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemies/enemy/hit.wav" id="4_tvspx"]
 [ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemies/enemy/explode.wav" id="5_wp03c"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iry3q"]
+radius = 0.805458
+height = 2.61954
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pvh2b"]
 albedo_color = Color(1, 0, 0, 1)
@@ -266,16 +270,24 @@ _data = {
 offsets = PackedFloat32Array(0.5, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iry3q"]
-radius = 0.805458
-height = 2.61954
-
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
 collision_layer = 2
-collision_mask = 29
+collision_mask = 41
 script = ExtResource("1_450mt")
 health = 30
 default_state = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2197, 0)
+shape = SubResource("CapsuleShape3D_iry3q")
+
+[node name="janky_spike_detectable_area" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="janky_spike_detectable_area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2197, 0)
+shape = SubResource("CapsuleShape3D_iry3q")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(-0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 2.08165e-12, 1.56264, 2.08165e-12)
@@ -369,10 +381,6 @@ collision_mask = 8
 
 [node name="chase_timer" type="Timer" parent="."]
 one_shot = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2197, 0)
-shape = SubResource("CapsuleShape3D_iry3q")
 
 [connection signal="meleeing" from="Sprite3D/melee_attack" to="." method="_on_melee_attack_meleeing"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

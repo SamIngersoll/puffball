@@ -197,10 +197,10 @@ func try_jump() -> void:
 		return
 
 func damage(damage_amount):
+	print("damaged player")
 	health -= damage_amount
 	cancel_melee.emit(false)
 	hit_particles.emitting = true;
-	print("player health:", health)
 	if health <= 0:
 		kill()
 		

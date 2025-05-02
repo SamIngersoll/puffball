@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://v4pn853l8sn6"]
 
-[ext_resource type="Script" uid="uid://ci6alfys2oy5x" path="res://levels/props/spike.gd" id="1_vka6k"]
+[ext_resource type="Script" uid="uid://cen856r6ifm72" path="res://levels/props/spike.gd" id="1_vka6k"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j04x0"]
 
@@ -15,7 +15,9 @@ material = SubResource("StandardMaterial3D_s83is")
 script = ExtResource("1_vka6k")
 
 [node name="Area3D" type="Area3D" parent="."]
+collision_layer = 15
 collision_mask = 12
+priority = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_j04x0")
@@ -23,4 +25,5 @@ shape = SubResource("BoxShape3D_j04x0")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_cn54f")
 
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
