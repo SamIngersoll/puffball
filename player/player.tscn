@@ -355,6 +355,7 @@ vframes = 4
 frame = 24
 
 [node name="melee_attack" parent="Sprite3D" node_paths=PackedStringArray("animation_player") instance=ExtResource("5_itblh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.945237, 0.192383, 0)
 attack_speed = 3.0
 recover_speed = 3.0
 animation_player = NodePath("../../AnimationPlayer")
