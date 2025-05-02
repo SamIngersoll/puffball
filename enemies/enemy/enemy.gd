@@ -11,8 +11,9 @@ enum State {
 }
 
 
-@export var health := 20 as int
-@export var default_state := State.WANDER
+@export var max_health = 20 as float
+var health : float
+@export var default_state = State.WANDER
 @export var chase_time = 3.0 as float
 @export var attack_range = 2.0 as float
 @export var wander_speed = 2.0 as float
@@ -41,6 +42,7 @@ signal cancel_melee(mandatory : bool)
 func _ready():
 	velocity.x = wander_speed * sign(sprite.scale.x)
 	_state = default_state
+	health = max_health
 
 func _physics_process(delta: float) -> void:
 	if _state != State.DEAD and _state != State.DYING:

@@ -339,7 +339,6 @@ size = Vector3(1.96277, 2.08447, 2.47607)
 [node name="player" type="CharacterBody3D" groups=["player"]]
 collision_layer = 11
 script = ExtResource("3")
-health = 80.0
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.921419, 0)

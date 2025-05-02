@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://chej87u0vpcvi"]
+[gd_scene load_steps=45 format=3 uid="uid://chej87u0vpcvi"]
 
 [ext_resource type="PackedScene" uid="uid://ygv5urf87cdn" path="res://player/player.tscn" id="1_4awvq"]
 [ext_resource type="Texture2D" uid="uid://dkmvkuta2bubt" path="res://718214_frame_512x512-2352815191.png" id="2_rkmyk"]
@@ -14,6 +14,7 @@
 [ext_resource type="ArrayMesh" uid="uid://b0i518j2ywj07" path="res://levels/props/florian_third_storey.obj" id="12_icgpc"]
 [ext_resource type="ArrayMesh" uid="uid://4f68yxfau3n1" path="res://levels/props/florian_full.obj" id="13_bghh5"]
 [ext_resource type="PackedScene" uid="uid://v4pn853l8sn6" path="res://levels/props/spike.tscn" id="14_mwevi"]
+[ext_resource type="PackedScene" uid="uid://dly4pt7gwb4mf" path="res://gui/health_bar.tscn" id="15_4j0dd"]
 
 [sub_resource type="Environment" id="Environment_1tdob"]
 background_energy_multiplier = 0.0
@@ -130,6 +131,7 @@ environment = SubResource("Environment_1tdob")
 
 [node name="player" parent="." instance=ExtResource("1_4awvq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.513, 0.483215, 2.08165e-12)
+max_health = 40.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.663757, -0.513147, 0.544157, -2.02746e-17, 0.727533, 0.686073, -0.747949, -0.455385, 0.482905, 0, 4.25447, 6.84336)
@@ -627,4 +629,13 @@ mesh = SubResource("BoxMesh_spyj8")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.034729, 0, -1.58545)
 shape = SubResource("BoxShape3D_mritk")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" parent="CanvasLayer" instance=ExtResource("15_4j0dd")]
+offset_left = 56.0
+offset_top = 48.0
+offset_right = 536.0
+offset_bottom = 56.0
+
+[connection signal="player_damaged" from="player" to="CanvasLayer/HealthBar" method="_set_health"]
 [connection signal="area_entered" from="level_exit/Area2D" to="level_exit" method="_on_area_3d_area_entered"]

@@ -2,6 +2,7 @@ class_name Player extends CharacterBody3D
 
 signal coin_collected()
 signal cancel_melee(mandatory : bool)
+signal player_damaged(health)
 
 const WALK_SPEED = 10.0
 const DASH_SPEED = 40.0
@@ -18,7 +19,8 @@ const WALL_TERMINAL_VELOCITY = 5
 @export var action_suffix := ""
 
 @export_group("Consts")
-@export var health : float = 20.0
+@export var max_health : float = 20.0
+var health : float
 @export_group("Verbs")
 @export var can_double_jump : bool = true
 @export var can_wall_jump : bool = true
@@ -61,7 +63,9 @@ var _dying : bool = false
 
 
 func _ready():
-	pass
+	health = max_health
+	# initial setting of health bar
+	player_damaged.emit(health, true)
 
 func _physics_process(delta: float) -> void:
 	if _dying == true:
@@ -200,6 +204,7 @@ func damage(damage_amount):
 	print("damaged player")
 	health -= damage_amount
 	cancel_melee.emit(false)
+	player_damaged.emit(health, false)
 	hit_particles.emitting = true;
 	if health <= 0:
 		kill()
