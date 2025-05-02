@@ -49,6 +49,7 @@ var world_egg
 @onready var player_egg := $player_egg as MeshInstance3D
 
 @onready var gun = sprite.get_node(^"Gun") as Gun
+@onready var hit_particles := $Sprite3D/blood_cloud
 
 #state variables
 var _double_jump_charged := false
@@ -195,6 +196,7 @@ func try_jump() -> void:
 func damage(damage_amount):
 	health -= damage_amount
 	cancel_melee.emit(false)
+	hit_particles.emitting = true;
 	if health <= 0:
 		kill()
 		

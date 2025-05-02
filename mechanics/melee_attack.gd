@@ -238,14 +238,16 @@ func _physics_process(delta):
 	_message = Msg.NONE
 
 func _on_hitbox_body_entered(body):
-	#print(body.name, body.get_groups())
-	#print(self.owner.name, self.owner.get_groups())
+	print("body name and groups:", body.name, body.get_groups())
+	print("owner name and groups:", self.owner.name, self.owner.get_groups())
+	#print("_hit particles position", _hit_particles.position)
+	#print("body position", body.position)
 	if (self.owner.is_in_group("enemies") and body.is_in_group("player")):
 		hit.emit(damage)
-		_hit_particles.emitting = true
+		#_hit_particles.emitting = true
 	elif (self.owner.is_in_group("player") and body.is_in_group("enemies")):
 		hit.emit(damage)
-		_hit_particles.emitting = true
+		#_hit_particles.emitting = true
 	
 
 func _on_parriable_timer_timeout():
@@ -276,4 +278,3 @@ func _on_cancel_melee(mandatory):
 		cancel_melee()
 	elif interruptable:
 		cancel_melee()
-

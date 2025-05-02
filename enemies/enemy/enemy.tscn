@@ -1,10 +1,18 @@
-[gd_scene load_steps=17 format=3 uid="uid://6mtip3ruyn"]
+[gd_scene load_steps=19 format=3 uid="uid://6mtip3ruyn"]
 
-[ext_resource type="Script" path="res://enemies/enemy/enemy.gd" id="1_450mt"]
+[ext_resource type="Script" uid="uid://bfumeqy60t6mx" path="res://enemies/enemy/enemy.gd" id="1_450mt"]
 [ext_resource type="Texture2D" uid="uid://2fffd0wt5q5x" path="res://enemies/enemy/knight_spritesheet.png" id="2_wpxep"]
 [ext_resource type="PackedScene" uid="uid://xm4nyb85l3m1" path="res://mechanics/melee_attack.tscn" id="3_58132"]
 [ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemies/enemy/hit.wav" id="4_tvspx"]
 [ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemies/enemy/explode.wav" id="5_wp03c"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pvh2b"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pvh2b"]
+material = SubResource("StandardMaterial3D_pvh2b")
+size = Vector2(0.1, 0.1)
+orientation = 2
 
 [sub_resource type="Animation" id="8"]
 length = 0.001
@@ -243,13 +251,13 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0kjfc"]
 _data = {
-"RESET": SubResource("8"),
-"destroy": SubResource("2"),
-"idle": SubResource("3"),
-"melee_attack": SubResource("Animation_5rm84"),
-"melee_recovery": SubResource("Animation_txrlt"),
-"melee_windup": SubResource("Animation_002l5"),
-"walk": SubResource("4")
+&"RESET": SubResource("8"),
+&"destroy": SubResource("2"),
+&"idle": SubResource("3"),
+&"melee_attack": SubResource("Animation_5rm84"),
+&"melee_recovery": SubResource("Animation_txrlt"),
+&"melee_windup": SubResource("Animation_002l5"),
+&"walk": SubResource("4")
 }
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_rapep"]
@@ -281,13 +289,35 @@ texture = ExtResource("2_wpxep")
 hframes = 5
 vframes = 4
 
+[node name="blood_cloud" type="CPUParticles3D" parent="Sprite3D"]
+transform = Transform3D(-2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 5.20412e-12, -0.774477, -5.20412e-12)
+emitting = false
+amount = 100
+lifetime = 0.44
+one_shot = true
+explosiveness = 0.8
+randomness = 1.0
+mesh = SubResource("PlaneMesh_pvh2b")
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3(0, 0, 1)
+spread = 18.13
+flatness = 0.5
+initial_velocity_max = 5.0
+angular_velocity_min = -1.0
+angular_velocity_max = 1.0
+radial_accel_max = 1.0
+angle_min = -360.0
+angle_max = 360.0
+
 [node name="melee_attack" parent="Sprite3D" node_paths=PackedStringArray("animation_player") instance=ExtResource("3_58132")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.76348, -1.98557, 0)
+windup_speed = 0.3
 animation_player = NodePath("../../AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_0kjfc")
+&"": SubResource("AnimationLibrary_0kjfc")
 }
 speed_scale = 7.0
 

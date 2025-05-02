@@ -1,13 +1,21 @@
-[gd_scene load_steps=38 format=3 uid="uid://ygv5urf87cdn"]
+[gd_scene load_steps=40 format=3 uid="uid://ygv5urf87cdn"]
 
 [ext_resource type="Texture2D" uid="uid://cgihj6ylfb3re" path="res://player/spritesheet.png" id="2_7cyvy"]
-[ext_resource type="Script" path="res://player/player.gd" id="3"]
+[ext_resource type="Script" uid="uid://eo15ja8h31rd" path="res://player/player.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://xm4nyb85l3m1" path="res://mechanics/melee_attack.tscn" id="5_itblh"]
 [ext_resource type="AudioStream" uid="uid://b01brytl75mwa" path="res://player/shoot.wav" id="6"]
 [ext_resource type="AudioStream" uid="uid://bi8atqm71nrqf" path="res://audio/sfx/first_jump.wav" id="6_h24a7"]
 [ext_resource type="AudioStream" uid="uid://crdj4ovmpqs6s" path="res://audio/sfx/second_jump.wav" id="7_3cb35"]
-[ext_resource type="Script" path="res://player/gun.gd" id="8"]
+[ext_resource type="Script" uid="uid://cvy0q6nq8fpo" path="res://player/gun.gd" id="8"]
 [ext_resource type="AudioStream" uid="uid://c1wavdsmyxpqx" path="res://audio/sfx/dash.wav" id="8_sio8g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3yxk"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rgyib"]
+material = SubResource("StandardMaterial3D_f3yxk")
+size = Vector2(0.1, 0.1)
+orientation = 2
 
 [sub_resource type="Animation" id="1"]
 resource_name = "crouch"
@@ -240,20 +248,20 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jnr5f"]
 _data = {
-"crouch": SubResource("1"),
-"dash": SubResource("Animation_nd8xj"),
-"falling": SubResource("2"),
-"falling_weapon": SubResource("3"),
-"idle": SubResource("4"),
-"idle_weapon": SubResource("5"),
-"jumping": SubResource("6"),
-"jumping_weapon": SubResource("7"),
-"melee_active": SubResource("Animation_lk7lc"),
-"melee_recovery": SubResource("Animation_ctn7v"),
-"melee_windup": SubResource("Animation_hi5c0"),
-"run": SubResource("8"),
-"run_weapon": SubResource("9"),
-"standing_weapon_ready": SubResource("10")
+&"crouch": SubResource("1"),
+&"dash": SubResource("Animation_nd8xj"),
+&"falling": SubResource("2"),
+&"falling_weapon": SubResource("3"),
+&"idle": SubResource("4"),
+&"idle_weapon": SubResource("5"),
+&"jumping": SubResource("6"),
+&"jumping_weapon": SubResource("7"),
+&"melee_active": SubResource("Animation_lk7lc"),
+&"melee_recovery": SubResource("Animation_ctn7v"),
+&"melee_windup": SubResource("Animation_hi5c0"),
+&"run": SubResource("8"),
+&"run_weapon": SubResource("9"),
+&"standing_weapon_ready": SubResource("10")
 }
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l8bov"]
@@ -352,6 +360,27 @@ recover_speed = 3.0
 animation_player = NodePath("../../AnimationPlayer")
 active_anim = "melee_active"
 
+[node name="blood_cloud" type="CPUParticles3D" parent="Sprite3D"]
+transform = Transform3D(-2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 5.20412e-12, -0.774477, -5.20412e-12)
+emitting = false
+amount = 100
+lifetime = 0.44
+one_shot = true
+explosiveness = 0.8
+randomness = 1.0
+mesh = SubResource("PlaneMesh_rgyib")
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3(0, 0, 1)
+spread = 18.13
+flatness = 0.5
+initial_velocity_max = 5.0
+angular_velocity_min = -1.0
+angular_velocity_max = 1.0
+radial_accel_max = 1.0
+angle_min = -360.0
+angle_max = 360.0
+
 [node name="Sprite2D#Gun" type="Marker2D" parent="."]
 position = Vector2(14, 1)
 script = ExtResource("8")
@@ -366,7 +395,7 @@ one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_jnr5f")
+&"": SubResource("AnimationLibrary_jnr5f")
 }
 
 [node name="first_jump" type="AudioStreamPlayer3D" parent="."]
@@ -407,6 +436,7 @@ emission_ring_axis = Vector3(0, 0, 1)
 emission_ring_height = 1.0
 emission_ring_radius = 1.0
 emission_ring_inner_radius = 0.3
+emission_ring_cone_angle = 90.0
 spread = 180.0
 gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
 initial_velocity_max = 0.4
@@ -474,6 +504,7 @@ emission_ring_axis = Vector3(0, 0, 1)
 emission_ring_height = 2.0
 emission_ring_radius = 2.0
 emission_ring_inner_radius = 0.3
+emission_ring_cone_angle = 90.0
 spread = 180.0
 gravity = Vector3(2.08165e-12, 0.7, 2.08165e-12)
 initial_velocity_max = 0.4

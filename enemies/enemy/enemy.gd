@@ -34,6 +34,7 @@ var last_known_player_location : Vector3
 @onready var chase_timer := $chase_timer as Timer
 
 @onready var melee_attack := $Sprite3D/melee_attack
+@onready var hit_particles := $Sprite3D/blood_cloud
 
 signal cancel_melee(mandatory : bool)
 
@@ -119,6 +120,7 @@ func turn_around() -> void:
 func damage(damage) -> void:
 	health -= damage
 	update_health()
+	hit_particles.emitting = true;
 
 func update_health() -> void:
 	if health <= 0:
