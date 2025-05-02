@@ -272,7 +272,7 @@ height = 2.61954
 
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
 collision_layer = 2
-collision_mask = 25
+collision_mask = 29
 script = ExtResource("1_450mt")
 health = 30
 default_state = 0

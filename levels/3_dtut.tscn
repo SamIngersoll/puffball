@@ -623,7 +623,11 @@ mesh = SubResource("BoxMesh_spyj8")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.034729, 0, -1.58545)
 shape = SubResource("BoxShape3D_mritk")
 
+[node name="Spike2" parent="." instance=ExtResource("14_mwevi")]
+transform = Transform3D(300, 0, 0, 0, 1, 0, 0, 0, 1, -28.7218, -2.79434, 0.914964)
+damage_dealt = 80.0
+
 [node name="Spike" parent="." instance=ExtResource("14_mwevi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -98.0195, 5.79402, 0)
+transform = Transform3D(0.996511, -0.0818116, 0.0164894, 0.082201, 0.996314, -0.0245083, -0.0144236, 0.0257782, 0.999564, -98.0195, 5.79402, 0)
 
 [connection signal="area_entered" from="level_exit/Area2D" to="level_exit" method="_on_area_3d_area_entered"]
