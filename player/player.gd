@@ -57,12 +57,15 @@ var _dash_charged
 var _is_dashing
 var _meleeing : bool = false
 var _wall_jumping : bool = false
+var _dying : bool = false
 
 
 func _ready():
 	pass
 
 func _physics_process(delta: float) -> void:
+	if _dying == true:
+		return
 	# jumping logic
 	_wall_jumping = false
 	velocity.z = 0
@@ -197,6 +200,7 @@ func damage(damage_amount):
 	health -= damage_amount
 	cancel_melee.emit(false)
 	hit_particles.emitting = true;
+	print("player health:", health)
 	if health <= 0:
 		kill()
 		
@@ -204,6 +208,8 @@ func damage(damage_amount):
 func kill():
 	# player dies	
 	# start the timer until the level is reloaded
+	print("kill")
+	_dying = true
 	cancel_melee.emit(true)
 	post_death_timer.start()
 

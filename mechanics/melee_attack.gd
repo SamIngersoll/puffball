@@ -168,8 +168,6 @@ func start_melee_windup_frames():
 	# set speed scale for this animation and then start animation
 	animation_player.speed_scale = default_speed_scale*windup_speed
 	animation_player.play(windup_anim)
-	#await animation_player.animation_finished
-	#start_melee_active_frames()
 
 func start_melee_active_frames():
 	hitbox.monitoring = true
@@ -183,8 +181,7 @@ func start_melee_active_frames():
 	# set speed scale for this animation and then start animation
 	animation_player.speed_scale = default_speed_scale*attack_speed
 	animation_player.play(active_anim)
-	#await animation_player.animation_finished
-	#start_melee_recovery_frames()
+
 	
 
 func start_melee_recovery_frames():
@@ -200,8 +197,6 @@ func start_melee_recovery_frames():
 	# set speed scale for this animation and then start animation
 	animation_player.speed_scale = default_speed_scale*recover_speed
 	animation_player.play(recovery_anim)
-	#await animation_player.animation_finished
-	#finish_melee_frames()
 	
 func finish_melee_frames():
 	# End meleeing

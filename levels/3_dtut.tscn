@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://chej87u0vpcvi"]
+[gd_scene load_steps=44 format=3 uid="uid://chej87u0vpcvi"]
 
 [ext_resource type="PackedScene" uid="uid://ygv5urf87cdn" path="res://player/player.tscn" id="1_4awvq"]
 [ext_resource type="Texture2D" uid="uid://dkmvkuta2bubt" path="res://718214_frame_512x512-2352815191.png" id="2_rkmyk"]
@@ -13,6 +13,7 @@
 [ext_resource type="ArrayMesh" uid="uid://dv25m40d4pbof" path="res://levels/props/florian_second_storey.obj" id="11_2w1x5"]
 [ext_resource type="ArrayMesh" uid="uid://b0i518j2ywj07" path="res://levels/props/florian_third_storey.obj" id="12_icgpc"]
 [ext_resource type="ArrayMesh" uid="uid://4f68yxfau3n1" path="res://levels/props/florian_full.obj" id="13_bghh5"]
+[ext_resource type="PackedScene" uid="uid://v4pn853l8sn6" path="res://levels/props/spike.tscn" id="14_mwevi"]
 
 [sub_resource type="Environment" id="Environment_1tdob"]
 background_energy_multiplier = 0.0
@@ -621,5 +622,8 @@ mesh = SubResource("BoxMesh_spyj8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="deep_floor2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.034729, 0, -1.58545)
 shape = SubResource("BoxShape3D_mritk")
+
+[node name="Spike" parent="." instance=ExtResource("14_mwevi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -98.0195, 5.79402, 0)
 
 [connection signal="area_entered" from="level_exit/Area2D" to="level_exit" method="_on_area_3d_area_entered"]

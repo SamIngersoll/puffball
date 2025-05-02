@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://v4pn853l8sn6"]
+
+[ext_resource type="Script" uid="uid://ci6alfys2oy5x" path="res://levels/props/spike.gd" id="1_vka6k"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j04x0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s83is"]
+transparency = 1
+albedo_color = Color(0.741176, 0.184314, 0.262745, 0.72549)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cn54f"]
+material = SubResource("StandardMaterial3D_s83is")
+
+[node name="Spike" type="Node3D"]
+script = ExtResource("1_vka6k")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_j04x0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_cn54f")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
