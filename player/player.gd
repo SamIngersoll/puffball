@@ -40,9 +40,11 @@ var world_egg
 @onready var dash_timer := $dash_timer as Timer
 @onready var post_death_timer := $post_death_timer as Timer
 @onready var sprite := $Sprite3D as Sprite3D
-@onready var first_jump_sound := $first_jump as AudioStreamPlayer3D
-@onready var second_jump_sound := $second_jump as AudioStreamPlayer3D
-@onready var dash_sound := $dash as AudioStreamPlayer3D
+@onready var first_jump_sound := $sounds/first_jump as AudioStreamPlayer3D
+@onready var second_jump_sound := $sounds/second_jump as AudioStreamPlayer3D
+@onready var dash_sound := $sounds/dash as AudioStreamPlayer3D
+@onready var hit_sound := $sounds/hit as AudioStreamPlayer3D
+@onready var death_sound := $sounds/explode as AudioStreamPlayer3D
 @onready var camera := $Camera as Camera3D
 @onready var hitbox := $Sprite2D/Hitbox as Area3D
 @onready var melee_attack := $Sprite3D/melee_attack as Node3D
@@ -94,6 +96,18 @@ func _physics_process(delta: float) -> void:
 			_dash_charged = false
 			try_dash()
 	
+		var direction := Input.get_axis("move_left" + action_suffix, "move_right" + action_suffix) * WALK_SPEED
+		if is_on_floor() and direction == 0:
+			velocity.x = move_toward(velocity.x, direction, ACCELERATION_SPEED * delta) * (1-friction)
+		else:
+			velocity.x = move_toward(velocity.x, direction, ACCELERATION_SPEED * delta)
+	else:
+		# we are meleeing
+		if is_on_floor():
+			velocity.x = move_toward(velocity.x, velocity.x*0, ACCELERATION_SPEED * delta)
+		else:
+			pass
+		
 	# Fall.
 	if is_on_wall_only():
 		if _wall_jumping:
@@ -107,11 +121,6 @@ func _physics_process(delta: float) -> void:
 			velocity.y = minf(TERMINAL_VELOCITY, velocity.y + gravity * delta)
 	
 
-	var direction := Input.get_axis("move_left" + action_suffix, "move_right" + action_suffix) * WALK_SPEED
-	if is_on_floor() and direction == 0:
-		velocity.x = move_toward(velocity.x, direction, ACCELERATION_SPEED * delta) * (1-friction)
-	else:
-		velocity.x = move_toward(velocity.x, direction, ACCELERATION_SPEED * delta)
 
 
 	if not is_zero_approx(velocity.x):
@@ -208,6 +217,8 @@ func damage(damage_amount):
 	hit_particles.emitting = true;
 	if health <= 0:
 		kill()
+	else:
+		hit_sound.play()
 		
 
 func kill():
@@ -217,6 +228,7 @@ func kill():
 	_dying = true
 	cancel_melee.emit(true)
 	post_death_timer.start()
+	death_sound.play()
 
 func take_egg():
 	player_egg.visible = true

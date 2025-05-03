@@ -324,7 +324,6 @@ angle_max = 360.0
 
 [node name="melee_attack" parent="Sprite3D" node_paths=PackedStringArray("animation_player") instance=ExtResource("3_58132")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.76348, -1.98557, 0)
-windup_speed = 0.3
 animation_player = NodePath("../../AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

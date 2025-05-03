@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://ygv5urf87cdn"]
+[gd_scene load_steps=42 format=3 uid="uid://ygv5urf87cdn"]
 
 [ext_resource type="Texture2D" uid="uid://cgihj6ylfb3re" path="res://player/spritesheet.png" id="2_7cyvy"]
 [ext_resource type="Script" uid="uid://ukly307cyqnp" path="res://player/player.gd" id="3"]
@@ -8,6 +8,8 @@
 [ext_resource type="AudioStream" uid="uid://crdj4ovmpqs6s" path="res://audio/sfx/second_jump.wav" id="7_3cb35"]
 [ext_resource type="Script" uid="uid://b4av8f7y1har4" path="res://player/gun.gd" id="8"]
 [ext_resource type="AudioStream" uid="uid://c1wavdsmyxpqx" path="res://audio/sfx/dash.wav" id="8_sio8g"]
+[ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemies/enemy/hit.wav" id="9_8t03j"]
+[ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemies/enemy/explode.wav" id="10_2ieo8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3yxk"]
 albedo_color = Color(1, 0, 0, 1)
@@ -398,14 +400,22 @@ libraries = {
 &"": SubResource("AnimationLibrary_jnr5f")
 }
 
-[node name="first_jump" type="AudioStreamPlayer3D" parent="."]
+[node name="sounds" type="Node3D" parent="."]
+
+[node name="first_jump" type="AudioStreamPlayer3D" parent="sounds"]
 stream = ExtResource("6_h24a7")
 
-[node name="second_jump" type="AudioStreamPlayer3D" parent="."]
+[node name="second_jump" type="AudioStreamPlayer3D" parent="sounds"]
 stream = ExtResource("7_3cb35")
 
-[node name="dash" type="AudioStreamPlayer3D" parent="."]
+[node name="dash" type="AudioStreamPlayer3D" parent="sounds"]
 stream = ExtResource("8_sio8g")
+
+[node name="hit" type="AudioStreamPlayer3D" parent="sounds"]
+stream = ExtResource("9_8t03j")
+
+[node name="explode" type="AudioStreamPlayer3D" parent="sounds"]
+stream = ExtResource("10_2ieo8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0476582, 0.897362, 0)

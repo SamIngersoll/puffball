@@ -36,7 +36,7 @@ var last_known_player_location : Vector3
 
 @onready var melee_attack := $Sprite3D/melee_attack
 @onready var hit_particles := $Sprite3D/blood_cloud
-
+@onready var hit_sound := $Hit
 signal cancel_melee(mandatory : bool)
 
 func _ready():
@@ -131,6 +131,7 @@ func update_health():
 		velocity = Vector3.ZERO
 		animation_player.play(&"destroy")
 	else:
+		hit_sound.play()
 		cancel_melee.emit(false)
 
 func get_new_animation() -> StringName:
