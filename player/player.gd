@@ -63,7 +63,6 @@ var _meleeing : bool = false
 var _wall_jumping : bool = false
 var _dying : bool = false
 
-
 func _ready():
 	health = max_health
 	# initial setting of health bar
@@ -91,7 +90,7 @@ func _physics_process(delta: float) -> void:
 			# The player let go of jump early, reduce vertical momentum.
 			velocity.y *= 0.6
 	# dashing logic
-		if Input.is_action_just_pressed("dash" + action_suffix) and _dash_charged:
+		if Input.is_action_just_pressed("dash" + action_suffix) and _dash_charged and can_dash:
 			_is_dashing = true
 			_dash_charged = false
 			try_dash()

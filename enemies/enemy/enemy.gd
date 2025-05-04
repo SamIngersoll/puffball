@@ -124,6 +124,7 @@ func damage(damage_amount):
 	update_health()
 	hit_particles.emitting = true;
 
+
 func update_health():
 	if health <= 0:
 		cancel_melee.emit(true)
