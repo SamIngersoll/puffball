@@ -15,11 +15,3 @@ script = ExtResource("1_6bii2")
 layout_mode = 0
 offset_right = 45.0
 offset_bottom = 31.0
-text = "thing"
-
-[node name="CheckBox" type="CheckBox" parent="."]
-layout_mode = 0
-offset_right = 24.0
-offset_bottom = 24.0
-
-[connection signal="toggled" from="CheckBox" to="." method="_on_check_box_toggled"]

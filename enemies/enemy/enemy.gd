@@ -59,7 +59,6 @@ func _physics_process(delta: float) -> void:
 		elif (_state == State.ATTACK):
 			speed = 0
 			
-		
 		velocity.x = speed * sign(sprite.scale.x)
 
 		handle_vision()

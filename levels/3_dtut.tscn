@@ -125,6 +125,7 @@ size = Vector3(6.70082, 4.12305, 4.15283)
 size = Vector3(19.9115, 1, 10.2627)
 
 [node name="3_dtut" type="Node3D"]
+process_mode = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1tdob")
@@ -161,6 +162,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.04603, 47.185, -2.14503)
 
 [node name="Enemy" parent="." instance=ExtResource("4_fu4o8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -125.418, 0.175294, 2.08165e-12)
+
+[node name="Enemy2" parent="." instance=ExtResource("4_fu4o8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -122.076, 0.175294, 2.08165e-12)
 
 [node name="foreground" type="Node3D" parent="."]
 

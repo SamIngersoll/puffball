@@ -16,11 +16,11 @@ enum Msg {NONE, START, CANCEL}
 ## Whether the attack will be interrupted/canceled by an incoming attack
 @export var interruptable := true as bool
 ## Speed multiplier for windeup action (multiplies the base length of the animation)
-@export var windup_speed := 1 as float
+@export var windup_speed := 1.0 as float
 ## Speed multiplier for attack swing action (multiplies the base length of the animation)
-@export var attack_speed := 1 as float
+@export var attack_speed := 1.0 as float
 ## Speed multiplier for recover/follow through action (multiplies the base length of the animation)
-@export var recover_speed := 1 as float
+@export var recover_speed := 1.0 as float
 # Must assign these
 # Melee timer will be used to handle windup, cooldown, etc
 
