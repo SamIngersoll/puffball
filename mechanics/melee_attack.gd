@@ -77,9 +77,9 @@ func _ready():
 			self.hit.connect(player.damage)
 	elif self.owner.is_in_group("player"):
 		var enemies = get_tree().get_nodes_in_group("enemies")
-		for enemy in enemies:
-			if (enemy != null):
-				self.hit.connect(enemy.damage)
+		#for enemy in enemies:
+			#if (enemy != null):
+				#self.hit.connect(enemy.damage)
 
 	if (animation_player != null):
 		default_speed_scale = animation_player.speed_scale
@@ -239,7 +239,8 @@ func _on_hitbox_body_entered(body):
 		hit.emit(damage)
 		_spark_particles.emitting = true
 	elif (self.owner.is_in_group("player") and body.is_in_group("enemies")):
-		hit.emit(damage)
+		#hit.emit(damage)    # this code damages all enemies in the scene at once
+		body.damage(damage)	 # need to ensure that every enemy has a "damage" function
 		_spark_particles.emitting = true
 	
 
