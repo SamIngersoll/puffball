@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3hsr4ocr3fvf"]
+
+[ext_resource type="Script" uid="uid://bfkgo6ditfi65" path="res://levels/level_exit.gd" id="1_0mfe3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_whe5f"]
+size = Vector3(4, 4, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6fo1m"]
+transparency = 1
+albedo_color = Color(0, 1, 0, 0.447059)
+
+[sub_resource type="BoxMesh" id="BoxMesh_k4ovl"]
+material = SubResource("StandardMaterial3D_6fo1m")
+size = Vector3(4, 4, 4)
+
+[node name="Level_Exit" type="Node3D"]
+script = ExtResource("1_0mfe3")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.01955, 2.08165e-12)
+shape = SubResource("BoxShape3D_whe5f")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.00773, 0)
+mesh = SubResource("BoxMesh_k4ovl")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

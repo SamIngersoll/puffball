@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://chej87u0vpcvi"]
+[gd_scene load_steps=42 format=3 uid="uid://chej87u0vpcvi"]
 
 [ext_resource type="PackedScene" uid="uid://ygv5urf87cdn" path="res://player/player.tscn" id="1_4awvq"]
 [ext_resource type="Texture2D" uid="uid://dkmvkuta2bubt" path="res://718214_frame_512x512-2352815191.png" id="2_rkmyk"]
@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemies/enemy/enemy.tscn" id="4_fu4o8"]
 [ext_resource type="Script" uid="uid://dqnweo40xga35" path="res://levels/tooltip.gd" id="5_gkg4y"]
 [ext_resource type="Material" uid="uid://8ynorua5a0e7" path="res://levels/props/prop_materials/gold_shiny.tres" id="5_t54mg"]
-[ext_resource type="Script" uid="uid://bfkgo6ditfi65" path="res://levels/level_exit.gd" id="6_yq2wy"]
+[ext_resource type="PackedScene" uid="uid://c3hsr4ocr3fvf" path="res://level_exit.tscn" id="6_4j0dd"]
 [ext_resource type="ArrayMesh" uid="uid://c8jsui7sbrmyo" path="res://levels/props/gold_test_object.obj" id="7_5rqal"]
 [ext_resource type="FontFile" uid="uid://cffxvhumpk05y" path="res://levels/props/FePIit2.ttf" id="8_6x40l"]
 [ext_resource type="ArrayMesh" uid="uid://b4oakoyr8e1i6" path="res://levels/props/florian_first_storey.obj" id="10_y803p"]
@@ -102,17 +102,6 @@ size = Vector3(1, 25, 5.587)
 
 [sub_resource type="BoxMesh" id="BoxMesh_kcs0e"]
 size = Vector3(1, 1, 2)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_qgmo5"]
-size = Vector3(4, 4, 4)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6fo1m"]
-transparency = 1
-albedo_color = Color(0, 1, 0, 0.447059)
-
-[sub_resource type="BoxMesh" id="BoxMesh_jqeh5"]
-material = SubResource("StandardMaterial3D_6fo1m")
-size = Vector3(4, 4, 4)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_cy8cb"]
 size = Vector3(6.70082, 4.12305, 4.15283)
@@ -456,23 +445,13 @@ skeleton = NodePath("../../vertical_wall2")
 transform = Transform3D(1, 0, 0, 0, 0.99999, 0.00457275, 0, -0.00457275, 0.99999, 0, 0.0775137, -0.058521)
 shape = SubResource("BoxShape3D_r0k1m")
 
-[node name="level_exit" type="Node3D" parent="." groups=["level_exits"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -112.157, 12.7031, 0)
-script = ExtResource("6_yq2wy")
+[node name="Level_Exit2" parent="." instance=ExtResource("6_4j0dd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -111.389, 16.7333, -0.717591)
+destination = "forest_intro"
+
+[node name="Level_Exit" parent="." instance=ExtResource("6_4j0dd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -111.269, 12.1916, -1.09358)
 destination = "cave"
-
-[node name="Area2D" type="Area3D" parent="level_exit"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
-collision_layer = 3
-collision_mask = 3
-
-[node name="CollisionShape2D" type="CollisionShape3D" parent="level_exit/Area2D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.01955, 2.08165e-12)
-shape = SubResource("BoxShape3D_qgmo5")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="level_exit"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.00773, 0)
-mesh = SubResource("BoxMesh_jqeh5")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.637679, 0.770302, 0, -0.770302, -0.637679, 0, 90.0839, -49.7368)
@@ -642,4 +621,3 @@ offset_right = 536.0
 offset_bottom = 56.0
 
 [connection signal="player_damaged" from="player" to="CanvasLayer/HealthBar" method="_set_health"]
-[connection signal="area_entered" from="level_exit/Area2D" to="level_exit" method="_on_area_3d_area_entered"]

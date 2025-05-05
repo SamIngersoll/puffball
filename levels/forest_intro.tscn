@@ -47,6 +47,7 @@ albedo_texture = ExtResource("2_w5lq8")
 [sub_resource type="PlaneMesh" id="PlaneMesh_sbj1k"]
 
 [node name="forest_intro" type="Node3D"]
+process_mode = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_fh036")

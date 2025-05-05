@@ -4,22 +4,21 @@ signal coin_collected()
 signal cancel_melee(mandatory : bool)
 signal player_damaged(health)
 
-const WALK_SPEED = 10.0
-const DASH_SPEED = 40.0
-const ACCELERATION_SPEED = WALK_SPEED * 6.0
-const JUMP_VELOCITY = 20.0
-const WALL_JUMP_VERTICAL_VELOCITY = 30.0
-const WALL_JUMP_HORIZONTAL_VELOCITY = 20.0
-## Maximum speed at which the player can fall.
-const TERMINAL_VELOCITY = 20
-const WALL_TERMINAL_VELOCITY = 5
-
 ## The player listens for input actions appended with this suffix.[br]
 ## Used to separate controls for multiple players in splitscreen.
 @export var action_suffix := ""
 
 @export_group("Consts")
 @export var max_health : float = 20.0
+@export var WALK_SPEED : float = 10.0
+@export var DASH_SPEED : float = 30.0
+@export var ACCELERATION_SPEED : float = WALK_SPEED * 6.0
+@export var JUMP_VELOCITY : float = 20.0
+@export var WALL_JUMP_VERTICAL_VELOCITY : float = 30.0
+@export var WALL_JUMP_HORIZONTAL_VELOCITY : float = 20.0
+## Maximum speed at which the player can fall.
+const TERMINAL_VELOCITY = 20
+const WALL_TERMINAL_VELOCITY = 5
 var health : float
 @export_group("Verbs")
 @export var can_double_jump : bool = true
