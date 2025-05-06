@@ -61,11 +61,13 @@ var _is_dashing
 var _meleeing : bool = false
 var _wall_jumping : bool = false
 var _dying : bool = false
+var previous_position = Vector2()
 
 func _ready():
 	health = max_health
 	# initial setting of health bar
 	player_damaged.emit(health, true)
+	previous_position = position
 
 func _physics_process(delta: float) -> void:
 	if _dying == true:
@@ -151,12 +153,16 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("spike_egg" + action_suffix):
 		if (has_egg):
 			spike_egg()
+			
+	previous_position = position
 
 func get_new_animation(is_shooting := false) -> String:
 	var animation_new: String
 	step_particles.emitting = false
 	if health <= 0:
 		animation_new = "falling"
+	# this is here because when "onwall" is true the velocity sometimes doesnt equal the change in position
+	# velocity.y was -5 and change in position was 0 (it was recognizing a round collider as a wall)
 	elif is_on_floor():
 		if absf(velocity.x) > 0:
 			animation_new = "run"
@@ -167,7 +173,7 @@ func get_new_animation(is_shooting := false) -> String:
 	elif _is_dashing:
 		animation_new = "dash"
 	else:
-		if velocity.y < 0.0:
+		if velocity.y < 0.0 :
 			animation_new = "falling"
 		else:
 			animation_new = "jumping"
