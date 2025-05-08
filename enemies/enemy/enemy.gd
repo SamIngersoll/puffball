@@ -94,10 +94,13 @@ func handle_vision():
 		last_known_player_location = player_position
 		# if the player is in attack range and we are currently chasing 
 		# (e.g. not already attacking), then transition to attacking
-		if (abs(player_position.x - position.x) < attack_range 
-			and _state==State.CHASE):
+		if (abs(player_position.x - position.x) <= melee_attack.transform.basis.x.x
+			and _state==State.CHASE
+			and _can_attack):
 			melee_attack.attack()
 			_state = State.ATTACK
+			melee_cooldown_timer.start(attack_cooldown)
+			_can_attack = false
 		need_to_turn = false
 	# if the player is behind us and we arent attacking (cant turn while attacking)
 	elif player_detector_rear.is_colliding() and _state != State.ATTACK:
