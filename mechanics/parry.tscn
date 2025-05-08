@@ -34,4 +34,5 @@ mesh = SubResource("QuadMesh_lltjd")
 [node name="ParryTimer" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="area_entered" from="Parrybox" to="." method="_on_parrybox_area_entered"]
 [connection signal="body_entered" from="Parrybox" to="." method="_on_parrybox_body_entered"]

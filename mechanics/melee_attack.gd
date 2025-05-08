@@ -95,8 +95,9 @@ func attack():
 	_message = Msg.START
 
 func parried():
-	print("PARRRRRRIED")
-	_message = Msg.CANCEL
+	if _parriable:
+		print("PARRRRRRIED")
+		_message = Msg.CANCEL
 
 func cancel_melee():
 	_melee_state = MeleeState.IDLE

@@ -65,6 +65,12 @@ func _physics_process(delta):
 	pass
 
 func _on_parrybox_body_entered(body):
-	# print("hit: ", body)
-	body.parried()
+	print("parried: ", body)
+	#body.parried()
+	pass # Replace with function body.
+
+
+func _on_parrybox_area_entered(area: Area3D) -> void:
+	print("parried area: ", area)
+	area.owner.parried()
 	pass # Replace with function body.
