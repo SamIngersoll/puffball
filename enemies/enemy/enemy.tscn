@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=3 uid="uid://6mtip3ruyn"]
 
-[ext_resource type="Script" uid="uid://bgxypfkcoqugn" path="res://enemies/enemy/enemy.gd" id="1_450mt"]
+[ext_resource type="Script" uid="uid://bfumeqy60t6mx" path="res://enemies/enemy/enemy.gd" id="1_450mt"]
 [ext_resource type="Texture2D" uid="uid://2fffd0wt5q5x" path="res://enemies/enemy/knight_spritesheet.png" id="2_wpxep"]
 [ext_resource type="PackedScene" uid="uid://xm4nyb85l3m1" path="res://mechanics/melee_attack.tscn" id="3_58132"]
 [ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemies/enemy/hit.wav" id="4_tvspx"]
@@ -325,6 +325,8 @@ angle_max = 360.0
 [node name="melee_attack" parent="Sprite3D" node_paths=PackedStringArray("animation_player") instance=ExtResource("3_58132")]
 transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 1, 5.08173, -1.98557, 0)
 animation_player = NodePath("../../AnimationPlayer")
+debug_draw = 2
+is_parriable = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -381,6 +383,9 @@ collision_mask = 8
 [node name="chase_timer" type="Timer" parent="."]
 one_shot = true
 
+[node name="melee_cooldown_timer" type="Timer" parent="."]
+
 [connection signal="meleeing" from="Sprite3D/melee_attack" to="." method="_on_melee_attack_meleeing"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="chase_timer" to="." method="_on_chase_timer_timeout"]
+[connection signal="timeout" from="melee_cooldown_timer" to="." method="_on_melee_cooldown_timer_timeout"]

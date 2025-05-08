@@ -48,8 +48,8 @@ var default_speed_scale : float
 
 ## indicates if THIS atttack/character is parriable
 @export var is_parriable : bool = false
-@export var parriable_frames_start_val : String = "parriable1_windup"
-@export var parriable_frames_duration_val : String = "parriable1_duration"
+@export var parriable_frames_start_val : float = 0.3
+@export var parriable_frames_duration_val : float = 0.2
 # From a design standpoint, probably want the parriable frames
 # to start before the damage frames start
 
@@ -95,7 +95,9 @@ func attack():
 	_message = Msg.START
 
 func parried():
-	_message = Msg.CANCEL
+	if _parriable:
+		print("PARRRRRRIED")
+		_message = Msg.CANCEL
 
 func cancel_melee():
 	_melee_state = MeleeState.IDLE
@@ -122,10 +124,10 @@ func start_parriable_windup_frames():
 
 	# start parriable windup frames
 	if debug_draw == DebugDisplay.PARRIABLE_FRAMES:
-		debug_poly.color = Color("e5f04a")
+		debug_poly.mesh.material.albedo_color = Color("e5f04a")
 		debug_poly.show()
 
-	parriable_timer.start(EngineTweakable.val[parriable_frames_start_val])
+	parriable_timer.start(parriable_frames_start_val)
 	_parriable_state = ParriableState.WINDUP
 	
 
@@ -136,9 +138,9 @@ func start_parriable_active_frames():
 	parriable.emit(_parriable)
 
 	if debug_draw == DebugDisplay.PARRIABLE_FRAMES:
-		debug_poly.color = Color("e01451")
+		debug_poly.mesh.material.albedo_color = Color("e01451")
 
-	parriable_timer.start(EngineTweakable.val[parriable_frames_duration_val])
+	parriable_timer.start(parriable_frames_duration_val)
 	_parriable_state = ParriableState.ACTIVE
 
 func finish_parriable_frames():

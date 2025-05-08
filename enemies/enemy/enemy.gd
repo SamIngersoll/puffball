@@ -15,6 +15,7 @@ enum State {
 var health : float
 @export var default_state = State.WANDER
 @export var chase_time = 3.0 as float
+@export var attack_cooldown : float = 4.0
 @export var attack_range = 2.0 as float
 @export var wander_speed = 2.0 as float
 @export var chase_speed = 6.0 as float
@@ -22,6 +23,7 @@ var health : float
 var speed = wander_speed
 var _state : State
 var last_known_player_location : Vector3
+var _can_attack : bool = true
 
 @onready var gravity: int = ProjectSettings.get("physics/3d/default_gravity")
 
@@ -37,6 +39,7 @@ var last_known_player_location : Vector3
 @onready var melee_attack := $Sprite3D/melee_attack
 @onready var hit_particles := $Sprite3D/blood_cloud
 @onready var hit_sound := $Hit
+@onready var melee_cooldown_timer := $melee_cooldown_timer
 signal cancel_melee(mandatory : bool)
 
 func _ready():
@@ -91,10 +94,13 @@ func handle_vision():
 		last_known_player_location = player_position
 		# if the player is in attack range and we are currently chasing 
 		# (e.g. not already attacking), then transition to attacking
-		if (abs(player_position.x - position.x) < attack_range 
-			and _state==State.CHASE):
+		if (abs(player_position.x - position.x) <= melee_attack.transform.basis.x.x
+			and _state==State.CHASE
+			and _can_attack):
 			melee_attack.attack()
 			_state = State.ATTACK
+			melee_cooldown_timer.start(attack_cooldown)
+			_can_attack = false
 		need_to_turn = false
 	# if the player is behind us and we arent attacking (cant turn while attacking)
 	elif player_detector_rear.is_colliding() and _state != State.ATTACK:
@@ -167,3 +173,8 @@ func _on_melee_attack_meleeing(active):
 		_state = State.ATTACK
 	else:
 		_state = State.CHASE
+
+
+func _on_melee_cooldown_timer_timeout() -> void:
+	_can_attack = true
+	pass # Replace with function body.

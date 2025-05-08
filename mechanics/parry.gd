@@ -1,4 +1,4 @@
-extends Node2D
+extends Node3D
 
 enum DebugDisplay {NONE, PARRY_FRAMES}
 
@@ -7,16 +7,16 @@ enum DebugDisplay {NONE, PARRY_FRAMES}
 # attack layer
 
 @export_group("Required Child Nodes")
-@export var parrybox : Area2D
+@export var parrybox : Area3D
 @export var parry_timer : Timer
 
 @export_group("Debugging")
-@export var debug_poly : Polygon2D
+@export var debug_poly : MeshInstance3D
 ## Choose what to represent with the debug polygon
 @export var debug_draw : DebugDisplay = DebugDisplay.NONE
 
-@export var parry_frames_start_val : String = "parry_windup"
-@export var parry_frames_duration_val : String = "parry_duration"
+@export var parry_frames_start_val : float = 0.2
+@export var parry_frames_duration_val : float = 0.4
 
 var _parrying : bool = false
 
@@ -34,19 +34,19 @@ func parry():
 
 	# start parry windup frames
 	if debug_draw == DebugDisplay.PARRY_FRAMES:
-		debug_poly.color = Color("e5f04a")
+		debug_poly.mesh.material.albedo_color = Color("e5f04a")
 		debug_poly.show()
 
-	parry_timer.start(EngineTweakable.val[parry_frames_start_val])
+	parry_timer.start(parry_frames_start_val)
 	await parry_timer.timeout
 
 	# start active parry frames
 	parrybox.monitoring = true
 
 	if debug_draw == DebugDisplay.PARRY_FRAMES:
-		debug_poly.color = Color("e01451")
+		debug_poly.mesh.material.albedo_color = Color("e01451")
 
-	parry_timer.start(EngineTweakable.val[parry_frames_duration_val])
+	parry_timer.start(parry_frames_duration_val)
 	await parry_timer.timeout
 
 	# end parry frames
@@ -65,6 +65,12 @@ func _physics_process(delta):
 	pass
 
 func _on_parrybox_body_entered(body):
-	# print("hit: ", body)
-	parry_hit.emit(body)
+	print("parried: ", body)
+	#body.parried()
+	pass # Replace with function body.
+
+
+func _on_parrybox_area_entered(area: Area3D) -> void:
+	print("parried area: ", area)
+	area.owner.parried()
 	pass # Replace with function body.
