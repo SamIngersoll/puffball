@@ -16,6 +16,7 @@ signal player_damaged(health)
 @export var JUMP_VELOCITY : float = 20.0
 @export var WALL_JUMP_VERTICAL_VELOCITY : float = 30.0
 @export var WALL_JUMP_HORIZONTAL_VELOCITY : float = 20.0
+@export var immortal : bool = false
 ## Maximum speed at which the player can fall.
 const TERMINAL_VELOCITY = 20
 const WALL_TERMINAL_VELOCITY = 5
@@ -221,6 +222,9 @@ func try_jump() -> void:
 
 func damage(damage_amount):
 	print("damaged player")
+	if immortal:
+		print("but immortal")
+		return
 	health -= damage_amount
 	cancel_melee.emit(false)
 	player_damaged.emit(health, false)
