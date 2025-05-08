@@ -383,6 +383,9 @@ collision_mask = 8
 [node name="chase_timer" type="Timer" parent="."]
 one_shot = true
 
+[node name="melee_cooldown_timer" type="Timer" parent="."]
+
 [connection signal="meleeing" from="Sprite3D/melee_attack" to="." method="_on_melee_attack_meleeing"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="chase_timer" to="." method="_on_chase_timer_timeout"]
+[connection signal="timeout" from="melee_cooldown_timer" to="." method="_on_melee_cooldown_timer_timeout"]
