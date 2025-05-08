@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://xm4nyb85l3m1"]
 
-[ext_resource type="Script" uid="uid://vl6c4n71xsf4" path="res://mechanics/melee_attack.gd" id="1_3a3qb"]
+[ext_resource type="Script" uid="uid://b83jamioo2hhq" path="res://mechanics/melee_attack.gd" id="1_3a3qb"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6vov0"]
 size = Vector3(1.92599, 1, 1)

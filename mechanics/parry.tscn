@@ -1,6 +1,37 @@
-[gd_scene load_steps=2 format=3 uid="uid://cw2m80qooqeas"]
+[gd_scene load_steps=5 format=3 uid="uid://cw2m80qooqeas"]
 
-[ext_resource type="Script" path="res://mechanics/parry.gd" id="1_w2foa"]
+[ext_resource type="Script" uid="uid://qru3w8edhrqh" path="res://mechanics/parry.gd" id="1_w2foa"]
 
-[node name="Parry" type="Node2D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_n1vre"]
+size = Vector3(1.92599, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m8a42"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_lltjd"]
+material = SubResource("StandardMaterial3D_m8a42")
+
+[node name="Parry" type="Node3D" node_paths=PackedStringArray("parrybox", "parry_timer", "debug_poly")]
 script = ExtResource("1_w2foa")
+parrybox = NodePath("Parrybox")
+parry_timer = NodePath("ParryTimer")
+debug_poly = NodePath("Parrybox/DebugPoly")
+
+[node name="Parrybox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+collision_layer = 0
+collision_mask = 64
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape3D" parent="Parrybox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0139923, 2.08165e-12, 2.08165e-12)
+shape = SubResource("BoxShape3D_n1vre")
+
+[node name="DebugPoly" type="MeshInstance3D" parent="Parrybox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 1.462)
+visible = false
+mesh = SubResource("QuadMesh_lltjd")
+
+[node name="ParryTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="Parrybox" to="." method="_on_parrybox_body_entered"]

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dkmvkuta2bubt" path="res://718214_frame_512x512-2352815191.png" id="2_rkmyk"]
 [ext_resource type="PackedScene" uid="uid://dajkv6cgraxid" path="res://levels/props/egg.tscn" id="3_0tkc0"]
 [ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemies/enemy/enemy.tscn" id="4_fu4o8"]
-[ext_resource type="Script" uid="uid://dqnweo40xga35" path="res://levels/tooltip.gd" id="5_gkg4y"]
+[ext_resource type="Script" uid="uid://bsa1lclhryje4" path="res://levels/tooltip.gd" id="5_gkg4y"]
 [ext_resource type="Material" uid="uid://8ynorua5a0e7" path="res://levels/props/prop_materials/gold_shiny.tres" id="5_t54mg"]
 [ext_resource type="PackedScene" uid="uid://c3hsr4ocr3fvf" path="res://level_exit.tscn" id="6_4j0dd"]
 [ext_resource type="ArrayMesh" uid="uid://c8jsui7sbrmyo" path="res://levels/props/gold_test_object.obj" id="7_5rqal"]
@@ -158,17 +158,7 @@ environment = SubResource("Environment_1tdob")
 
 [node name="player" parent="." instance=ExtResource("1_4awvq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -105.513, 0.483215, 2.08165e-12)
-action_suffix = null
 max_health = 40.0
-WALK_SPEED = null
-DASH_SPEED = null
-JUMP_VELOCITY = null
-WALL_JUMP_VERTICAL_VELOCITY = null
-WALL_JUMP_HORIZONTAL_VELOCITY = null
-can_double_jump = null
-can_wall_jump = null
-can_dash = null
-has_egg = null
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.663757, -0.513147, 0.544157, -2.02746e-17, 0.727533, 0.686073, -0.747949, -0.455385, 0.482905, 0, 4.25447, 6.84336)
