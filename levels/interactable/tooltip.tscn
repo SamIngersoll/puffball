@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bq06gn2hv1p0u"]
+
+[ext_resource type="Script" uid="uid://dqnweo40xga35" path="res://levels/tooltip.gd" id="1_dve7q"]
+[ext_resource type="FontFile" uid="uid://cffxvhumpk05y" path="res://levels/props/FePIit2.ttf" id="2_p1frx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kkxtm"]
+size = Vector3(6.70082, 4.12305, 4.15283)
+
+[node name="tooltip" type="Node3D"]
+script = ExtResource("1_dve7q")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.999996, 0, 0.00289724, 0, 1, 0, -0.00289724, 0, 0.999996, -0.376465, 0, -0.00116801)
+shape = SubResource("BoxShape3D_kkxtm")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2317, 0)
+visible = false
+pixel_size = 0.02
+modulate = Color(1, 1, 0.819608, 1)
+outline_modulate = Color(0.990253, 0.966016, 2.61948e-07, 1)
+text = "Hello"
+font = ExtResource("2_p1frx")
+outline_size = 3

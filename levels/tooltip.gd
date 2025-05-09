@@ -1,14 +1,23 @@
 extends Node3D
 
-@export var text : String = "your tip here"
-@export var label : Label3D
-@export var area : Area3D
+@onready var label : Label3D = $Label3D
+@onready var area : Area3D = $Area3D
+## text for the label
+@export var label_text : String = "your tip here" :
+	set(val):
+		# absolute pain in the ass finding this, otherwise the setter was 
+		# called before the label node was instantiated 
+		# https://forum.godotengine.org/t/best-practices-for-onready-and-export-setters/56461
+		if not is_node_ready():
+			await ready
+		label.set_text(val)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	area.area_entered.connect(_on_area_2d_body_entered)
 	area.area_exited.connect(_on_area_2d_body_exited)
-	label.text = text
+	print(label_text)
+	label.set_text(label_text)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -17,7 +26,6 @@ func _process(delta):
 func _on_area_2d_body_entered(body):
 	print("player entered area")
 	label.show()
-
 
 func _on_area_2d_body_exited(body):
 	print("player exited area")
@@ -30,3 +38,4 @@ func HaveChildOfType(asType) -> Array:
 	print(ChildrenOfType[0])
 	#var child = ChildrenOfType[0]
 	return ChildrenOfType
+	

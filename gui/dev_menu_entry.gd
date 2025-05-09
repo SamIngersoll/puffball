@@ -87,3 +87,4 @@ func _on_check_box_toggled(toggled_on: bool, param_name:String, child:Node3D) ->
 	#print(param_name, toggled_on, child)
 	_singleton_node.val[_label] = toggled_on
 	child.set(param_name, toggled_on)
+
