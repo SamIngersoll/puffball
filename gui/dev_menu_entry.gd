@@ -57,6 +57,7 @@ func _ready():
 		node.insert_text_at_caret(value)
 		node.set_begin(Vector2(entry_x_padding, 0))
 		add_child(node)
+		node.text_changed.connect(_on_line_edit_text_changed.bind(param_name, target_node))
 
 
 func with_data(label : String, ypos : float, node):
@@ -69,6 +70,10 @@ func with_data(label : String, ypos : float, node):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+func _on_line_edit_text_changed(value: String, param_name : String, child: Node3D ):
+	_singleton_node.val[_label] = value
+	child.set(param_name, value)
 
 
 func _on_spin_box_value_changed(value, param_name:String, child:Node3D):
