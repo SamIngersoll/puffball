@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://v4pn853l8sn6"]
 
-[ext_resource type="Script" uid="uid://cen856r6ifm72" path="res://levels/props/spike.gd" id="1_vka6k"]
+[ext_resource type="Script" uid="uid://ci6alfys2oy5x" path="res://levels/props/spike.gd" id="1_vka6k"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j04x0"]
 

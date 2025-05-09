@@ -16,6 +16,7 @@ signal player_damaged(health)
 @export var JUMP_VELOCITY : float = 20.0
 @export var WALL_JUMP_VERTICAL_VELOCITY : float = 30.0
 @export var WALL_JUMP_HORIZONTAL_VELOCITY : float = 20.0
+@export var immortal : bool = false
 ## Maximum speed at which the player can fall.
 const TERMINAL_VELOCITY = 20
 const WALL_TERMINAL_VELOCITY = 5
@@ -50,6 +51,7 @@ var world_egg
 @onready var jump_cloud := $jump_cloud as CPUParticles3D
 @onready var step_particles := $step_particles as CPUParticles3D
 @onready var player_egg := $player_egg as MeshInstance3D
+@onready var parry_node := $Sprite3D/parry as Node3D
 
 @onready var gun = sprite.get_node(^"Gun") as Gun
 @onready var hit_particles := $Sprite3D/blood_cloud
@@ -59,6 +61,7 @@ var _double_jump_charged := false
 var _dash_charged
 var _is_dashing
 var _meleeing : bool = false
+var _parrying : bool = false
 var _wall_jumping : bool = false
 var _dying : bool = false
 var previous_position = Vector2()
@@ -150,6 +153,10 @@ func _physics_process(delta: float) -> void:
 		if not _meleeing:
 			_meleeing = true
 			melee_attack.attack()
+	if Input.is_action_just_pressed("parry" + action_suffix):
+		if not _parrying:
+			parry_node.parry()
+	
 	if Input.is_action_just_pressed("spike_egg" + action_suffix):
 		if (has_egg):
 			spike_egg()
@@ -215,6 +222,9 @@ func try_jump() -> void:
 
 func damage(damage_amount):
 	print("damaged player")
+	if immortal:
+		print("but immortal")
+		return
 	health -= damage_amount
 	cancel_melee.emit(false)
 	player_damaged.emit(health, false)
@@ -312,3 +322,10 @@ func _on_melee_attack_meleeing(active):
 		_meleeing = true
 	else:
 		_meleeing = false
+
+
+func _on_parry_parrying(active: bool) -> void:
+	if active:
+		_parrying = true
+	else:
+		_parrying = false
