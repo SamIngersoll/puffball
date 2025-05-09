@@ -359,6 +359,7 @@ frame = 24
 [node name="parry" parent="Sprite3D" instance=ExtResource("3_2ieo8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.993581, 0, 0)
 debug_draw = 1
+parry_frames_duration_val = 0.75
 
 [node name="melee_attack" parent="Sprite3D" node_paths=PackedStringArray("animation_player") instance=ExtResource("5_itblh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.945237, 0.192383, 0)
@@ -542,7 +543,7 @@ shape = SubResource("BoxShape3D_f3l4d")
 [connection signal="parrying" from="Sprite3D/parry" to="." method="_on_parry_parrying"]
 [connection signal="meleeing" from="Sprite3D/melee_attack" to="." method="_on_melee_attack_meleeing"]
 [connection signal="timeout" from="dash_timer" to="." method="_on_dash_timer_timeout"]
-[connection signal="timeout" from="post_death_timer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="post_death_timer" to="." method="_on_post_death_timer_timeout"]
+[connection signal="timeout" from="post_death_timer" to="." method="_on_dash_timer_timeout"]
 [connection signal="area_entered" from="interact_bounds" to="." method="_on_interact_bounds_area_entered"]
 [connection signal="area_exited" from="interact_bounds" to="." method="_on_interact_bounds_area_exited"]

@@ -327,6 +327,7 @@ transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 1, 5.08173, -1.98557, 0)
 animation_player = NodePath("../../AnimationPlayer")
 debug_draw = 2
 is_parriable = true
+parriable_frames_duration_val = 0.75
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

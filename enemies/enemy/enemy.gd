@@ -5,6 +5,7 @@ enum State {
 	IDLE,
 	WANDER,
 	CHASE,
+	AGGRO,
 	ATTACK,
 	DYING,
 	DEAD
@@ -76,6 +77,8 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 
 func handle_vision():
+	#print("state:", _state)
+	
 	var need_to_turn = false
 	if wall_detector_front.is_colliding() and _state != State.CHASE:
 		#print("COLLIDING FRONT")
@@ -88,19 +91,39 @@ func handle_vision():
 		chase_timer.start(chase_time)
 		# this block describes which states CANNOT transition to chasing
 		# all other blocks will transition to chasing
-		if (_state != State.ATTACK):
+		if (_state == State.WANDER) || (_state == State.IDLE):
 			_state = State.CHASE
 		var player_position = player_detector_front.get_collision_point()
 		last_known_player_location = player_position
+		#print("distance:", player_position.x - position.x, "spacing:", melee_attack.transform.basis.x.x)
 		# if the player is in attack range and we are currently chasing 
 		# (e.g. not already attacking), then transition to attacking
 		if (abs(player_position.x - position.x) <= melee_attack.transform.basis.x.x
-			and _state==State.CHASE
-			and _can_attack):
-			melee_attack.attack()
-			_state = State.ATTACK
-			melee_cooldown_timer.start(attack_cooldown)
-			_can_attack = false
+			and _state==State.CHASE):
+			
+			_state = State.AGGRO
+			
+		if (_state == State.AGGRO):
+			if (abs(player_position.x - position.x) >= melee_attack.transform.basis.x.x):
+				_state = State.CHASE
+			
+			elif (abs(player_position.x - position.x) <= (melee_attack.transform.basis.x.x - 0.5)):
+				velocity.x = -(chase_speed/2.0)*sign(player_position.x - position.x)
+			else:
+				velocity.x = 0
+			print("velocity.x", velocity.x)
+			
+			if(_can_attack):
+				if (0.5 >= randf_range(0,1)):
+					_state = State.ATTACK
+					melee_attack.attack()
+					melee_cooldown_timer.start(attack_cooldown)
+					_can_attack = false
+			
+		#if (_state == State.ATTACK):
+			
+			#_state = State.AGGRO
+			
 		need_to_turn = false
 	# if the player is behind us and we arent attacking (cant turn while attacking)
 	elif player_detector_rear.is_colliding() and _state != State.ATTACK:
@@ -146,6 +169,8 @@ func get_new_animation() -> StringName:
 		animation_new = &"idle"
 	elif _state == State.WANDER:
 		animation_new = &"walk"
+	elif _state == State.AGGRO:
+		animation_new = &"idle"
 	elif _state == State.CHASE:
 		if velocity.is_zero_approx():
 			animation_new = &"idle"
@@ -172,7 +197,7 @@ func _on_melee_attack_meleeing(active):
 	if active:
 		_state = State.ATTACK
 	else:
-		_state = State.CHASE
+		_state = State.AGGRO
 
 
 func _on_melee_cooldown_timer_timeout() -> void:
