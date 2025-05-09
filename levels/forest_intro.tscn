@@ -43,18 +43,7 @@ process_mode = 1
 environment = SubResource("Environment_fh036")
 
 [node name="player" parent="." instance=ExtResource("1_buvs0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.94621, 6.98478, 2.08165e-12)
-action_suffix = null
-max_health = null
-WALK_SPEED = null
-DASH_SPEED = null
-JUMP_VELOCITY = null
-WALL_JUMP_VERTICAL_VELOCITY = null
-WALL_JUMP_HORIZONTAL_VELOCITY = null
-can_double_jump = null
-can_wall_jump = null
-can_dash = null
-has_egg = null
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.1621, 1.51606, 2.08165e-12)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.969851, 0.212346, -0.119577, 0, 0.490675, 0.871343, 0.2437, -0.845072, 0.475882, -0.134356, 1.50613, 30.9702)
